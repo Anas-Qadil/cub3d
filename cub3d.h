@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/12 15:31:05 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/13 16:49:53 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ typedef struct	s_player {
 	int		endian;
     int     x;
     int     y;
+	int turnDirection;
+	int walkDirection;
+	float rotationAngle;
+	float moveSpeed;
+	float rotationSpeed;
 }				t_player;
 
 typedef struct s_ray
@@ -94,6 +99,9 @@ void	draw_ray(int ax, int ay,int bx, int by, t_data *param);
 
 void    draw_everything(t_data *mlx, t_player *player, t_ray *ray);
 
-void	draw_line(int ax, int ay, int bx, int by, t_data *param);
+
+// delete thus
+void draw_line(float ax, float ay, float bx, float by, t_data *param);
+
 #endif
 

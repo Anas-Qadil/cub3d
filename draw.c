@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:24:19 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/12 15:33:44 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/13 16:49:48 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ void    draw_player(t_player *mlx)
     }
 }
 
-
-
-void	draw_line(int ax, int ay, int bx, int by, t_data *param)
+void draw_line(float ax, float ay, float bx, float by, t_data *param)
 {
 	float	dx;
 	float	dy;
@@ -56,31 +54,7 @@ void	draw_line(int ax, int ay, int bx, int by, t_data *param)
 		ax = ax + dx;
 		ay = ay + dy;
         i++;
-		if (ax > param->win_x || ay > param->win_y || ay < 0 || ax < 0 || ay == by)
-			break ;
-	}
-}
-
-void	draw_ray(int ax, int ay, int bx, int by, t_data *param)
-{
-	float	dx;
-	float	dy;
-	float	max;
-    int i = 0;
-    
-
-	dx = bx - ax;
-	dy = by - ay;
-	max = ft_abs(fmodule(dx), fmodule(dy));
-	dx = dx / max;
-	dy = dy / max;
-	while ((int)(ax - bx) || (int)(ay - by))
-	{
-		my_mlx_pixel_put(param, ax, ay, 0x00ff0000);
-		ax = ax + dx;
-		ay = ay + dy;
-        i++;
-		if (ax > param->win_x || ay > param->win_y || ay < 0 || ax < 0 || ax == bx || ay == by)
+		if (ax > param->win_x || ay > param->win_y || ay < 0 || ax < 0)
 			break ;
 	}
 }
