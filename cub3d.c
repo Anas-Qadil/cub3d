@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/16 17:45:23 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/16 18:33:57 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@
 
 */
 
+#define DR 0.0174533 // one degree in radian
 #define PI 3.141
+#define P2 PI/2
+#define P3  3*PI/2
 float px, py, pdx, pdy, pa;
 int mapS = 64, mapY = 15, mapX = 11;
 
@@ -133,26 +136,52 @@ void    drawMap2D(t_data *mlx)
     }
 }
 
+float ray_dist(float ax, float ay, float bx, float by, float ang)
+{
+    return (sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
+}
+
 void    cast(t_data *mlx, float rayAngle)
 {
     int r = 0, mx, my, mp, dof;
     float rx, ry, ra, xo, yo;
-    ra = pa;
+    ra = pa - DR * 30; if (ra < 0) {ra += 2 * PI;} if (ra > 2 * PI){ra -= 2 * PI;};
     int i = 0;
 
-    while (r < 10)
+    while (r < 60)
     {
+        // horiz lines
+        float disH = 1000000, hx = px, hy = py;
         dof = 0;
         float aTan = -1 / tan(ra);
         if (ra > PI) {ry = (((int)py >> 6) << 6) - 0.0001; rx = (py - ry) * aTan + px; yo = -64; xo = -yo * aTan;}
-        if (ra < PI) {ry = (((int) py >> 6) << 6) + 64; rx = (py - ry) * aTan + px; yo = 64; xo = -yo * aTan;}
+        if (ra < PI) {ry = (((int) py >> 6) << 6) + 64;    rx = (py - ry) * aTan + px; yo = 64; xo = -yo * aTan;}
         if (ra == 0 || ra == PI){rx = px; ry = py; dof = 8;}
         while (dof < 8)
         {
             mx = (int)(rx) >> 6; my = (int)(ry) >> 6; mp = my * mapX + mx;
-            if (mp < mapX * mapY && map[(int)(ry / 64) ][(int)(rx / 64)] == 1){ dof = 8;}
+            if (mp > 0 && mp < mapX * mapY && map[(int)(ry / 64) ][(int)(rx / 64)] == 1){ hx = rx; hy = ry; disH = ray_dist(px, py, hx, hy, ra) ;dof = 8;}
             else {rx += xo; ry += yo; dof += 1;}
         }
+
+        // vertical lines
+        float disV = 1000000, vx = px, vy = py;
+        dof = 0;
+        float nTan = -tan(ra);
+        if (ra > P2 && ra < P3) {rx = (((int)px >> 6) << 6) - 0.0001; ry = (px - rx) * nTan + py; xo = -64; yo = -xo * nTan;}
+        if (ra < P2 || ra > P3) {rx = (((int) px >> 6) << 6) + 64;    ry = (px - rx) * nTan + py;  xo = 64;  yo = -xo * nTan;}
+        if (ra == 0 || ra == PI){rx = px; ry = py; dof = 8;}
+        while (dof < 8)
+        {
+            mx = (int)(rx) >> 6; my = (int)(ry) >> 6; mp = my * mapX + mx;
+            if (mp > 0 && mp < mapX * mapY && map[(int)(ry / 64) ][(int)(rx / 64)] == 1){vx = rx; vy = ry; disV = ray_dist(px, py, vx, vy, ra); dof = 8;}
+            else {rx += xo; ry += yo; dof += 1;}
+        }
+
+        if (disV < disH){rx = vx; ry = vy;}
+        else {rx = hx; ry = hy;}
+        draw_line(px + 10, py, rx, ry, mlx);
+        ra+=DR;if (ra < 0) {ra += 2 * PI;} if (ra > 2 * PI){ra -= 2 * PI;}
         r++;
     }
 
@@ -165,7 +194,6 @@ void    cast(t_data *mlx, float rayAngle)
     mlx_string_put(mlx->mlx, mlx->win, 1200, 120, 0x00ffffff, "ry: ");
     mlx_string_put(mlx->mlx, mlx->win, 1280, 120, 0x00ffffff, yinterstr);
     // mlx_pixel_put(mlx->mlx, mlx->win, (int)rx, (int)ry, 0x00FF0000);
-    draw_line(px + 10, py, rx, ry, mlx);
     
 }
 
