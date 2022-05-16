@@ -6,25 +6,45 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/13 17:34:11 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/16 17:45:23 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // my raycaster calculation and vars
-#define PI 3.1415926535
+
+// hoz intersection
+/*
+    ay = floor(abs((py / 32))) * 32
+    ax = px + ((py - ay) / tan(rayangle))
+
+*/
+
+// hoz xstep and ystep
+/*
+    ystep = TILE_SIZE
+    xstep = TILE_SIZE / tan(rayangle);
+
+*/
+
+#define PI 3.141
 float px, py, pdx, pdy, pa;
 int mapS = 64, mapY = 15, mapX = 11;
 
 // pikuma calculation and vars
+
 const int TILE_SIZE = 64;
 const int MAP_NUM_ROWS = 11;
 const int MAP_NUM_COLS = 15;
+const float FOV_ANGLE = 60 * (PI / 180);
+const int NUM_RAYS = 60;
+const int WALL_STRIP_WIDTH = 1;
+int rays[60];
 
 //ends here
 
-int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
+int map[11][15] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1},
     {1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
@@ -113,11 +133,59 @@ void    drawMap2D(t_data *mlx)
     }
 }
 
+void    cast(t_data *mlx, float rayAngle)
+{
+    int r = 0, mx, my, mp, dof;
+    float rx, ry, ra, xo, yo;
+    ra = pa;
+    int i = 0;
+
+    while (r < 10)
+    {
+        dof = 0;
+        float aTan = -1 / tan(ra);
+        if (ra > PI) {ry = (((int)py >> 6) << 6) - 0.0001; rx = (py - ry) * aTan + px; yo = -64; xo = -yo * aTan;}
+        if (ra < PI) {ry = (((int) py >> 6) << 6) + 64; rx = (py - ry) * aTan + px; yo = 64; xo = -yo * aTan;}
+        if (ra == 0 || ra == PI){rx = px; ry = py; dof = 8;}
+        while (dof < 8)
+        {
+            mx = (int)(rx) >> 6; my = (int)(ry) >> 6; mp = my * mapX + mx;
+            if (mp < mapX * mapY && map[(int)(ry / 64) ][(int)(rx / 64)] == 1){ dof = 8;}
+            else {rx += xo; ry += yo; dof += 1;}
+        }
+        r++;
+    }
+
+
+    char *xinterstr = ft_itoa((int)rx / 64);
+    char *yinterstr = ft_itoa((int)ry / 64);
+
+    mlx_string_put(mlx->mlx, mlx->win, 1200, 80, 0x00ffffff, "rx: ");
+    mlx_string_put(mlx->mlx, mlx->win, 1280, 80, 0x00ffffff, xinterstr);
+    mlx_string_put(mlx->mlx, mlx->win, 1200, 120, 0x00ffffff, "ry: ");
+    mlx_string_put(mlx->mlx, mlx->win, 1280, 120, 0x00ffffff, yinterstr);
+    // mlx_pixel_put(mlx->mlx, mlx->win, (int)rx, (int)ry, 0x00FF0000);
+    draw_line(px + 10, py, rx, ry, mlx);
+    
+}
+
 // cast rays
 
 void    cast_ray(t_data *mlx)
 {
-      
+    int columnId = 0;
+    float rayAngle = mlx->player->rotationAngle - (FOV_ANGLE / 2);
+    int i = 0;
+    t_ray ray;
+
+    while (i < 1)
+    {
+        rayAngle += FOV_ANGLE / NUM_RAYS;
+        draw_line(px+10, py, (px + 10) + cos(rayAngle) * 60, py + sin(rayAngle) * 60, mlx);
+        columnId++;
+        i++;
+    }
+    
 }
 
 // end
@@ -126,17 +194,23 @@ int	close_it(int keycode, t_data *mlx)
 {
     int x = px;
     int y = py;
+  
     
     mlx_clear_window(mlx->mlx, mlx->win);
     if (keycode == left_arrow)
     {
+        x = (((x) - pdx) / 64);
+        y = (y - pdy) / 64;
         mlx->player->turnDirection = -1;
-        pa -= 0.1 ; if(px < 0){pa += 2 * PI;} pdx = cos(pa) * 5; pdy = sin(pa) * 5;
+        pa -= 0.1 ; if(pa < 0){pa += 2 * PI;} pdx = cos(pa) * 5; pdy = sin(pa) * 5;
     }
     if (keycode == right_arrow)
     {
+        x = (((x + 10) + pdx) / 64);
+        y = (y + pdy)/ 64;
+        
         mlx->player->turnDirection = 1;
-        pa += 0.1 ; if(px > 2 * PI){pa -= 2 * PI;} pdx = cos(pa) * 5; pdy = sin(pa) * 5;
+        pa += 0.1 ; if(pa > 2 * PI){pa -= 2 * PI;} pdx = cos(pa) * 5; pdy = sin(pa) * 5;
     }
     if (keycode == top_arrow)
     {
@@ -144,7 +218,10 @@ int	close_it(int keycode, t_data *mlx)
         x = (((x + 10) + pdx) / 64);
         y = (y + pdy)/ 64;
         if (map[y][x] == 0)
+        {
             px += pdx; py+= pdy;
+
+        }
     }
     if (keycode == bottom_arrow)
     {
@@ -152,7 +229,9 @@ int	close_it(int keycode, t_data *mlx)
         x = (((x) - pdx) / 64);
         y = (y - pdy) / 64;
         if (map[y][x] == 0)
+        {
             px -= pdx; py-= pdy;
+        }
     }
 
     // render images
@@ -162,10 +241,26 @@ int	close_it(int keycode, t_data *mlx)
     mlx->player->rotationAngle += mlx->player->turnDirection * mlx->player->rotationSpeed;
     float newLineX =   px + pdx * 30;
     float newLineY = py + pdy * 30;
-    draw_line((px + 10), py, newLineX + 10, newLineY, mlx);
+    // draw_line((px + 10), py, newLineX + 10, newLineY, mlx);
+    // cast_ray(mlx);
+    cast(mlx, 0);
     
-    // just printing player infos and walls 
+    float rayAngle = pa - (FOV_ANGLE / 2);
+    int yinter = (fabs((py / 64)) * 64);
+    int xinter = (px + ((py - yinter) / tan(45)));
+    // printing yinte and x inter
+
+    char *yinterstr = ft_itoa(yinter);
+    char *xinterstr = ft_itoa(xinter);
+    mlx_string_put(mlx->mlx, mlx->win, 1200, 1, 0x00ffffff, "xinter: ");
+    mlx_string_put(mlx->mlx, mlx->win, 1280, 1, 0x00ffffff, xinterstr);
+    mlx_string_put(mlx->mlx, mlx->win, 1200, 40, 0x00ffffff, "yinter: ");
+    mlx_string_put(mlx->mlx, mlx->win, 1280, 40, 0x00ffffff, yinterstr);
     
+    
+
+    // just printing player infos and walls
+
     if (map[y][x] == 1)
     {
         char *map_value = ft_itoa(map[y][x]);
@@ -221,7 +316,7 @@ int	close_it(int keycode, t_data *mlx)
     mlx_string_put(mlx->mlx, mlx->win, 1650, 460, 0x00ffffff, new_ray_y);
 
     // angle
-    char *angle = ft_itoa(mlx->player->rotationAngle);
+    char *angle = ft_itoa(pa);
     mlx_string_put(mlx->mlx, mlx->win, 1500, 560, 0x00ffffff, "Angle: ");
     mlx_string_put(mlx->mlx, mlx->win, 1650, 560, 0x00ffffff, angle);
     
@@ -237,7 +332,8 @@ void    draw_everything(t_data *mlx, t_player *player, t_ray *ray)
     
     mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
     mlx_put_image_to_window(mlx->mlx, mlx->win, player->img, player->x, player->y);
-    draw_line(px + 10, py, px + 10, py - 70, mlx);
+    // draw_line(px + 10, py, px + 10, py - 70, mlx);
+    cast_ray(mlx);
 }
 
 void    playerInit(t_player *player)
@@ -270,6 +366,7 @@ int main(void)
     mlx.player = &player;
     
     draw_everything(&mlx, &player, &ray);
+    cast_ray(&mlx);
     // draw_line2(1, 1, 300, 400 , &mlx);
 
     

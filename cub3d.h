@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/13 16:49:53 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/16 10:40:26 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ typedef struct s_ray
 	int		endian;
     int     x;
     int     y;
+	float rayAngle;
+	int wallHitX;
+	int wallHitY;
+	int distance;
+	
+	
 } t_ray;
 
 typedef struct	s_data {

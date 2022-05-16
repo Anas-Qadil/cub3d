@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:25:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/12 13:46:15 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/14 10:07:51 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,18 @@ float	ft_abs(float dx, float dy)
 	return (max);
 }
 
-void	ft_putchar(char c) {
-	write(1, &c, 1);
-}
+// void	ft_putchar(char c) {
+// 	write(1, &c, 1);
+// }
 
-void	ft_putnbr(int nb) {
-	if (nb < 0) {
-		ft_putchar('-');
-		nb = -nb;
-	}
-	if (nb >= 10) {
-		ft_putnbr(nb / 10);
-		nb = nb % 10;
-	}
-	if (nb < 10) ft_putchar(nb + 48);
-}
+// void	ft_putnbr(int nb) {
+// 	if (nb < 0) {
+// 		ft_putchar('-');
+// 		nb = -nb;
+// 	}
+// 	if (nb >= 10) {
+// 		ft_putnbr(nb / 10);
+// 		nb = nb % 10;
+// 	}
+// 	if (nb < 10) ft_putchar(nb + 48);
+// }
