@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/16 18:33:57 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/16 19:14:52 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ float ray_dist(float ax, float ay, float bx, float by, float ang)
 
 void    cast(t_data *mlx, float rayAngle)
 {
-    int r = 0, mx, my, mp, dof;
+    int r = 0, mx, my, mp, dof, disT;
     float rx, ry, ra, xo, yo;
     ra = pa - DR * 30; if (ra < 0) {ra += 2 * PI;} if (ra > 2 * PI){ra -= 2 * PI;};
     int i = 0;
@@ -178,9 +178,12 @@ void    cast(t_data *mlx, float rayAngle)
             else {rx += xo; ry += yo; dof += 1;}
         }
 
-        if (disV < disH){rx = vx; ry = vy;}
-        else {rx = hx; ry = hy;}
+        if (disV < disH){rx = vx; ry = vy; disT = disV;}
+        else {rx = hx; ry = hy; disT = disH;}
         draw_line(px + 10, py, rx, ry, mlx);
+        // float lineH = (mapS * 320 / disT); if (lineH > 320) {lineH = 320;}
+        // float lineO = 160 - lineH / 2;                       // hna height d kol wall 
+        // draw_line(r * 8 + 530, lineO, r*8+530, lineH + lineO, mlx);
         ra+=DR;if (ra < 0) {ra += 2 * PI;} if (ra > 2 * PI){ra -= 2 * PI;}
         r++;
     }
