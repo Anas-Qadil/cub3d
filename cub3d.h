@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/16 10:40:26 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/17 09:56:33 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	my_mlx_pixel_put3(t_ray *data, int x, int y, int color);
 
 void	draw_ray(int ax, int ay,int bx, int by, t_data *param);
 
-void    draw_everything(t_data *mlx, t_player *player, t_ray *ray);
+void    draw_everything(t_data *mlx, t_player *player);
 
 
 // delete thus
