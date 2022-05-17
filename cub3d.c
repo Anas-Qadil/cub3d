@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/17 14:16:33 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/17 14:28:36 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,14 +160,14 @@ void    cast(t_data *mlx, float rayAngle)
 		dof = 0; // to check 8 checks bach mati7ch f infinit loop
 		if (ra > PI) // ila kan ray angle lte7t PI or ray kaychof lte7t
 		{
-			ry = (((int)py / 64) * 64) - 0.0001; // to calculate the first ry intercept on ry
+			ry = (floor((int)py / 64) * 64) - 0.0001; // to calculate the first ry intercept on ry : kol square is multiple of 64 kan9semo 3la 64 o kandiro floor bach yhbat lvalue then kandorbo f 64 bach tpushi lvalue
 			rx = (py - ry) * aTan + px;  // to calculate the first rx intercept on rx
 			yo = -64;
 			xo = -yo * aTan;
 		}
 		if (ra < PI) // ila kan ray kaychof lfo9
 		{
-			ry = (((int) py / 64) * 64) + 64; // to calculate the first ry intercept on ry
+			ry = (floor((int) py / 64) * 64) + 64; // to calculate the first ry intercept on ry
 			rx = (py - ry) * aTan + px; // to calculate the first rx intercept on rx
 			yo = 64; // to move to the next intercept on yo
 			xo = -yo * aTan; // to move to the next intercept on xo
