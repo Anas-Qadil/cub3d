@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/17 14:28:36 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/18 12:09:21 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int map[11][15] = {
 	{1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1},
 	{1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1},
-	{1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
 	{1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1},
@@ -156,7 +156,7 @@ void    cast(t_data *mlx, float rayAngle)
 	{
 		// horiz lines
 		float disH = 1000000, hx = px, hy = py; // hx and hy homa ray pos x and ray pos y f horz line
-		float aTan = -1 / tan(ra); // equls -3.124 for 60% and see the circle in google to understand
+		float aTan = -1 / tan(ra); // see the circle in google to understand
 		dof = 0; // to check 8 checks bach mati7ch f infinit loop
 		if (ra > PI) // ila kan ray angle lte7t PI or ray kaychof lte7t
 		{
@@ -168,7 +168,7 @@ void    cast(t_data *mlx, float rayAngle)
 		if (ra < PI) // ila kan ray kaychof lfo9
 		{
 			ry = (floor((int) py / 64) * 64) + 64; // to calculate the first ry intercept on ry
-			rx = (py - ry) * aTan + px; // to calculate the first rx intercept on rx
+			rx = (py - ry) * aTan  + px; // to calculate the first rx intercept on rx !!!
 			yo = 64; // to move to the next intercept on yo
 			xo = -yo * aTan; // to move to the next intercept on xo
 		}
@@ -198,20 +198,20 @@ void    cast(t_data *mlx, float rayAngle)
 				dof += 1;
 			}
 		}
-
-		// vertical lines
+	
+		// vertical lines  || hna gha3 dakchi l chra7t lfo9 9elbo finma kayna chi x dir y
 		float disV = 1000000, vx = px, vy = py;
 		dof = 0;
 		float nTan = -tan(ra);
 		if (ra > P2 && ra < P3) 
 		{
-			rx = (((int)px >> 6) << 6) - 0.0001;
+			rx = (((int)px / 64) * 64) - 0.0001;
 			ry = (px - rx) * nTan + py;
 			xo = -64;
 			yo = -xo * nTan;
 		}
 		if (ra < P2 || ra > P3) {
-			rx = (((int) px >> 6) << 6) + 64;
+			rx = (((int) px / 64) * 64) + 64;
 			ry = (px - rx) * nTan + py;
 			xo = 64;
 			yo = -xo * nTan;
@@ -224,8 +224,8 @@ void    cast(t_data *mlx, float rayAngle)
 		}
 		while (dof < 8)
 		{
-			mx = (int)(rx) >> 6;
-			my = (int)(ry) >> 6;
+			mx = (int)(rx) / 64;
+			my = (int)(ry) / 64;
 			mp = my * mapX + mx;
 			if (mp > 0 && mp < mapX * mapY && map[my][mx] == 1)
 			{
@@ -458,7 +458,7 @@ void    draw_everything(t_data *mlx, t_player *player)
 	
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, player->img, player->x, player->y);
-	cast_ray(mlx);
+	cast(mlx, 0);
 }
 
 void    playerInit(t_player *player)
