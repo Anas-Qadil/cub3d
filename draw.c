@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:24:19 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/16 10:43:21 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/18 16:59:42 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,25 @@ void    draw_player(t_player *mlx)
     int i = 0;
     int j = 0;
 
-    mlx->img = mlx_new_image(mlx->mlx, 20, 20);
+    mlx->img = mlx_new_image(mlx->mlx, 5, 5);
 
     mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length,
 								&mlx->endian);
     mlx->x = 300;
     mlx->y = 400;
-    while (i < 20)
+    while (i < 5)
     {
         j = 0;
-        while (j < 20)
+        while (j < 5)
         {
-            my_mlx_pixel_put2(mlx, i, j, 0x00009CFF);
+            my_mlx_pixel_put2(mlx, i, j, 0x00FF0000);
             j++;
         }
         i++;
     }
 }
 
-void draw_line(float ax, float ay, float bx, float by, t_data *param)
+void draw_line(float ax, float ay, float bx, float by, t_data *param, int color)
 {
 	float	dx;
 	float	dy;
@@ -50,7 +50,7 @@ void draw_line(float ax, float ay, float bx, float by, t_data *param)
 	dy = dy / max;
 	while ((int)(ax - bx) || (int)(ay - by))
 	{
-		mlx_pixel_put(param->mlx, param->win, ax, ay, 0x00009CFF);
+		mlx_pixel_put(param->mlx, param->win, ax, ay, color);
 		ax = ax + dx;
 		ay = ay + dy;
         i++;
