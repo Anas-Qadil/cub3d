@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:24:19 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/18 16:59:42 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/19 13:45:17 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void    draw_player(t_player *mlx)
 
     mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length,
 								&mlx->endian);
-    mlx->x = 300;
-    mlx->y = 400;
+    mlx->x = 150;
+    mlx->y = 600;
     while (i < 5)
     {
         j = 0;

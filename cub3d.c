@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/18 17:02:49 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/19 13:57:22 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int map[11][15] = {
 	{1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1},
 	{1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-	{1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1},
+	{1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
@@ -135,9 +135,42 @@ void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 	draw_line(r * 8 - 5  + 1200, lineO, r * 8 - 5 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
 	draw_line(r * 8 - 6  + 1200, lineO, r * 8 - 6 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
 	draw_line(r * 8 - 7  + 1200, lineO, r * 8 - 7 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
+	int i = 0;
+	int w = 1;
+	int h = 1;
+	int j = 0;
+	// while (i < 10)
+	// {
+		// void *img = mlx_xpm_file_to_image(mlx->mlx , "./textures/wood.xpm", &w, &h);
+		// mlx_put_image_to_window(mlx->mlx, mlx->win, img, r * 8  + 1200, lineH + lineO);
+		// i++;
+	// }
 	// draw_line(r * 8 - 8  + 1200, lineO, r * 8 - 8 + 1200, lineH + lineO, mlx); // hna draw d 3d
 }
 
+void	draw_floors(float x, float y, t_data *mlx)
+{
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 1 + 1200, y, 0x00FFFFFF);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 2 + 1200, y, 0x00FFFFFF);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 3 + 1200, y, 0x00FFFFFF);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 4 + 1200, y, 0x00FFFFFF);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 5 + 1200, y, 0x00FFFFFF);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 6 + 1200, y, 0x00FFFFFF);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 7 + 1200, y, 0x00FFFFFF);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 + 1200, y, 0x00FFFFFF);
+}
+
+void	draw_ceiling(float x, float y, t_data *mlx)
+{
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 1 + 1200, y, 0x0087CEEB);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 2 + 1200, y, 0x0087CEEB);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 3 + 1200, y, 0x0087CEEB);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 4 + 1200, y, 0x0087CEEB);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 5 + 1200, y, 0x0087CEEB);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 6 + 1200, y, 0x0087CEEB);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 7 + 1200, y, 0x0087CEEB);
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 + 1200, y, 0x0087CEEB);
+}
 
 void    cast(t_data *mlx, float rayAngle)
 {
@@ -256,7 +289,7 @@ void    cast(t_data *mlx, float rayAngle)
 			disT = disH;
 		}
 		
-		draw_line(px, py, rx, ry, mlx, color); // hna l cast d ray 
+		// draw_line(px, py, rx, ry, mlx, color); // hna l cast d ray 
 		
 		float ca = pa - ra;
 		if (ca < 0) 
@@ -267,18 +300,29 @@ void    cast(t_data *mlx, float rayAngle)
 		{
 			ca -= 2 * PI;
 		}
+		
 		disT = disT * cos(ca); // fish eye fix
 		
-		float lineH = (mapS * 500 / disT); // 9edma kebrat deist between camera and wall kaykon lwall sghir
+		float lineH = (mapS * 320 / disT); // 9edma kebrat deist between camera and wall kaykon lwall sghir
 		
-		if (lineH > 500)
+		if (lineH > 320)
 		{
-			lineH = 500;
+			lineH = 320;
 		}
 		
-		float lineO = 500 - lineH / 2; // offset bach yrsem men lfo9 
+		float lineO = 160 - (lineH / 2); // offset bach yrsem men lfo9 
 		// draw_line(r * 8  + 1200, lineO, r * 8 + 1200, lineH + lineO, mlx); // hna draw d 3d
 		draw_wall(r, lineO, lineH, mlx);
+
+		//draw floors
+		int y = lineO + lineH;
+		while (y < 320)
+		{
+			draw_floors(r, y, mlx);
+			draw_ceiling(r, 320 - y, mlx);
+			y++;
+		}
+		
 		
 		ra += DR;
 		if (ra < 0) 
@@ -303,19 +347,6 @@ int	close_it(int keycode, t_data *mlx)
 {
 	int x = px;
 	int y = py;
-	int	xo = 0;
-	int	yo = 0;
-	
-	// if (pdx < 0)
-	// 	xo = - 20;
-	// else 
-	// 	xo = 20;
-	// if (pdy < 0)
-	// 	yo = -20;
-	// else
-	// 	yo = 20;
-	// int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0, ipx_sub_xo = (px - xo) / 64.0;
-	// int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0, ipy_sub_yo = (py - yo) / 64.0;
 	mlx_clear_window(mlx->mlx, mlx->win);
 	if (keycode == left_arrow)
 	{
@@ -370,9 +401,9 @@ int	close_it(int keycode, t_data *mlx)
 
 	// render images
 	
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player->img, px, py);
-	mlx->player->rotationAngle += mlx->player->turnDirection * mlx->player->rotationSpeed;
+	// mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
+	// mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player->img, px, py);
+	// mlx->player->rotationAngle += mlx->player->turnDirection * mlx->player->rotationSpeed;
 	cast(mlx, 0);
 
 	
@@ -387,9 +418,9 @@ void    draw_everything(t_data *mlx, t_player *player)
 	px = player->x;
 	py = player->y;
 	
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, player->img, player->x, player->y);
-	// cast(mlx, 0);
+	// mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
+	// mlx_put_image_to_window(mlx->mlx, mlx->win, player->img, player->x, player->y);
+	cast(mlx, 0);
 }
 
 void    playerInit(t_player *player)
@@ -421,6 +452,7 @@ int main(void)
 	draw_everything(&mlx, &player);
 	
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
+	
 	mlx_loop(mlx.mlx);
 	return (0);
 }
