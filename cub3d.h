@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/18 16:57:08 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/20 13:07:42 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void    draw_everything(t_data *mlx, t_player *player);
 
 // delete thus
 void draw_line(float ax, float ay, float bx, float by, t_data *param, int color);
+void draw_line_wall(float ax, float ay, float bx, float by, t_data *param, int color);
 
 #endif
 

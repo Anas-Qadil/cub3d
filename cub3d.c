@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/19 13:57:22 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/20 13:07:50 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,14 +127,14 @@ float ray_dist(float ax, float ay, float bx, float by, float ang)
 void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 {
 	int color = 0x0038ade8;
-	draw_line(r * 8  + 1200, lineO, r * 8 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	draw_line(r * 8 - 1  + 1200, lineO, r * 8 - 1 + 1200, lineH + lineO, mlx, color ); // hna draw d 3d
-	draw_line(r * 8 - 2  + 1200, lineO, r * 8 - 2 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	draw_line(r * 8 - 3  + 1200, lineO, r * 8 - 3 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	draw_line(r * 8 - 4  + 1200, lineO, r * 8 - 4 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	draw_line(r * 8 - 5  + 1200, lineO, r * 8 - 5 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	draw_line(r * 8 - 6  + 1200, lineO, r * 8 - 6 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	draw_line(r * 8 - 7  + 1200, lineO, r * 8 - 7 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
+	draw_line_wall(r * 8  + 1200, lineO, r * 8 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
+	// draw_line(r * 8 - 1  + 1200, lineO, r * 8 - 1 + 1200, lineH + lineO, mlx, color ); // hna draw d 3d
+	// draw_line(r * 8 - 2  + 1200, lineO, r * 8 - 2 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
+	// draw_line(r * 8 - 3  + 1200, lineO, r * 8 - 3 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
+	// draw_line(r * 8 - 4  + 1200, lineO, r * 8 - 4 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
+	// draw_line(r * 8 - 5  + 1200, lineO, r * 8 - 5 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
+	// draw_line(r * 8 - 6  + 1200, lineO, r * 8 - 6 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
+	// draw_line(r * 8 - 7  + 1200, lineO, r * 8 - 7 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
 	int i = 0;
 	int w = 1;
 	int h = 1;
@@ -289,7 +289,7 @@ void    cast(t_data *mlx, float rayAngle)
 			disT = disH;
 		}
 		
-		// draw_line(px, py, rx, ry, mlx, color); // hna l cast d ray 
+		draw_line(px, py, rx, ry, mlx, color); // hna l cast d ray 
 		
 		float ca = pa - ra;
 		if (ca < 0) 
@@ -401,9 +401,8 @@ int	close_it(int keycode, t_data *mlx)
 
 	// render images
 	
-	// mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
-	// mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player->img, px, py);
-	// mlx->player->rotationAngle += mlx->player->turnDirection * mlx->player->rotationSpeed;
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player->img, px, py);
 	cast(mlx, 0);
 
 	
@@ -418,8 +417,8 @@ void    draw_everything(t_data *mlx, t_player *player)
 	px = player->x;
 	py = player->y;
 	
-	// mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
-	// mlx_put_image_to_window(mlx->mlx, mlx->win, player->img, player->x, player->y);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, player->img, player->x, player->y);
 	cast(mlx, 0);
 }
 
