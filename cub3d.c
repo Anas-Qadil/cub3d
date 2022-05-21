@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/20 13:07:50 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/21 14:02:33 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,25 @@ float ray_dist(float ax, float ay, float bx, float by, float ang)
 
 void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 {
-	int color = 0x0038ade8;
-	draw_line_wall(r * 8  + 1200, lineO, r * 8 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
+	int i = 0;
+	int j = 0;
+
+	while (i < lineH)
+	{
+		int color = get_color(mlx, i, 0);
+		my_mlx_pixel_put(mlx, r * 8 + 1200, i + lineO, color);
+		my_mlx_pixel_put(mlx, r * 8 - 1 + 1200, i + lineO, color);
+		my_mlx_pixel_put(mlx, r * 8 - 2 + 1200, i + lineO, color);
+		my_mlx_pixel_put(mlx, r * 8 - 3 + 1200, i + lineO, color);
+		my_mlx_pixel_put(mlx, r * 8 - 4 + 1200, i + lineO, color);
+		my_mlx_pixel_put(mlx, r * 8 - 5 + 1200, i + lineO, color);
+		my_mlx_pixel_put(mlx, r * 8 - 6 + 1200, i + lineO, color);
+		my_mlx_pixel_put(mlx, r * 8 - 7 + 1200, i + lineO, color);
+		i++;
+		j++;
+	}
+
+	// draw_line(r * 8  + 1200    , lineO, r * 8 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
 	// draw_line(r * 8 - 1  + 1200, lineO, r * 8 - 1 + 1200, lineH + lineO, mlx, color ); // hna draw d 3d
 	// draw_line(r * 8 - 2  + 1200, lineO, r * 8 - 2 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
 	// draw_line(r * 8 - 3  + 1200, lineO, r * 8 - 3 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
@@ -135,15 +152,12 @@ void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 	// draw_line(r * 8 - 5  + 1200, lineO, r * 8 - 5 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
 	// draw_line(r * 8 - 6  + 1200, lineO, r * 8 - 6 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
 	// draw_line(r * 8 - 7  + 1200, lineO, r * 8 - 7 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	int i = 0;
-	int w = 1;
-	int h = 1;
-	int j = 0;
+
 	// while (i < 10)
 	// {
 		// void *img = mlx_xpm_file_to_image(mlx->mlx , "./textures/wood.xpm", &w, &h);
-		// mlx_put_image_to_window(mlx->mlx, mlx->win, img, r * 8  + 1200, lineH + lineO);
-		// i++;
+		// mlx_put_image_to_window(mlx->mlx, mlx->win, img, r * 8 + 1200, lineH + lineO);
+	// 	i++;
 	// }
 	// draw_line(r * 8 - 8  + 1200, lineO, r * 8 - 8 + 1200, lineH + lineO, mlx); // hna draw d 3d
 }
@@ -288,7 +302,6 @@ void    cast(t_data *mlx, float rayAngle)
 			ry = hy;
 			disT = disH;
 		}
-		
 		draw_line(px, py, rx, ry, mlx, color); // hna l cast d ray 
 		
 		float ca = pa - ra;
@@ -334,6 +347,7 @@ void    cast(t_data *mlx, float rayAngle)
 			ra -= 2 * PI;
 		}
 		r++;
+		i++;
 	}
 
 }
@@ -412,6 +426,9 @@ int	close_it(int keycode, t_data *mlx)
 
 void    draw_everything(t_data *mlx, t_player *player)
 {
+	int w, h;
+	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wall2.xpm", &w, &h);
+	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
 	drawMap2D(mlx);
 	draw_player(player);
 	px = player->x;
@@ -431,11 +448,22 @@ void    playerInit(t_player *player)
 	player->rotationSpeed = 3 * (PI / 180);
 }
 
+unsigned int	get_color(t_data *t, int x, int y)
+{
+	char	*ptr;
+	int		pixel;
+
+	pixel = y * t->t_line_length + x * 4;
+	ptr = t->t_addr + pixel;
+	return ((((unsigned char)ptr[2]) << 16)
+		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
+}
 
 int main(void)
 {
 	t_data		mlx;
 	t_player	player;
+	int buffer[64] = {0};
 	
 	playerInit(&player);
 	pdx = cos(pa) * 5;
@@ -448,10 +476,15 @@ int main(void)
 	player.win = mlx.win;
 
 	mlx.player = &player;
+	
+	int w, h;
+	// mlx.t_img = mlx_xpm_file_to_image(mlx.mlx, "./textures/wood.xpm", &w, &h);
+	// mlx.t_addr = mlx_get_data_addr(mlx.t_img, &mlx.t_bits_per_pixel, &mlx.t_line_length, &mlx.t_endian);
+	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.t_img, 0, 0);
+	
 	draw_everything(&mlx, &player);
 	
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
-	
 	mlx_loop(mlx.mlx);
 	return (0);
 }

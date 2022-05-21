@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/20 13:07:42 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/21 11:59:55 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,14 @@ typedef struct	s_data {
 
 	int		win_y;
 	int 	win_x;
+
+	// textures
+	void	*t_img;
+	char	*t_addr;
+	int		t_bits_per_pixel;
+	int		t_line_length;
+	int		t_endian;
+	int		colors[32][32];
 }				t_data;
 
 
@@ -109,6 +117,8 @@ void    draw_everything(t_data *mlx, t_player *player);
 // delete thus
 void draw_line(float ax, float ay, float bx, float by, t_data *param, int color);
 void draw_line_wall(float ax, float ay, float bx, float by, t_data *param, int color);
+
+unsigned int	get_color(t_data *t, int x, int y);
 
 #endif
 
