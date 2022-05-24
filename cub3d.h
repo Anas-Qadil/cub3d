@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/21 11:59:55 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/24 11:19:21 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 #include <mlx.h>
 #include <math.h>
 #include <string.h>
+
+typedef struct	s_data t_data;
 
 typedef struct	s_player {
 	void	*img;
@@ -54,12 +56,10 @@ typedef struct s_ray
 	int		endian;
     int     x;
     int     y;
-	float rayAngle;
-	int wallHitX;
-	int wallHitY;
-	int distance;
-	
-	
+	float 	r;
+	int 	lineH;
+	int 	lineO;
+	t_data  *data;
 } t_ray;
 
 typedef struct	s_data {
@@ -80,11 +80,12 @@ typedef struct	s_data {
 
 	// textures
 	void	*t_img;
-	char	*t_addr;
+	void	*t_addr;
 	int		t_bits_per_pixel;
 	int		t_line_length;
 	int		t_endian;
 	int		colors[32][32];
+	int		buff[10000];
 }				t_data;
 
 

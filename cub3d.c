@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/21 14:02:33 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/24 13:05:05 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #define P3  3*PI/2
 float px, py, pdx, pdy, pa;
 int mapS = 64, mapY = 15, mapX = 11;
+t_ray rays[60];
 
 // pikuma calculation and vars
 
@@ -27,7 +28,6 @@ const int MAP_NUM_COLS = 15;
 const float FOV_ANGLE = 60 * (PI / 180);
 const int NUM_RAYS = 60;
 const int WALL_STRIP_WIDTH = 1;
-int rays[60];
 
 
 int map[11][15] = {
@@ -73,7 +73,7 @@ void    drawMap2D(t_data *mlx)
 					loopJ = 0;
 					while (loopJ < TILE_SIZE)
 					{
-						my_mlx_pixel_put(mlx, saveI +loopI, saveJ + loopJ, 0x00FFFFFF); // 0x00FF0000 red
+						my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00FFFFFF); // 0x00FF0000 red
 						loopJ++;
 					}
 					loopI++;
@@ -128,38 +128,34 @@ void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 {
 	int i = 0;
 	int j = 0;
+	float x = 0;
+	float y = 0;
+	int width = 200;
+	int height = 200;
+	int tex_w = 64;
+	int tex_h = 64;
+	
+	float inc_w = 64.0 / 8.0;
+	float inc_h = 64.0 / lineH;
+	int m = 0;
 
+	int hi = 0;
+	int wi = 0;
+	// printf("%f | %f", inc_w, inc_h);
+	// exit(0);
+	
 	while (i < lineH)
 	{
-		int color = get_color(mlx, i, 0);
-		my_mlx_pixel_put(mlx, r * 8 + 1200, i + lineO, color);
-		my_mlx_pixel_put(mlx, r * 8 - 1 + 1200, i + lineO, color);
-		my_mlx_pixel_put(mlx, r * 8 - 2 + 1200, i + lineO, color);
-		my_mlx_pixel_put(mlx, r * 8 - 3 + 1200, i + lineO, color);
-		my_mlx_pixel_put(mlx, r * 8 - 4 + 1200, i + lineO, color);
-		my_mlx_pixel_put(mlx, r * 8 - 5 + 1200, i + lineO, color);
-		my_mlx_pixel_put(mlx, r * 8 - 6 + 1200, i + lineO, color);
-		my_mlx_pixel_put(mlx, r * 8 - 7 + 1200, i + lineO, color);
+		j = 1;
+		while (j < 8)
+		{
+			int color = mlx->colors[0][j];
+			my_mlx_pixel_put(mlx, r * 8 - j + 1200, i + lineO, color);
+			j++;
+		}
 		i++;
-		j++;
 	}
-
-	// draw_line(r * 8  + 1200    , lineO, r * 8 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	// draw_line(r * 8 - 1  + 1200, lineO, r * 8 - 1 + 1200, lineH + lineO, mlx, color ); // hna draw d 3d
-	// draw_line(r * 8 - 2  + 1200, lineO, r * 8 - 2 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	// draw_line(r * 8 - 3  + 1200, lineO, r * 8 - 3 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	// draw_line(r * 8 - 4  + 1200, lineO, r * 8 - 4 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	// draw_line(r * 8 - 5  + 1200, lineO, r * 8 - 5 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	// draw_line(r * 8 - 6  + 1200, lineO, r * 8 - 6 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-	// draw_line(r * 8 - 7  + 1200, lineO, r * 8 - 7 + 1200, lineH + lineO, mlx, color); // hna draw d 3d
-
-	// while (i < 10)
-	// {
-		// void *img = mlx_xpm_file_to_image(mlx->mlx , "./textures/wood.xpm", &w, &h);
-		// mlx_put_image_to_window(mlx->mlx, mlx->win, img, r * 8 + 1200, lineH + lineO);
-	// 	i++;
-	// }
-	// draw_line(r * 8 - 8  + 1200, lineO, r * 8 - 8 + 1200, lineH + lineO, mlx); // hna draw d 3d
+	
 }
 
 void	draw_floors(float x, float y, t_data *mlx)
@@ -184,6 +180,43 @@ void	draw_ceiling(float x, float y, t_data *mlx)
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 6 + 1200, y, 0x0087CEEB);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 7 + 1200, y, 0x0087CEEB);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 + 1200, y, 0x0087CEEB);
+}
+
+void	draw_wall_textures()
+{
+	int i = 0;
+	int j = 0;
+	int i2 = 0;
+	int j2 = 0;
+	float x = 0;
+	float y = 0;
+	int width = 200;
+	int height = 200;
+	int tex_w = 64;
+	int tex_h = 64;
+	
+	float inc_w = 64.0 / 8.0;
+	// float inc_h = 64.0 / lineH;
+	int m = 0;
+
+	int hi = 0;
+	int wi = 0;
+	
+	while (i < 60)
+	{
+		// draw_wall(rays[i].r, rays[i].lineO, rays[i].lineH, rays[i].mlx);
+		i2 = 0;
+		j2 = 0;
+		while (i2 < rays[i].lineH)
+		{
+			int color = rays[i].data->colors[(int)((rays[i].x * 64) / 100)][0];
+			my_mlx_pixel_put(rays[i].data, rays[i].r * 8 - j2 + 1200, i2 + rays[i].lineO, color);
+			i2++;
+		}
+		printf("%f | %f\n", rays[i].x / 64.0, rays[i].y / 64.0);
+		fflush(stdout);
+		i++;
+	}
 }
 
 void    cast(t_data *mlx, float rayAngle)
@@ -238,6 +271,7 @@ void    cast(t_data *mlx, float rayAngle)
 				hy = ry;
 				disH = ray_dist(px, py, hx, hy, ra);
 				dof = max_ray_checks;
+				
 			}
 			else 
 			{
@@ -326,6 +360,12 @@ void    cast(t_data *mlx, float rayAngle)
 		float lineO = 160 - (lineH / 2); // offset bach yrsem men lfo9 
 		// draw_line(r * 8  + 1200, lineO, r * 8 + 1200, lineH + lineO, mlx); // hna draw d 3d
 		draw_wall(r, lineO, lineH, mlx);
+		rays[i].r = r;
+		rays[i].lineH = lineH;
+		rays[i].lineO = lineO;
+		rays[i].data = mlx;
+		rays[i].x = rx;
+		rays[i].y = ry;
 
 		//draw floors
 		int y = lineO + lineH;
@@ -349,7 +389,7 @@ void    cast(t_data *mlx, float rayAngle)
 		r++;
 		i++;
 	}
-
+	// draw_wall_textures();
 }
 
 // cast rays
@@ -418,7 +458,7 @@ int	close_it(int keycode, t_data *mlx)
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player->img, px, py);
 	cast(mlx, 0);
-
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->t_img, 1, 1);
 	
 	
 	return (0);
@@ -427,8 +467,23 @@ int	close_it(int keycode, t_data *mlx)
 void    draw_everything(t_data *mlx, t_player *player)
 {
 	int w, h;
-	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wall2.xpm", &w, &h);
+	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/WE.xpm", &w, &h);
 	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
+	
+	int i = 0;
+	int j = 0;
+	int k = 0;
+
+	while (i < 64)
+	{
+		j = 0;
+		while (j < 64)
+		{
+			mlx->colors[i][j] = get_color(mlx, i, j);
+			j++;
+		}
+		i++;
+	}
 	drawMap2D(mlx);
 	draw_player(player);
 	px = player->x;
@@ -437,6 +492,7 @@ void    draw_everything(t_data *mlx, t_player *player)
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, player->img, player->x, player->y);
 	cast(mlx, 0);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->t_img, 1, 1);
 }
 
 void    playerInit(t_player *player)
@@ -459,6 +515,11 @@ unsigned int	get_color(t_data *t, int x, int y)
 		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }
 
+void	print_the_pic()
+{
+	
+}
+
 int main(void)
 {
 	t_data		mlx;
@@ -476,14 +537,59 @@ int main(void)
 	player.win = mlx.win;
 
 	mlx.player = &player;
+
 	
-	int w, h;
+	
+	// int w, h;
 	// mlx.t_img = mlx_xpm_file_to_image(mlx.mlx, "./textures/wood.xpm", &w, &h);
 	// mlx.t_addr = mlx_get_data_addr(mlx.t_img, &mlx.t_bits_per_pixel, &mlx.t_line_length, &mlx.t_endian);
-	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.t_img, 0, 0);
+	// int i = 0;
+	// int j = 0;
+	// int buff[64][64];
 	
+	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.t_img, 100, 100);
+	// while (i < 64)
+	// {
+	// 	j = 0;
+	// 	while (j < 64)
+	// 	{
+	// 		buff[i][j] = get_color(&mlx, i, j);
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
+
+	// float x = 0;
+	// float y = 0;
+	// int width = 200;
+	// int height = 200;
+	// int tex_w = 64;
+	// int tex_h = 64;
+	
+	// float inc_w = 64.0 / 600.0;
+	// float inc_h = 64.0 / 600.0;
+	// int m = 0;
+
+	// int hi = 0;
+	// int wi = 0;
+	
+	// while ((int)x < 64)
+	// {
+	// 	y = 0;
+	// 	wi = 0;
+	// 	while ((int)y < 64)
+	// 	{
+	// 		mlx_pixel_put(mlx.mlx, mlx.win, (int)hi, (int)wi, buff[(int)x][(int)y]);
+			
+	// 		// j++;
+	// 		y = (y + inc_w);
+	// 		wi++;
+	// 	}
+	// 	x = (x + inc_h);
+	// 	hi++;
+	// }
+
 	draw_everything(&mlx, &player);
-	
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
