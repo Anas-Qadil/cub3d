@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/24 11:19:21 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/24 15:09:00 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct	s_data {
 	int		t_line_length;
 	int		t_endian;
 	int		colors[32][32];
-	int		buff[10000];
+	int		buff[4096];
 }				t_data;
 
 

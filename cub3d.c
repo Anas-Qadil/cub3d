@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/24 13:05:05 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/24 16:23:36 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,39 +124,39 @@ float ray_dist(float ax, float ay, float bx, float by, float ang)
 	return (sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
 }
 
+
+
 void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 {
 	int i = 0;
 	int j = 0;
-	float x = 0;
-	float y = 0;
-	int width = 200;
-	int height = 200;
-	int tex_w = 64;
-	int tex_h = 64;
+	int y = 0;
+	float ty = 0;
+	float  t_step = 64.0 / lineH;
 	
-	float inc_w = 64.0 / 8.0;
-	float inc_h = 64.0 / lineH;
-	int m = 0;
-
-	int hi = 0;
-	int wi = 0;
-	// printf("%f | %f", inc_w, inc_h);
+	// printf("%f\n", lineH);
+	// printf("%f", t_step);
 	// exit(0);
-	
 	while (i < lineH)
 	{
 		j = 1;
+		int c = mlx->buff[(int)ty * 64];
+		int color = c;
+		// printf("%d\n", c);
+		fflush(stdout);
 		while (j < 8)
 		{
-			int color = mlx->colors[0][j];
 			my_mlx_pixel_put(mlx, r * 8 - j + 1200, i + lineO, color);
 			j++;
 		}
 		i++;
+		ty += t_step;
+		printf("%d\n", (int)ty * 64);
 	}
 	
 }
+
+
 
 void	draw_floors(float x, float y, t_data *mlx)
 {
@@ -323,9 +323,10 @@ void    cast(t_data *mlx, float rayAngle)
 				dof += 1;
 			}
 		}
-
+		float shade = 1;
 		if (disV < disH)
 		{
+			shade = 0.5;
 			rx = vx;
 			ry = vy;
 			disT = disV;
@@ -352,14 +353,55 @@ void    cast(t_data *mlx, float rayAngle)
 		
 		float lineH = (mapS * 320 / disT); // 9edma kebrat deist between camera and wall kaykon lwall sghir
 		
+		float  ty_step = 64.0 / lineH;
+		float ty_off = 0;
+
 		if (lineH > 320)
 		{
+			ty_off = (lineH - 320) / 4.0;
 			lineH = 320;
 		}
 		
 		float lineO = 160 - (lineH / 2); // offset bach yrsem men lfo9 
-		// draw_line(r * 8  + 1200, lineO, r * 8 + 1200, lineH + lineO, mlx); // hna draw d 3d
-		draw_wall(r, lineO, lineH, mlx);
+		
+		// draw_wall(r, lineO, lineH, mlx); // hna 3d wall
+
+		// remove this
+		
+		int y = 0;
+		float ty = ty_off * ty_step;
+		
+		float tx;
+		if (shade == 1)
+			tx = (int) (rx / 4.0) % 64 ;if (ra > PI) {tx = 63 - tx;}
+		else
+			tx = (int) (ry / 4.0) % 64 ;if (ra > P2 && ra < P3) {tx = 63 - tx;}
+		
+		// printf("%f\n", lineH);
+		// printf("%f", t_step);
+		// exit(0);
+
+		ty += 32;
+		while (y < lineH)
+		{
+			int j = 0; 
+			int c = mlx->buff[(int)ty * 64 + (int)(tx)] * shade;
+			int color = c;
+			while (j < 8)
+			{
+				my_mlx_pixel_put(mlx, r * 8 - j + 1200, y + lineO, color);
+				j++;
+			}
+			y++;
+			ty += ty_step;
+			
+		}
+
+
+		//end
+
+
+		
 		rays[i].r = r;
 		rays[i].lineH = lineH;
 		rays[i].lineO = lineO;
@@ -368,12 +410,12 @@ void    cast(t_data *mlx, float rayAngle)
 		rays[i].y = ry;
 
 		//draw floors
-		int y = lineO + lineH;
-		while (y < 320)
+		int y123 = lineO + lineH;
+		while (y123 < 320)
 		{
-			draw_floors(r, y, mlx);
-			draw_ceiling(r, 320 - y, mlx);
-			y++;
+			draw_floors(r, y123, mlx);
+			draw_ceiling(r, 320 - y123, mlx);
+			y123++;
 		}
 		
 		
@@ -467,7 +509,7 @@ int	close_it(int keycode, t_data *mlx)
 void    draw_everything(t_data *mlx, t_player *player)
 {
 	int w, h;
-	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/WE.xpm", &w, &h);
+	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wood.xpm", &w, &h);
 	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
 	
 	int i = 0;
@@ -515,11 +557,6 @@ unsigned int	get_color(t_data *t, int x, int y)
 		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }
 
-void	print_the_pic()
-{
-	
-}
-
 int main(void)
 {
 	t_data		mlx;
@@ -540,24 +577,27 @@ int main(void)
 
 	
 	
-	// int w, h;
-	// mlx.t_img = mlx_xpm_file_to_image(mlx.mlx, "./textures/wood.xpm", &w, &h);
-	// mlx.t_addr = mlx_get_data_addr(mlx.t_img, &mlx.t_bits_per_pixel, &mlx.t_line_length, &mlx.t_endian);
-	// int i = 0;
-	// int j = 0;
-	// int buff[64][64];
+	int w, h;
+	mlx.t_img = mlx_xpm_file_to_image(mlx.mlx, "./textures/wood.xpm", &w, &h);
+	mlx.t_addr = mlx_get_data_addr(mlx.t_img, &mlx.t_bits_per_pixel, &mlx.t_line_length, &mlx.t_endian);
+	int i = 0;
+	int j = 0;
+	int buff[64][64];
 	
 	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.t_img, 100, 100);
-	// while (i < 64)
-	// {
-	// 	j = 0;
-	// 	while (j < 64)
-	// 	{
-	// 		buff[i][j] = get_color(&mlx, i, j);
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
+	int k = 0;
+	while (i < 64)
+	{
+		j = 0;
+		while (j < 64)
+		{
+			buff[i][j] = get_color(&mlx, i, j);
+			mlx.buff[k] = get_color(&mlx, i, j);
+			j++;
+			k++;
+		}
+		i++;
+	}
 
 	// float x = 0;
 	// float y = 0;
@@ -566,28 +606,29 @@ int main(void)
 	// int tex_w = 64;
 	// int tex_h = 64;
 	
-	// float inc_w = 64.0 / 600.0;
-	// float inc_h = 64.0 / 600.0;
-	// int m = 0;
+	// float inc_w = 64.0 / 500.0;
+	// float inc_h = 64.0 / 500.0;
 
 	// int hi = 0;
 	// int wi = 0;
-	
-	// while ((int)x < 64)
+	// i = 0;
+	// j = 1;
+	// int m = 0;
+	// int n = 0;
+	// while (i < 64 * 64)
 	// {
-	// 	y = 0;
-	// 	wi = 0;
-	// 	while ((int)y < 64)
+	// 	mlx_pixel_put(mlx.mlx, mlx.win, m, n, mlx.buff[i]);
+	// 	if (i % 64 == 0)
 	// 	{
-	// 		mlx_pixel_put(mlx.mlx, mlx.win, (int)hi, (int)wi, buff[(int)x][(int)y]);
-			
-	// 		// j++;
-	// 		y = (y + inc_w);
-	// 		wi++;
+	// 		n = 0;
+	// 		m++;
 	// 	}
-	// 	x = (x + inc_h);
-	// 	hi++;
+	// 	n++;
+	// 	i++;
+	// 	printf("%d | %d\n", m, n);
+	// 	fflush(stdout);
 	// }
+	
 
 	draw_everything(&mlx, &player);
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
