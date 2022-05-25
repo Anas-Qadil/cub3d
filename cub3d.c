@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/25 11:11:10 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/25 12:46:29 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ t_ray rays[60];
 const int TILE_SIZE = 64;
 const int MAP_NUM_ROWS = 11;
 const int MAP_NUM_COLS = 15;
-const float FOV_ANGLE = 60 * (PI / 180);
-const int NUM_RAYS = 60;
-const int WALL_STRIP_WIDTH = 1;
 
 
 int map[11][15] = {
@@ -49,9 +46,6 @@ void    drawMap2D(t_data *mlx)
 	int i = 0, j = 0;
 	int loopI = 0, loopJ = 0;
 	int saveI, saveJ;
-	mlx->img = mlx_new_image(mlx->mlx, 2000, 1000);
-	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length,
-								&mlx->endian);
 	mlx->x = 1;
 	mlx->y = 1;
 	while (i < MAP_NUM_ROWS)
@@ -134,15 +128,11 @@ void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 	float ty = 0;
 	float  t_step = 64.0 / lineH;
 	
-	// printf("%f\n", lineH);
-	// printf("%f", t_step);
-	// exit(0);
 	while (i < lineH)
 	{
 		j = 1;
 		int c = mlx->buff[(int)ty * 64];
 		int color = c;
-		// printf("%d\n", c);
 		fflush(stdout);
 		while (j < 8)
 		{
@@ -160,6 +150,7 @@ void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 
 void	draw_floors(float x, float y, t_data *mlx)
 {
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 + 1200, y, 0x00FFFFFF);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 1 + 1200, y, 0x00FFFFFF);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 2 + 1200, y, 0x00FFFFFF);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 3 + 1200, y, 0x00FFFFFF);
@@ -167,11 +158,11 @@ void	draw_floors(float x, float y, t_data *mlx)
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 5 + 1200, y, 0x00FFFFFF);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 6 + 1200, y, 0x00FFFFFF);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 7 + 1200, y, 0x00FFFFFF);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 + 1200, y, 0x00FFFFFF);
 }
 
 void	draw_ceiling(float x, float y, t_data *mlx)
 {
+	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 + 1200, y, 0x0087CEEB);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 1 + 1200, y, 0x0087CEEB);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 2 + 1200, y, 0x0087CEEB);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 3 + 1200, y, 0x0087CEEB);
@@ -179,7 +170,6 @@ void	draw_ceiling(float x, float y, t_data *mlx)
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 5 + 1200, y, 0x0087CEEB);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 6 + 1200, y, 0x0087CEEB);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 7 + 1200, y, 0x0087CEEB);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 + 1200, y, 0x0087CEEB);
 }
 
 void	draw_wall_textures()
@@ -362,7 +352,7 @@ void    cast(t_data *mlx, float rayAngle)
 			lineH = 320;
 		}
 		
-		float lineO = 160 - (lineH / 2); // offset bach yrsem men lfo9 
+		float lineO = 160 - (lineH / 2); // offset bach yrsem men lfo9
 		
 		// draw_wall(r, lineO, lineH, mlx); // hna 3d wall
 
@@ -486,10 +476,23 @@ int	close_it(int keycode, t_data *mlx)
 			py -= pdy;
 			
 	}
+	// open door
+	if (keycode == 49)
+	{
+		int xo = 0; if (pdx < 0) {xo = -25;} else {xo = 25;}
+		int yo = 0; if (pdy < 0) {yo  = -25;} else {yo = 25;}
+		int ipx = px / 64.0; ipx_add_xo = (px + xo) / 64.0;
+		int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0;
+		map[ipy_add_yo][ipx_add_xo] = 0;
+		printf("%d | %d\n", ipy_add_yo, ipx_add_xo);
+		printf("%d", keycode);
+		drawMap2D(mlx);
+	}
 
 	// render images
 	if (keycode != 0)
 		close_it(0, mlx);
+	
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player->img, px, py);
 	cast(mlx, 0);
@@ -505,21 +508,11 @@ void    draw_everything(t_data *mlx, t_player *player)
 	int w, h;
 	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wall2.xpm", &w, &h);
 	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
-	
-	int i = 0;
-	int j = 0;
-	int k = 0;
 
-	// while (i < 64)
-	// {
-	// 	j = 0;
-	// 	while (j < 64)
-	// 	{
-	// 		mlx->colors[i][j] = get_color(mlx, i, j);
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
+	mlx->img = mlx_new_image(mlx->mlx, 2000, 1000);
+	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length,
+								&mlx->endian);
+	
 	drawMap2D(mlx);
 	draw_player(player);
 	px = player->x;
