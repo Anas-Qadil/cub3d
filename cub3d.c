@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/24 16:23:36 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/25 11:11:10 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,13 +358,15 @@ void    cast(t_data *mlx, float rayAngle)
 
 		if (lineH > 320)
 		{
-			ty_off = (lineH - 320) / 4.0;
+			ty_off = (lineH - 320) / 2.0;
 			lineH = 320;
 		}
 		
 		float lineO = 160 - (lineH / 2); // offset bach yrsem men lfo9 
 		
 		// draw_wall(r, lineO, lineH, mlx); // hna 3d wall
+
+
 
 		// remove this
 		
@@ -376,16 +378,11 @@ void    cast(t_data *mlx, float rayAngle)
 			tx = (int) (rx / 4.0) % 64 ;if (ra > PI) {tx = 63 - tx;}
 		else
 			tx = (int) (ry / 4.0) % 64 ;if (ra > P2 && ra < P3) {tx = 63 - tx;}
-		
-		// printf("%f\n", lineH);
-		// printf("%f", t_step);
-		// exit(0);
-
-		ty += 32;
 		while (y < lineH)
 		{
 			int j = 0; 
-			int c = mlx->buff[(int)ty * 64 + (int)(tx)] * shade;
+			// int c = mlx->colors[(int)ty][(int)tx];
+			int c = mlx->buff[((int)(ty) * 64) + (int)(tx)];
 			int color = c;
 			while (j < 8)
 			{
@@ -442,6 +439,12 @@ void    cast(t_data *mlx, float rayAngle)
 int	close_it(int keycode, t_data *mlx)
 {
 	int x = px;
+	int xo = 0;
+	if (pdx < 0) {xo = -20;} else {xo = 20;}
+	int yo = 0;if(pdy < 0) {yo = -20;} else yo = 20;
+	int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0, ipx_sub_xo = (px - xo)/ 64.0;
+	int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0, ipy_sub_yo = (py - yo) / 64.0;
+	
 	int y = py;
 	mlx_clear_window(mlx->mlx, mlx->win);
 	if (keycode == left_arrow)
@@ -460,11 +463,6 @@ int	close_it(int keycode, t_data *mlx)
 	}
 	if (keycode == right_arrow)
 	{
-		x = (((x + 10) + pdx) / 64);
-		y = (y + pdy)/ 64;
-		
-		mlx->player->turnDirection = 1;
-
 		pa += 0.1 ; 
 		if(pa > 2 * PI)
 			pa -= 2 * PI;
@@ -474,32 +472,28 @@ int	close_it(int keycode, t_data *mlx)
 	}
 	if (keycode == top_arrow)
 	{
-		mlx->player->walkDirection = 1;
-		x = ((x) / 64);
-		y = ((int)py) / 64;
-
-		if (map[y][x] == 0)
-		{
+		if (map[ipy][ipx_add_xo] == 0)
 			px += pdx;
-			py+= pdy;
-		}
+		if (map[ipy_add_yo][ipx] == 0)
+			py += pdy;
+			
 	}
 	if (keycode == bottom_arrow)
 	{
-		mlx->player->walkDirection = -1;
-		x = (((x) - pdx) / 64);
-		y = (y - pdy) / 64;
-		if (map[y][x] == 0)
-		{
-			px -= pdx; py-= pdy;
-		}
+		if (map[ipy][ipx_sub_xo] == 0)
+			px -= pdx;
+		if (map[ipy_sub_yo][ipx] == 0)
+			py -= pdy;
+			
 	}
 
 	// render images
-	
+	if (keycode != 0)
+		close_it(0, mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player->img, px, py);
 	cast(mlx, 0);
+	
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->t_img, 1, 1);
 	
 	
@@ -509,23 +503,23 @@ int	close_it(int keycode, t_data *mlx)
 void    draw_everything(t_data *mlx, t_player *player)
 {
 	int w, h;
-	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wood.xpm", &w, &h);
+	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wall2.xpm", &w, &h);
 	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
 	
 	int i = 0;
 	int j = 0;
 	int k = 0;
 
-	while (i < 64)
-	{
-		j = 0;
-		while (j < 64)
-		{
-			mlx->colors[i][j] = get_color(mlx, i, j);
-			j++;
-		}
-		i++;
-	}
+	// while (i < 64)
+	// {
+	// 	j = 0;
+	// 	while (j < 64)
+	// 	{
+	// 		mlx->colors[i][j] = get_color(mlx, i, j);
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
 	drawMap2D(mlx);
 	draw_player(player);
 	px = player->x;
@@ -578,7 +572,7 @@ int main(void)
 	
 	
 	int w, h;
-	mlx.t_img = mlx_xpm_file_to_image(mlx.mlx, "./textures/wood.xpm", &w, &h);
+	mlx.t_img = mlx_xpm_file_to_image(mlx.mlx, "./textures/wall2.xpm", &w, &h);
 	mlx.t_addr = mlx_get_data_addr(mlx.t_img, &mlx.t_bits_per_pixel, &mlx.t_line_length, &mlx.t_endian);
 	int i = 0;
 	int j = 0;
