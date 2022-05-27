@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:36:48 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/27 15:33:59 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/27 17:00:55 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 float px, py, pdx, pdy, pa = 0;
 int mapS = 64, mapY = 15, mapX = 11;
 t_ray rays[60];
-
-// pikuma calculation and vars
 
 const int TILE_SIZE = 64;
 const int MAP_NUM_ROWS = 11;
@@ -149,35 +147,6 @@ void	draw_ceiling(float x, float y, t_data *mlx)
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 5 + 1200, y, 0x0087CEEB);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 6 + 1200, y, 0x0087CEEB);
 	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 7 + 1200, y, 0x0087CEEB);
-}
-
-void	draw_wall_textures()
-{
-	int i = 0;
-	int j = 0;
-	int i2 = 0;
-	int j2 = 0;
-	
-	float inc_w = 64.0 / 8.0;
-	int m = 0;
-
-	int hi = 0;
-	int wi = 0;
-	
-	while (i < 60)
-	{
-		i2 = 0;
-		j2 = 0;
-		while (i2 < rays[i].lineH)
-		{
-			int color = rays[i].data->colors[(int)((rays[i].x * 64) / 100)][0];
-			my_mlx_pixel_put(rays[i].data, rays[i].r * 8 - j2 + 1200, i2 + rays[i].lineO, color);
-			i2++;
-		}
-		printf("%f | %f\n", rays[i].x / 64.0, rays[i].y / 64.0);
-		fflush(stdout);
-		i++;
-	}
 }
 
 void    cast(t_data *mlx, float rayAngle)
@@ -341,26 +310,26 @@ int	close_it(int keycode, t_data *mlx)
 	mlx_clear_window(mlx->mlx, mlx->win);
 	if (keycode == left_arrow)
 	{
-		pa+=0.2*15; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));
+		pa+=0.2*30; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));
 	}
 	if (keycode == right_arrow)
 	{
-		pa-=0.2*15; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));
+		pa-=0.2*30; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));
 	}
 	if (keycode == top_arrow)
 	{
 		if (map[ipy][ipx_add_xo] == 0)
-			px += pdx * 6;
+			px += pdx * 12;
 		if (map[ipy_add_yo][ipx] == 0)
-			py += pdy * 6;
+			py += pdy * 12;
 			
 	}
 	if (keycode == bottom_arrow)
 	{
 		if (map[ipy][ipx_sub_xo] == 0)
-			px -= pdx * 6;
+			px -= pdx * 12;
 		if (map[ipy_sub_yo][ipx] == 0)
-			py -= pdy * 6;
+			py -= pdy * 12;
 			
 	}
 	// open door
