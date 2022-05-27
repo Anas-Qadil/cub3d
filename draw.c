@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:24:19 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/20 13:07:33 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/25 14:34:17 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void draw_line(float ax, float ay, float bx, float by, t_data *param, int color)
 	float	dx;
 	float	dy;
 	float	max;
-    int i = 0;
     
 
 	dx = bx - ax;
@@ -53,11 +52,11 @@ void draw_line(float ax, float ay, float bx, float by, t_data *param, int color)
 		mlx_pixel_put(param->mlx, param->win, ax, ay, color);
 		ax = ax + dx;
 		ay = ay + dy;
-        i++;
 		if (ax > param->win_x || ay > param->win_y || ay < 0 || ax < 0)
 			break ;
 	}
 }
+
 void draw_line_wall(float ax, float ay, float bx, float by, t_data *param, int color)
 {
 	float	dx;

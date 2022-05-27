@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/24 15:09:00 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/26 09:42:14 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 #define bottom_arrow 125
 
 
+// pikuma calculation and vars
+
+
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -27,6 +33,7 @@
 #include <string.h>
 
 typedef struct	s_data t_data;
+
 
 typedef struct	s_player {
 	void	*img;
@@ -61,6 +68,7 @@ typedef struct s_ray
 	int 	lineO;
 	t_data  *data;
 } t_ray;
+t_ray rays[60];
 
 typedef struct	s_data {
 	void	*img;
@@ -120,6 +128,12 @@ void draw_line(float ax, float ay, float bx, float by, t_data *param, int color)
 void draw_line_wall(float ax, float ay, float bx, float by, t_data *param, int color);
 
 unsigned int	get_color(t_data *t, int x, int y);
+float degToRad(float a);
+float FixAng(float a);
+float distance(float ax, float ay, float bx, float by, float ang);
+void    cast(t_data *mlx, float rayAngle);
+void	draw_floors(float x, float y, t_data *mlx);
+void	draw_ceiling(float x, float y, t_data *mlx);
 
 #endif
 

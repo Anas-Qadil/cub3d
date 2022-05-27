@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:25:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/14 10:07:51 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/26 08:52:39 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,25 @@ float	ft_abs(float dx, float dy)
 // 	}
 // 	if (nb < 10) ft_putchar(nb + 48);
 // }
+
+float degToRad(float a)
+{ 
+	return a*M_PI/180.0;
+}
+
+float FixAng(float a)
+{ 
+	if(a>359)
+	{ 
+		a-=360;
+	} 
+	if(a<0)
+	{
+		a+=360;
+	} 
+	return (a);
+}
+float distance(float ax, float ay, float bx, float by, float ang)
+{ 
+	return cos(degToRad(ang))*(bx-ax)-sin(degToRad(ang))*(by-ay);
+}
