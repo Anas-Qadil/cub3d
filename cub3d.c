@@ -10,12 +10,18 @@ t_ray rays[60];
 
 // pikuma calculation and vars
 
-const int TILE_SIZE = 64;
+const int TILE_SIZE = 16;
+
+const int square_size = 64;
+
 const int MAP_NUM_ROWS = 11;
 const int MAP_NUM_COLS = 15;
 const float FOV_ANGLE = 60 * (PI / 180);
 const int NUM_RAYS = 60;
 const int WALL_STRIP_WIDTH = 1;
+
+int cast_w = 945;
+int cast_h = 640;
 
 
 int map[11][15] = {
@@ -36,12 +42,8 @@ void    drawMap2D(t_data *mlx)
 {
 	int i = 0, j = 0;
 	int loopI = 0, loopJ = 0;
-	int saveI, saveJ;
-	mlx->img = mlx_new_image(mlx->mlx, 2000, 1000);
-	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length,
-								&mlx->endian);
-	mlx->x = 1;
-	mlx->y = 1;
+	int saveI = 0, saveJ = 0;
+	
 	while (i < MAP_NUM_ROWS)
 	{
 		j = 0;
@@ -100,18 +102,13 @@ void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 	int j = 0;
 	int y = 0;
 	float ty = 0;
-	float  t_step = 64.0 / lineH;
-	
-	// printf("%f\n", lineH);
-	// printf("%f", t_step);
-	// exit(0);
+	float  t_step = (float)square_size / lineH;
+
 	while (i < lineH)
 	{
 		j = 1;
 		int c = mlx->buff[(int)ty * 64];
 		int color = c;
-		// printf("%d\n", c);
-		fflush(stdout);
 		while (j < 8)
 		{
 			my_mlx_pixel_put(mlx, r * 8 - j + 1200, i + lineO, color);
@@ -119,7 +116,6 @@ void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 		}
 		i++;
 		ty += t_step;
-		printf("%d\n", (int)ty * 64);
 	}
 	
 }
@@ -128,69 +124,30 @@ void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
 
 void	draw_floors(float x, float y, t_data *mlx)
 {
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 1 + 1200, y, 0x00FFFFFF);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 2 + 1200, y, 0x00FFFFFF);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 3 + 1200, y, 0x00FFFFFF);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 4 + 1200, y, 0x00FFFFFF);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 5 + 1200, y, 0x00FFFFFF);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 6 + 1200, y, 0x00FFFFFF);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 7 + 1200, y, 0x00FFFFFF);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 + 1200, y, 0x00FFFFFF);
+	int i = -1;
+	int width = 16;
+
+	while (++i < width)
+		my_mlx_pixel_put_cast(mlx, (int)(x * width) - i, y, 0x00FFFFFF);
 }
 
 void	draw_ceiling(float x, float y, t_data *mlx)
 {
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 1 + 1200, y, 0x0087CEEB);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 2 + 1200, y, 0x0087CEEB);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 3 + 1200, y, 0x0087CEEB);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 4 + 1200, y, 0x0087CEEB);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 5 + 1200, y, 0x0087CEEB);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 6 + 1200, y, 0x0087CEEB);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 - 7 + 1200, y, 0x0087CEEB);
-	mlx_pixel_put(mlx->mlx, mlx->win, x * 8 + 1200, y, 0x0087CEEB);
-}
+	int i = -1;
+	int width = 16;
 
-void	draw_wall_textures()
-{
-	int i = 0;
-	int j = 0;
-	int i2 = 0;
-	int j2 = 0;
-	float x = 0;
-	float y = 0;
-	int width = 200;
-	int height = 200;
-	int tex_w = 64;
-	int tex_h = 64;
-	
-	float inc_w = 64.0 / 8.0;
-	// float inc_h = 64.0 / lineH;
-	int m = 0;
-
-	int hi = 0;
-	int wi = 0;
-	
-	while (i < 60)
-	{
-		// draw_wall(rays[i].r, rays[i].lineO, rays[i].lineH, rays[i].mlx);
-		i2 = 0;
-		j2 = 0;
-		while (i2 < rays[i].lineH)
-		{
-			int color = rays[i].data->colors[(int)((rays[i].x * 64) / 100)][0];
-			my_mlx_pixel_put(rays[i].data, rays[i].r * 8 - j2 + 1200, i2 + rays[i].lineO, color);
-			i2++;
-		}
-		printf("%f | %f\n", rays[i].x / 64.0, rays[i].y / 64.0);
-		fflush(stdout);
-		i++;
-	}
+	while (++i < width)
+		my_mlx_pixel_put_cast(mlx, (int)(x * width) - i, y, 0x0087CEEB);
 }
 
 void    cast(t_data *mlx, float rayAngle)
 {
+	int rayXpos[60];
+	int rayYpos[60];
+	int playerXpos[60];
+	int playerYpos[60];
 	int color = 0x00e83838;
-	int max_ray_checks = 16;
+	int max_ray_checks = 10;
 	int r = 0, mx, my, mp, dof;
 	float disT;
 	float rx, ry, ra, xo, yo;
@@ -209,16 +166,16 @@ void    cast(t_data *mlx, float rayAngle)
 		dof = 0; // to check 8 checks bach mati7ch f infinit loop
 		if (ra > PI) // ila kan ray angle lte7t PI or ray kaychof lte7t
 		{
-			ry = (floor((int)py / 64) * 64) - 0.0001; // to calculate the first ry intercept on ry : kol square is multiple of 64 kan9semo 3la 64 o kandiro floor bach yhbat lvalue then kandorbo f 64 bach tpushi lvalue
+			ry = (floor((int)py / square_size) * square_size) - 0.0001; // to calculate the first ry intercept on ry : kol square is multiple of 64 kan9semo 3la 64 o kandiro floor bach yhbat lvalue then kandorbo f 64 bach tpushi lvalue
 			rx = (py - ry) * aTan + px;  // to calculate the first rx intercept on rx
-			yo = -64;
+			yo = -square_size;
 			xo = -yo * aTan;
 		}
 		if (ra < PI) // ila kan ray kaychof lfo9
 		{
-			ry = (floor((int) py / 64) * 64) + 64; // to calculate the first ry intercept on ry
+			ry = (floor((int) py / square_size) * square_size) + square_size; // to calculate the first ry intercept on ry
 			rx = (py - ry) * aTan  + px; // to calculate the first rx intercept on rx !!!
-			yo = 64; // to move to the next intercept on yo
+			yo = square_size; // to move to the next intercept on yo
 			xo = -yo * aTan; // to move to the next intercept on xo
 		}
 		if (ra == 0 || ra == PI) // hna ila kan ray angle hiya 0
@@ -229,17 +186,15 @@ void    cast(t_data *mlx, float rayAngle)
 		}
 		while (dof < max_ray_checks)
 		{
-			mx = (int)(rx) / 64;
-			my = (int)(ry) / 64;
+			mx = (int)(rx) / square_size;
+			my = (int)(ry) / square_size;
 			mp = my * mapX + mx;
-			
 			if (mp > 0 && mp < mapX * mapY && map[my][mx] == 1)
 			{
 				hx = rx;
 				hy = ry;
 				disH = ray_dist(px, py, hx, hy, ra);
 				dof = max_ray_checks;
-				
 			}
 			else 
 			{
@@ -248,22 +203,21 @@ void    cast(t_data *mlx, float rayAngle)
 				dof += 1;
 			}
 		}
-	
 		// vertical lines  || hna gha3 dakchi l chra7t lfo9 9elbo finma kayna chi x dir y
 		float disV = 1000000.0, vx = px, vy = py;
 		dof = 0;
 		float nTan = -tan(ra);
 		if (ra > P2 && ra < P3) 
 		{
-			rx = (((int)px / 64) * 64) - 0.0001;
+			rx = (((int)px / square_size) * square_size) - 0.0001;
 			ry = (px - rx) * nTan + py;
-			xo = -64;
+			xo = -square_size;
 			yo = -xo * nTan;
 		}
 		if (ra < P2 || ra > P3) {
-			rx = (((int) px / 64) * 64) + 64;
+			rx = (((int) px / square_size) * square_size) + square_size;
 			ry = (px - rx) * nTan + py;
-			xo = 64;
+			xo = square_size;
 			yo = -xo * nTan;
 		}
 		if (ra == 0 || ra == PI)
@@ -274,8 +228,8 @@ void    cast(t_data *mlx, float rayAngle)
 		}
 		while (dof < max_ray_checks)
 		{
-			mx = (int)(rx) / 64;
-			my = (int)(ry) / 64;
+			mx = (int)(rx) / square_size;
+			my = (int)(ry) / square_size;
 			mp = my * mapX + mx;
 			if (mp > 0 && mp < mapX * mapY && map[my][mx] == 1)
 			{
@@ -305,7 +259,12 @@ void    cast(t_data *mlx, float rayAngle)
 			ry = hy;
 			disT = disH;
 		}
-		draw_line(px, py, rx, ry, mlx, color); // hna l cast d ray 
+		draw_line_cast(px / 4, py / 4, rx / 4, ry / 4, mlx, color); // hna l cast d ray 
+		rayXpos[i] = rx / 4;
+		rayYpos[i] = ry / 4;
+		playerXpos[i] = px / 4;
+		playerYpos[i] = py / 4;
+		// my_mlx_pixel_put_cast(mlx, r * width - j, y + lineO, color);
 		
 		float ca = pa - ra;
 		if (ca < 0) 
@@ -319,21 +278,18 @@ void    cast(t_data *mlx, float rayAngle)
 		
 		disT = disT * cos(ca); // fish eye fix
 		
-		float lineH = (mapS * 320 / disT); // 9edma kebrat deist between camera and wall kaykon lwall sghir
+		float lineH = (mapS * 640 / disT); // 9edma kebrat deist between camera and wall kaykon lwall sghir
 		
-		float  ty_step = 64.0 / lineH;
+		float  ty_step = (float)square_size / lineH; // 64.0
 		float ty_off = 0;
 
-		if (lineH > 320)
+		if (lineH > 640)
 		{
-			ty_off = (lineH - 320) / 2.0;
-			lineH = 320;
+			ty_off = (lineH - 640) / 2.0;
+			lineH = 640;
 		}
 		
-		float lineO = 160 - (lineH / 2); // offset bach yrsem men lfo9 
-		
-		// draw_wall(r, lineO, lineH, mlx); // hna 3d wall
-
+		float lineO = 320 - (lineH / 2); // offset bach yrsem men lfo9 
 
 
 		// remove this
@@ -343,18 +299,19 @@ void    cast(t_data *mlx, float rayAngle)
 		
 		float tx;
 		if (shade == 1)
-			tx = (int) (rx / 4.0) % 64 ;if (ra > PI) {tx = 63 - tx;}
+			tx = (int) (rx / 4.0) % square_size ;if (ra > PI) {tx = square_size - 1 - tx;}
 		else
-			tx = (int) (ry / 4.0) % 64 ;if (ra > P2 && ra < P3) {tx = 63 - tx;}
+			tx = (int) (ry / 4.0) % square_size ;if (ra > P2 && ra < P3) {tx = square_size - 1 - tx;}
 		while (y < lineH)
 		{
 			int j = 0; 
 			// int c = mlx->colors[(int)ty][(int)tx];
-			int c = mlx->buff[((int)(ty) * 64) + (int)(tx)];
+			int c = mlx->buff[((int)(ty) * square_size) + (int)(tx)];
 			int color = c;
-			while (j < 8)
+			int width = 16;
+			while (j < width)
 			{
-				my_mlx_pixel_put(mlx, r * 8 - j + 1200, y + lineO, color);
+				my_mlx_pixel_put_cast(mlx, r * width - j, y + lineO, color);
 				j++;
 			}
 			y++;
@@ -373,13 +330,14 @@ void    cast(t_data *mlx, float rayAngle)
 		rays[i].data = mlx;
 		rays[i].x = rx;
 		rays[i].y = ry;
+		
 
 		//draw floors
 		int y123 = lineO + lineH;
-		while (y123 < 320)
+		while (y123 < 640)
 		{
 			draw_floors(r, y123, mlx);
-			draw_ceiling(r, 320 - y123, mlx);
+			draw_ceiling(r, 640 - y123, mlx);
 			y123++;
 		}
 		
@@ -396,13 +354,16 @@ void    cast(t_data *mlx, float rayAngle)
 		r++;
 		i++;
 	}
-	// draw_wall_textures();
+	draw_player(mlx);
+	drawMap2D(mlx);
+	// draw rays
+	i = 0;
+	while (i < 60)
+	{
+		draw_line_cast(playerXpos[i], playerYpos[i], rayXpos[i], rayYpos[i], mlx, color);
+		i++;
+	}
 }
-
-// cast rays
-
-
-// end
 
 int	close_it(int keycode, t_data *mlx)
 {
@@ -410,15 +371,15 @@ int	close_it(int keycode, t_data *mlx)
 	int xo = 0;
 	if (pdx < 0) {xo = -20;} else {xo = 20;}
 	int yo = 0;if(pdy < 0) {yo = -20;} else yo = 20;
-	int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0, ipx_sub_xo = (px - xo)/ 64.0;
-	int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0, ipy_sub_yo = (py - yo) / 64.0;
+	int ipx = px / (float)square_size, ipx_add_xo = (px + xo) / (float)square_size, ipx_sub_xo = (px - xo)/ (float)square_size; // 64.0
+	int ipy = py / (float)square_size, ipy_add_yo = (py + yo) / (float)square_size, ipy_sub_yo = (py - yo) / (float)square_size; // 64.0
 	
 	int y = py;
 	mlx_clear_window(mlx->mlx, mlx->win);
 	if (keycode == left_arrow)
 	{
-		x = (((x) - pdx) / 64);
-		y = (y - pdy) / 64;
+		x = (((x) - pdx) / square_size);
+		y = (y - pdy) / square_size;
 
 		mlx->player->turnDirection = -1;
 		
@@ -458,45 +419,25 @@ int	close_it(int keycode, t_data *mlx)
 	// render images
 	if (keycode != 0)
 		close_it(0, mlx);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player->img, px, py);
+	
 	cast(mlx, 0);
-	
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->t_img, 1, 1);
-	
-	
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->cast_img, 0, 0);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
+
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player_img, px / 4, py / 4);
 	return (0);
 }
 
-void    draw_everything(t_data *mlx, t_player *player)
+void    draw_everything(t_data *mlx)
 {
-	int w, h;
-	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wall2.xpm", &w, &h);
-	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
-	
-	int i = 0;
-	int j = 0;
-	int k = 0;
-
-	// while (i < 64)
-	// {
-	// 	j = 0;
-	// 	while (j < 64)
-	// 	{
-	// 		mlx->colors[i][j] = get_color(mlx, i, j);
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
 	drawMap2D(mlx);
-	draw_player(player);
-	px = player->x;
-	py = player->y;
-	
+	draw_player(mlx);
+
+	// cast(mlx, 0);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->cast_img, 0, 0);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, player->img, player->x, player->y);
-	cast(mlx, 0);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->t_img, 1, 1);
+	
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player_img, px / 4, py / 4);
 }
 
 void    playerInit(t_player *player)
@@ -519,11 +460,36 @@ unsigned int	get_color(t_data *t, int x, int y)
 		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }
 
+void	init(t_data *mlx, t_player *player)
+{
+	int w, h;
+	// texture
+	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wall2.xpm", &w, &h);
+	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
+
+	// map img
+	mlx->img = mlx_new_image(mlx->mlx, 240, 175);
+	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length,
+								&mlx->endian);
+	
+	// 3d img
+	mlx->cast_img = mlx_new_image(mlx->mlx, cast_w, cast_h);
+	mlx->cast_addr = mlx_get_data_addr(mlx->cast_img, &mlx->cast_bits_per_pixel, &mlx->cast_line_length,
+								&mlx->cast_endian);
+
+	//player
+	mlx->player_img = mlx_new_image(mlx->mlx, 5, 5);
+
+    mlx->player_addr = mlx_get_data_addr(mlx->player_img, &mlx->player_bits_per_pixel, &mlx->player_line_length,
+								&mlx->player_endian);
+	px = 150;
+	py = 600;
+}
+
 int main(void)
 {
 	t_data		mlx;
 	t_player	player;
-	int buffer[64] = {0};
 	
 	playerInit(&player);
 	pdx = cos(pa) * 5;
@@ -531,7 +497,7 @@ int main(void)
 	mlx.mlx = mlx_init();
 	mlx.win_x = 2000;
 	mlx.win_y = 1000;
-	mlx.win = mlx_new_window(mlx.mlx, 2000, 1000, "Cub3d");
+	mlx.win = mlx_new_window(mlx.mlx, 945, 640, "Cub3d");
 	player.mlx = mlx.mlx;
 	player.win = mlx.win;
 
@@ -544,55 +510,21 @@ int main(void)
 	mlx.t_addr = mlx_get_data_addr(mlx.t_img, &mlx.t_bits_per_pixel, &mlx.t_line_length, &mlx.t_endian);
 	int i = 0;
 	int j = 0;
-	int buff[64][64];
 	
-	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.t_img, 100, 100);
 	int k = 0;
 	while (i < 64)
 	{
 		j = 0;
 		while (j < 64)
 		{
-			buff[i][j] = get_color(&mlx, i, j);
 			mlx.buff[k] = get_color(&mlx, i, j);
 			j++;
 			k++;
 		}
 		i++;
 	}
-
-	// float x = 0;
-	// float y = 0;
-	// int width = 200;
-	// int height = 200;
-	// int tex_w = 64;
-	// int tex_h = 64;
-	
-	// float inc_w = 64.0 / 500.0;
-	// float inc_h = 64.0 / 500.0;
-
-	// int hi = 0;
-	// int wi = 0;
-	// i = 0;
-	// j = 1;
-	// int m = 0;
-	// int n = 0;
-	// while (i < 64 * 64)
-	// {
-	// 	mlx_pixel_put(mlx.mlx, mlx.win, m, n, mlx.buff[i]);
-	// 	if (i % 64 == 0)
-	// 	{
-	// 		n = 0;
-	// 		m++;
-	// 	}
-	// 	n++;
-	// 	i++;
-	// 	printf("%d | %d\n", m, n);
-	// 	fflush(stdout);
-	// }
-	
-
-	draw_everything(&mlx, &player);
+	init(&mlx, &player);
+	draw_everything(&mlx);
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
