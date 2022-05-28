@@ -139,8 +139,149 @@ void	draw_ceiling(float x, float y, t_data *mlx)
 	while (++i < width)
 		my_mlx_pixel_put_cast(mlx, (int)(x * width) - i, y, 0x0087CEEB);
 }
-
 void    cast(t_data *mlx, float rayAngle)
+{
+	int color = 0x00e83838;
+	int rayXpos[60];
+	int rayYpos[60];
+	int playerXpos[60];
+	int playerYpos[60];
+	int max_ray_checks = 10;
+	int r = 0, mx, my, mp, dof;
+	float disT;
+	float rx, ry, ra, xo, yo, disV, disH, vx, vy;
+	ra=FixAng(pa+30);
+	int i = 0;
+	float hx = px, hy = py;
+	while (r < 60)
+	{
+		disV = 1000000;
+		float Tan=tan(degToRad(ra));
+		dof = 0;
+		if(cos(degToRad(ra)) > 0.001){ rx=(((int)px>>6)<<6)+64;      ry=(px-rx)*Tan+py; xo= 64; yo=-xo*Tan;}//looking left
+		else if(cos(degToRad(ra)) < -0.001){ rx=(((int)px>>6)<<6) -0.0001; ry=(px-rx)*Tan+py; xo=-64; yo=-xo*Tan;}//looking right
+		else { rx=px; ry=py; dof=max_ray_checks;}
+		
+		while (dof < max_ray_checks)
+		{
+			mx = (int)(rx) / 64;
+			my = (int)(ry) / 64;
+			mp = my * mapX + mx;
+			if (mp > 0 && mp < mapX * mapY && map[my][mx] == 1)
+			{
+				disV = cos(degToRad(ra))*(rx-px)-sin(degToRad(ra))*(ry-py);
+				dof = max_ray_checks;
+			}
+			else 
+			{
+				rx += xo;
+				ry += yo;
+				dof += 1;
+			}
+		}
+		vx = rx; vy = ry;
+		
+		dof = 0; disH = 100000;
+		Tan=1.0/Tan;
+		if (sin(degToRad(ra))> 0.001) 
+		{
+			ry=(((int)py>>6)<<6) -0.0001; rx=(py-ry)*Tan+px; yo=-64; xo=-yo*Tan;
+		}
+		else if (sin(degToRad(ra))<-0.001) {
+			ry=(((int)py>>6)<<6)+64;      rx=(py-ry)*Tan+px; yo= 64; xo=-yo*Tan;
+		}
+		else
+		{
+			rx = px;
+			ry = py;
+			dof = max_ray_checks;
+		}
+		while (dof < max_ray_checks)
+		{
+			mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*mapX+mx; 
+			if (mp > 0 && mp < mapX * mapY && map[my][mx] == 1)
+			{
+				dof = max_ray_checks;
+				disH=cos(degToRad(ra))*(rx-px)-sin(degToRad(ra))*(ry-py);
+			}
+			else
+			{
+				rx += xo;
+				ry += yo;
+				dof += 1;
+			}
+		}
+		float shade = 1;
+		if (disV < disH)
+		{
+			shade = 0.5;
+			rx = vx;
+			ry = vy;
+			disH = disV;
+		}
+		
+		rayXpos[i] = rx / 4;
+		rayYpos[i] = ry / 4;
+		playerXpos[i] = px / 4;
+		playerYpos[i] = py / 4;
+		
+  		int ca=FixAng(pa-ra); disH=disH*cos(degToRad(ca));
+		int lineH = (mapS*640)/(disH); 
+		float ty_step=64.0/(float)lineH; 
+		float ty_off=0; 
+		if(lineH>640){ ty_off=(lineH-640)/2.0; lineH=640;}  //line height and limit
+		int lineOff = 320 - (lineH>>1);
+		
+		int y = 0;
+		float ty = ty_off * ty_step;
+		
+		float tx;
+		if(shade==1){ tx=(int)(rx/2.0)%64; if(ra>180){ tx=63-tx;}}  
+  		else        { tx=(int)(ry/2.0)%64; if(ra>90 && ra<270){ tx=63-tx;}}
+		  
+		while (y < lineH)
+		{
+			int j = 0;
+			int c = mlx->buff[((int)(ty) * 64) + (int)(tx)];
+			int color = c;
+			int width = 16;
+			while (j < width)
+			{
+				my_mlx_pixel_put_cast(mlx, r * width - j , y + lineOff, color);
+				j++;
+			}
+			y++;
+			ty += ty_step;
+			
+		}
+
+
+
+		//draw floors
+		int y123 = lineOff + lineH;
+		while (y123 < 640)
+		{
+			draw_floors(r, y123, mlx);
+			draw_ceiling(r, 640 - y123, mlx);
+			y123++;
+		}
+		
+		ra=FixAng(ra-1);  
+		r++;
+		i++;
+	}
+	draw_player(mlx);
+	drawMap2D(mlx);
+	// draw rays
+	i = 0;
+	while (i < 50)
+	{
+		draw_line_cast(playerXpos[i], playerYpos[i], rayXpos[i], rayYpos[i], mlx, color);
+		i++;
+	}
+}
+
+void    cast_ray(t_data *mlx, float rayAngle)
 {
 	int rayXpos[60];
 	int rayYpos[60];
@@ -323,16 +464,6 @@ void    cast(t_data *mlx, float rayAngle)
 		//end
 
 
-		
-		rays[i].r = r;
-		rays[i].lineH = lineH;
-		rays[i].lineO = lineO;
-		rays[i].data = mlx;
-		rays[i].x = rx;
-		rays[i].y = ry;
-		
-
-		//draw floors
 		int y123 = lineO + lineH;
 		while (y123 < 640)
 		{
@@ -354,18 +485,79 @@ void    cast(t_data *mlx, float rayAngle)
 		r++;
 		i++;
 	}
-	draw_player(mlx);
-	drawMap2D(mlx);
-	// draw rays
-	i = 0;
-	while (i < 60)
-	{
-		draw_line_cast(playerXpos[i], playerYpos[i], rayXpos[i], rayYpos[i], mlx, color);
-		i++;
-	}
+	// draw_player(mlx);
+	// drawMap2D(mlx);
+	// // draw rays
+	// i = 0;
+	// while (i < 60)
+	// {
+	// 	draw_line_cast(playerXpos[i], playerYpos[i], rayXpos[i], rayYpos[i], mlx, color);
+	// 	i++;
+	// }
 }
 
 int	close_it(int keycode, t_data *mlx)
+{
+	int x = px;
+	int xo = 0;
+	if (pdx < 0) {xo = -20;} else {xo = 20;}
+	int yo = 0;if(pdy < 0) {yo = -20;} else yo = 20;
+	int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0, ipx_sub_xo = (px - xo)/ 64.0;
+	int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0, ipy_sub_yo = (py - yo) / 64.0;
+	
+	int y = py;
+	mlx_clear_window(mlx->mlx, mlx->win);
+	if (keycode == left_arrow)
+	{
+		pa+=0.2*15; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));
+	}
+	if (keycode == right_arrow)
+	{
+		pa-=0.2*15; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));
+	}
+	if (keycode == top_arrow)
+	{
+		if (map[ipy][ipx_add_xo] == 0)
+			px += pdx * 6;
+		if (map[ipy_add_yo][ipx] == 0)
+			py += pdy * 6;
+			
+	}
+	if (keycode == bottom_arrow)
+	{
+		if (map[ipy][ipx_sub_xo] == 0)
+			px -= pdx * 6;
+		if (map[ipy_sub_yo][ipx] == 0)
+			py -= pdy * 6;
+			
+	}
+	// open door
+	if (keycode == 49)
+	{
+		int xo = 0; if (pdx < 0) {xo = -25;} else {xo = 25;}
+		int yo = 0; if (pdy < 0) {yo  = -25;} else {yo = 25;}
+		int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0;
+		int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0;
+		printf("ipy_add_yo: %d | ipx_add_xo: %d\n", ipy_add_yo, ipx_add_xo);
+		// map[ipy_add_yo][ipx_add_xo] = 0;
+		// drawMap2D(mlx);
+	}
+
+	// render images
+	if (keycode != 0)
+		close_it(0, mlx);
+	
+	cast(mlx, 0);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->cast_img, 0, 0);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
+
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player_img, px / 4, py / 4);
+	
+	
+	return (0);
+}
+
+int	close_it_pitch(int keycode, t_data *mlx)
 {
 	int x = px;
 	int xo = 0;
