@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:25:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/28 09:28:32 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/28 16:52:26 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,9 @@ float degToRad(float a)
 float FixAng(float a)
 { 
 	if(a>359)
-	{ 
 		a-=360;
-	} 
 	if(a<0)
-	{
 		a+=360;
-	} 
 	return (a);
 }
 float distance(float ax, float ay, float bx, float by, float ang)
