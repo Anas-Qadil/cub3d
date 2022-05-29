@@ -43,11 +43,19 @@ int eat = 0;
 
 void	drawSprite(t_data *mlx)
 {
-	float	sx = mlx->spx - px;;
+
+	if (px < mlx->spx + 30 && px > mlx->spx - 30 && py < mlx->spy + 30 && py > mlx->spy - 30 && eat == 0)
+		eat = 1;
+	// if (mlx->spx > px) {mlx->spx = mlx->spx - 0.3;}
+	// if (mlx->spx < px) {mlx->spx = mlx->spx + 0.3;}
+	// if (mlx->spy > py) {mlx->spy = mlx->spy - 0.3;}
+	// if (mlx->spy < py) {mlx->spy = mlx->spy + 0.3;}
+
+	float	sx = mlx->spx - px;
 	float	sy = mlx->spy - py;
 	float	sz = mlx->spz;
 
-	float	CS = cos(degToRad(pa)),SN = sin(degToRad(pa));
+	float	CS = cos(degToRad(pa)), SN = sin(degToRad(pa));
 	float a = sy * CS + sx * SN;
 	float b = sx * CS - sy * SN;
 	sx = a; sy = b;
@@ -56,11 +64,8 @@ void	drawSprite(t_data *mlx)
 	sy = (sz * 108.0 / sy) + (80 / 2);
 	int i = -1;
 	int all = 120 * 80 / b;
+	// sprite attack
 
-	if (px < mlx->spx + 30 && px > mlx->spx - 30 && py < mlx->spy + 30 && py > mlx->spy - 30 && eat == 0)
-	{
-		eat = 1;
-	}
 	if (eat == 0)
 	{
 		while (++i < all)
@@ -367,22 +372,22 @@ int	close_it(int keycode, t_data *mlx)
 		yo = -20;
 	else 
 		yo = 20;
-	int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0, ipx_sub_xo = (px - xo)/ 64.0;
+	int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0, ipx_sub_xo = (px - xo) / 64.0;
 	int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0, ipy_sub_yo = (py - yo) / 64.0;
 	
 	int y = py;
 	if (keycode == left_arrow)
 	{
-		pa += 0.2 * 30; 
-		pa = FixAng(pa); 
+		pa += 0.2 * 30;
+		pa = FixAng(pa);
 		pdx = cos(degToRad(pa)); 
 		pdy = -sin(degToRad(pa));
 	}
 	if (keycode == right_arrow)
 	{
-		pa -= 0.2 * 30; 
+		pa -= 0.2 * 30;
 		pa = FixAng(pa); 
-		pdx = cos(degToRad(pa)); 
+		pdx = cos(degToRad(pa));
 		pdy = -sin(degToRad(pa));
 	}
 	if (keycode == top_arrow)
@@ -416,7 +421,6 @@ int	close_it(int keycode, t_data *mlx)
 		int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0;
 		int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0;
 		map[ipy_add_yo][ipx_add_xo] = 0;
-		drawMap2D(mlx);
 	}
 	return (0);
 }
@@ -429,7 +433,6 @@ void    draw_everything(t_data *mlx)
 	cast(mlx, 0);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->cast_img, 0, 0);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
-	
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player_img, px / 4, py / 4);
 }
 
@@ -475,13 +478,7 @@ void	init(t_data *mlx)
 
     mlx->player_addr = mlx_get_data_addr(mlx->player_img, &mlx->player_bits_per_pixel, &mlx->player_line_length,
 								&mlx->player_endian);
-	
-	mlx->type = 1;
-	mlx->state = 1;
-	mlx->map = 0;
-	mlx->spx = 8 * 64;
-	mlx->spy = 4 * 64;
-	mlx->spz= 20;
+
 	
 }
 
@@ -492,10 +489,20 @@ int	render(t_data *mlx)
 	mlx_destroy_image(mlx->mlx, mlx->player_img);
 	init(mlx);
 	draw_everything(mlx);
-	drawSprite(mlx);
+	// drawSprite(mlx);
 	return (1);
 }
-       
+
+void	init_vars(t_data *mlx)
+{
+	mlx->type = 1;
+	mlx->state = 1;
+	mlx->map = 0;
+	mlx->spx = 8 * 64;
+	mlx->spy = 4 * 64;
+	mlx->spz= 20;
+}
+
 int main(void)
 {
 	t_data		mlx;
@@ -536,8 +543,9 @@ int main(void)
 		i++;
 	}
 	init(&mlx);
-	draw_everything(&mlx);
-	drawSprite(&mlx);
+	init_vars(&mlx);
+	// draw_everything(&mlx);
+	// drawSprite(&mlx);
 	mlx_loop_hook(mlx.mlx, render, &mlx);
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
 	mlx_loop(mlx.mlx);

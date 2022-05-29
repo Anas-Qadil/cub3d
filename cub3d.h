@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/29 12:32:33 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/29 14:48:25 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,17 @@ typedef struct	s_data {
 	int type;
 	int state;
 	int map;
-	int spx, spy, spz;
+	float spx, spy, spz;
 	
 }				t_data;
+
+typedef struct  s_sprite
+{
+	int type;
+	int state;
+	int map;
+	int spx, spy, spz;
+} t_sprite;
 
 
 typedef struct s_point {
