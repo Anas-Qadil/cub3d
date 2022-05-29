@@ -187,29 +187,31 @@ void    cast(t_data *mlx, float rayAngle)
 	ra=FixAng(pa+30);
 	int i = 0;
 	float hx = px, hy = py;
+
 	while (r < rays_num)
 	{
+		int whichSide = 0;
 		// vertical checks
 		disV = 1000000;
 		float Tan = tan(degToRad(ra));
 		dof = 0;
 		if(cos(degToRad(ra)) > 0) //looking right
-		{ 
+		{
 			rx = (((int)px / 64) * 64)+64;      
 			ry = (px - rx) * Tan + py; 
 			xo = 64; 
 			yo = -xo * Tan;
 		}
 		else if(cos(degToRad(ra)) < 0) //looking left
-		{ 
+		{
 			rx = (((int)px / 64) * 64) -0.0001; 
 			ry =(px - rx) * Tan + py; 
 			xo = -64;
 			yo = -xo * Tan;
 		}
 		else 
-		{ 
-			rx = px; 
+		{
+			rx = px;
 			ry = py;
 			dof = max_ray_checks;
 		}
@@ -276,6 +278,7 @@ void    cast(t_data *mlx, float rayAngle)
 		float shade = 1;
 		if (disV < disH)
 		{
+			whichSide = 1;
 			shade = 0.5;
 			rx = vx;
 			ry = vy;
@@ -326,17 +329,22 @@ void    cast(t_data *mlx, float rayAngle)
 		
 		while (y < lineH)
 		{
-			int j = 0;
-			int c = mlx->buff[((int)(ty) * 64) + (int)(tx)];
-			int color = c;
-			my_mlx_pixel_put_cast(mlx, r, y + lineOff, color);
+			// if (cos(degToRad(ra)) < 0)
+			// {
+			// 	int color = mlx->tw_buff[((int)(ty) * 64) + (int)(tx)];
+			// 	my_mlx_pixel_put_cast(mlx, r, y + lineOff, color);
+			// }
+			// else
+			// {
+				int value = ((int)(ty) * 64) + (int)(tx) * 2;
+				int color = mlx->buff[value];
+				my_mlx_pixel_put_cast(mlx, r, y + lineOff, color);
+			// }
 			y++;
 			ty += ty_step;
 			
 		}
-
-
-
+		
 		// draw floors and cieling
 		int y123 = lineOff + lineH;
 		int counter = 0;
@@ -456,12 +464,45 @@ unsigned int	get_color(t_data *t, int x, int y)
 		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }
 
+unsigned int	get_color_2(t_data *t, int x, int y)
+{
+	char	*ptr;
+	int		pixel;
+
+	pixel = y * t->tw_line_length + x * 4;
+	ptr = t->tw_addr + pixel;
+	return ((((unsigned char)ptr[2]) << 16)
+		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
+}
+
 void	init(t_data *mlx)
 {
 	int w, h;
-	// texture
-	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/greystone_w.xpm", &w, &h);
-	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
+	 
+	// texture West <--
+	mlx->tw_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wall2.xpm", &w, &h);
+	mlx->tw_addr = mlx_get_data_addr(mlx->tw_img, &mlx->tw_bits_per_pixel, &mlx->tw_line_length, &mlx->tw_endian);
+	int i = 0;
+	int k = 0;
+	while (i < 64)
+	{
+		int j = 0;
+		while (j < 64)
+		{
+			mlx->tw_buff[k] = get_color_2(mlx, i, j);
+			j++;
+			k++;
+		}
+		i++;
+	}
+
+	// // texture East -->
+	// mlx->te_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/greystone_w.xpm", &w, &h);
+	// mlx->te_addr = mlx_get_data_addr(mlx->te_img, &mlx->te_bits_per_pixel, &mlx->te_line_length, &mlx->te_endian);
+
+	// // texture South
+	// mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/greystone_w.xpm", &w, &h);
+	// mlx->t_addr = mlx_get_data_addr(mlx->ts_img, &mlx->ts_bits_per_pixel, &mlx->ts_line_length, &mlx->ts_endian);
 
 	// map img
 	mlx->img = mlx_new_image(mlx->mlx, 240, 175);
@@ -489,7 +530,9 @@ int	render(t_data *mlx)
 	mlx_destroy_image(mlx->mlx, mlx->player_img);
 	init(mlx);
 	draw_everything(mlx);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->t_img, 300, 0);
 	// drawSprite(mlx);
+	
 	return (1);
 }
 
@@ -525,8 +568,9 @@ int main(void)
 	
 	
 	int w, h;
-	mlx.t_img = mlx_xpm_file_to_image(mlx.mlx, "./textures/greystone_w.xpm", &w, &h);
+	mlx.t_img = mlx_xpm_file_to_image(mlx.mlx, "./textures/redbrick.xpm", &w, &h);
 	mlx.t_addr = mlx_get_data_addr(mlx.t_img, &mlx.t_bits_per_pixel, &mlx.t_line_length, &mlx.t_endian);
+	
 	int i = 0;
 	int j = 0;
 	
@@ -536,7 +580,7 @@ int main(void)
 		j = 0;
 		while (j < 64)
 		{
-			mlx.buff[k] = get_color(&mlx, i, j);
+			mlx.buff[k] = get_color(&mlx, j, i); 
 			j++;
 			k++;
 		}
@@ -544,7 +588,7 @@ int main(void)
 	}
 	init(&mlx);
 	init_vars(&mlx);
-	// draw_everything(&mlx);
+	draw_everything(&mlx);
 	// drawSprite(&mlx);
 	mlx_loop_hook(mlx.mlx, render, &mlx);
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);

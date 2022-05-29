@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/29 14:48:25 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/29 15:58:36 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct	s_data {
 	int		win_y;
 	int 	win_x;
 
-	// textures
+	// textures N
 	void	*t_img;
 	void	*t_addr;
 	int		t_bits_per_pixel;
@@ -95,9 +95,36 @@ typedef struct	s_data {
 	int		colors[32][32];
 	int		buff[4096];
 
+	// textures S
+	void	*ts_img;
+	void	*ts_addr;
+	int		ts_bits_per_pixel;
+	int		ts_line_length;
+	int		ts_endian;
+	int		ts_colors[32][32];
+	int		ts_buff[4096];
+	
+	// textures W
+	void	*tw_img;
+	void	*tw_addr;
+	int		tw_bits_per_pixel;
+	int		tw_line_length;
+	int		tw_endian;
+	int		tw_colors[32][32];
+	int		tw_buff[4096];
+	
+	// textures E
+	void	*te_img;
+	void	*te_addr;
+	int		te_bits_per_pixel;
+	int		te_line_length;
+	int		te_endian;
+	int		te_colors[32][32];
+	int		te_buff[4096];
+
 	// cast 3d
 	void	*cast_img;
-	char		*cast_addr;
+	char	*cast_addr;
 	int		cast_bits_per_pixel;
 	int		cast_line_length;
 	int		cast_endian;
@@ -167,6 +194,8 @@ void	my_mlx_pixel_put_cast(t_data *data, int x, int y, int color);
 
 void	my_mlx_pixel_put_player(t_data *data, int x, int y, int color);
 void draw_line_cast(float ax, float ay, float bx, float by, t_data *param, int color);
+
+unsigned int	get_color_2(t_data *t, int x, int y);
 
 #endif
 
