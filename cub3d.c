@@ -32,11 +32,45 @@ int map[11][15] = {
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
 	{1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
+
+int depth[1000];
+int eat = 0;
+
+void	drawSprite(t_data *mlx)
+{
+	float	sx = mlx->spx - px;;
+	float	sy = mlx->spy - py;
+	float	sz = mlx->spz;
+
+	float	CS = cos(degToRad(pa)),SN = sin(degToRad(pa));
+	float a = sy * CS + sx * SN;
+	float b = sx * CS - sy * SN;
+	sx = a; sy = b;
+
+	sx = (sx * 108.0 / sy) + (120 / 2);
+	sy = (sz * 108.0 / sy) + (80 / 2);
+	int i = -1;
+	int all = 120 * 80 / b;
+
+	if (px < mlx->spx + 30 && px > mlx->spx - 30 && py < mlx->spy + 30 && py > mlx->spy - 30 && eat == 0)
+	{
+		eat = 1;
+	}
+	if (eat == 0)
+	{
+		while (++i < all)
+		{
+			int j = -1;
+			while (++j < all)
+				mlx_pixel_put(mlx->mlx, mlx->win, sx * 8 - j, sy * 8 - i, 0x00FF0000);		
+		}
+	}
+}
 
 void    drawMap2D(t_data *mlx)
 {
@@ -266,6 +300,7 @@ void    cast(t_data *mlx, float rayAngle)
 			lineH = old_Width;
 		}  //line height and limit
 		int lineOff = old_height - (lineH / 2);
+		depth[r] = disH;
 		
 		int y = 0;
 		float ty = ty_off * ty_step;
@@ -441,6 +476,13 @@ void	init(t_data *mlx)
     mlx->player_addr = mlx_get_data_addr(mlx->player_img, &mlx->player_bits_per_pixel, &mlx->player_line_length,
 								&mlx->player_endian);
 	
+	mlx->type = 1;
+	mlx->state = 1;
+	mlx->map = 0;
+	mlx->spx = 8 * 64;
+	mlx->spy = 4 * 64;
+	mlx->spz= 20;
+	
 }
 
 int	render(t_data *mlx)
@@ -450,6 +492,7 @@ int	render(t_data *mlx)
 	mlx_destroy_image(mlx->mlx, mlx->player_img);
 	init(mlx);
 	draw_everything(mlx);
+	drawSprite(mlx);
 	return (1);
 }
        
@@ -494,6 +537,7 @@ int main(void)
 	}
 	init(&mlx);
 	draw_everything(&mlx);
+	drawSprite(&mlx);
 	mlx_loop_hook(mlx.mlx, render, &mlx);
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
 	mlx_loop(mlx.mlx);

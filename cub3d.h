@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/28 16:00:11 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/05/29 12:32:33 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,12 @@ typedef struct	s_data {
 	int		player_bits_per_pixel;
 	int		player_line_length;
 	int		player_endian;
+
+	//sprite
+	int type;
+	int state;
+	int map;
+	int spx, spy, spz;
 	
 }				t_data;
 
