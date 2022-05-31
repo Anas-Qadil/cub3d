@@ -197,14 +197,14 @@ void    cast(t_data *mlx, float rayAngle)
 		dof = 0;
 		if(cos(degToRad(ra)) > 0) //looking right
 		{
-			rx = (((int)px / 64) * 64)+64;      
-			ry = (px - rx) * Tan + py; 
+			rx = (((int)px / 64) * 64) + 64;      
+			ry = (px - rx) * Tan + py;
 			xo = 64; 
 			yo = -xo * Tan;
 		}
 		else if(cos(degToRad(ra)) < 0) //looking left
 		{
-			rx = (((int)px / 64) * 64) -0.0001; 
+			rx = (((int)px / 64) * 64) - 0.0001;
 			ry =(px - rx) * Tan + py; 
 			xo = -64;
 			yo = -xo * Tan;
@@ -240,9 +240,9 @@ void    cast(t_data *mlx, float rayAngle)
 		Tan = 1.0 / Tan;
 		if (sin(degToRad(ra)) > 0) // looking up
 		{
-			ry = (((int)py / 64) * 64) -0.0001;
-			rx = (py - ry) * Tan + px; 
-			yo = -64; 
+			ry = (((int)py / 64) * 64) - 0.0001;
+			rx = (py - ry) * Tan + px;
+			yo = -64;
 			xo = -yo * Tan;
 		}
 		else if (sin(degToRad(ra)) < 0) // looking down
@@ -292,22 +292,15 @@ void    cast(t_data *mlx, float rayAngle)
 		
   		int ca = FixAng(pa - ra); // fish eye
 		disH = disH * cos(degToRad(ca));
-
-
-		int old_Width = 640;
-		int old_height = 320;
-
-
-
-		int lineH = (mapS * old_Width) / (disH);
+		int lineH = (mapS * 640) / (disH);
 		float ty_step = 64.0 / (float)lineH;
 		float ty_off = 0;
-		if(lineH > old_Width)
+		if(lineH > 640)
 		{
-			ty_off = (lineH - old_Width) / 2.0;
-			lineH = old_Width;
+			ty_off = (lineH - 640) / 2.0;
+			lineH = 640;
 		}  //line height and limit
-		int lineOff = old_height - (lineH / 2);
+		int lineOff = 320 - (lineH / 2);
 		depth[r] = disH;
 		
 		int y = 0;
@@ -371,8 +364,8 @@ int	close_it(int keycode, t_data *mlx)
 {
 	int x = px;
 	int xo = 0;
-	if (pdx < 0) 
-		xo = -20; 
+	if (pdx < 0)
+		xo = -20;
 	else 
 		xo = 20;
 	int yo = 0;
@@ -394,7 +387,7 @@ int	close_it(int keycode, t_data *mlx)
 	if (keycode == right_arrow)
 	{
 		pa -= 0.2 * 30;
-		pa = FixAng(pa); 
+		pa = FixAng(pa);
 		pdx = cos(degToRad(pa));
 		pdy = -sin(degToRad(pa));
 	}
@@ -404,7 +397,6 @@ int	close_it(int keycode, t_data *mlx)
 			px += pdx * 12;
 		if (map[ipy_add_yo][ipx] == 0)
 			py += pdy * 12;
-			
 	}
 	if (keycode == bottom_arrow)
 	{
@@ -412,20 +404,20 @@ int	close_it(int keycode, t_data *mlx)
 			px -= pdx * 12;
 		if (map[ipy_sub_yo][ipx] == 0)
 			py -= pdy * 12;
-			
 	}
 	// open door
 	if (keycode == 49)
 	{
-		int xo = 0; 
-		if (pdx < 0) 
+		int xo = 0;
+		if (pdx < 0)
 			xo = -25;
 		else 
 			xo = 25;
 		int yo = 0; 
 		if (pdy < 0) 
 			yo  = -25; 
-		else yo = 25;
+		else 
+			yo = 25;
 		int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0;
 		int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0;
 		map[ipy_add_yo][ipx_add_xo] = 0;
