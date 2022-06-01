@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/01 09:13:49 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/01 17:36:02 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,49 @@ typedef struct	s_data {
 	int state;
 	int map;
 	float spx, spy, spz;
+	void	*sprt_img[12];
+	char	*sprt_addr[12];
+	int		sprt_bits_per_pixel[12];
+	int		sprt_line_length[12];
+	int		sprt_endian[12];
 	
 }				t_data;
+
+typedef struct s_vars
+{
+	int rays_num;
+	int color;
+	int max_ray_checks;
+	int r;
+	int mx;
+	int my;
+	int mp;
+	int dof;
+	int disT;
+	float rx;
+	float ry;
+	float ra;
+	float xo;
+	float yo;
+	float disV;
+	float disH;
+	float vx;
+	float vy;
+	int i;
+	float hx;
+	float hy;
+	float Tan;
+	int	ca;
+	int	lineH;
+	float	ty_step;
+	float	ty_off;
+	float tx;
+	float ty;
+	int y;
+	int	lineOff;
+	int value;
+	float	shade;
+}	t_vars;
 
 typedef struct  s_sprite
 {

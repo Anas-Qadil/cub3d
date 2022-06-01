@@ -11,6 +11,7 @@
 #define D 2
 #define A 0
 
+int i = 0;
 
 float px, py, pdx, pdy, pa;
 int mapS = 64, mapY = 11, mapX = 15;
@@ -73,36 +74,36 @@ void	drawSprite(t_data *mlx)
 	int i = -1;
 	int all = 120 * 80 / b;
 	// sprite attack
-
-	if (eat == 0)
+	while (++i < all)
 	{
-		while (++i < all)
-		{
-			int j = -1;
-			while (++j < all)
-				mlx_pixel_put(mlx->mlx, mlx->win, sx * 8 - j, sy * 8 - i, 0x00FF0000);		
-		}
+		int j = -1;
+		while (++j < all)
+			mlx_pixel_put(mlx->mlx, mlx->win, sx * 8 - j, sy * 8 - i, 0x00FF0000);
 	}
+}
+
+void	draw_squares(int loopI, int loopJ, int saveI, int saveJ, t_data *mlx)
+{
+	
 }
 
 void    drawMap2D(t_data *mlx)
 {
-	int i = 0, j = 0;
+	int i = -1, j = -1;
 	int loopI = 0, loopJ = 0;
 	int saveI = 0, saveJ = 0;
 	
-	while (i < MAP_NUM_ROWS)
+	while (++i < MAP_NUM_ROWS)
 	{
-		j = 0;
+		j = -1;
 		saveI = 0;
 		saveJ += loopJ;
 		loopI = 0;
 		loopJ = 0;
-		while (j < MAP_NUM_COLS)
+		while (++j < MAP_NUM_COLS)
 		{
 			saveI += loopI;
 			loopI = 0;
-			loopJ = 0;
 			if (map[i][j] == 0 || map[i][j] == NORTH)
 			{
 				while (loopI < TILE_SIZE)
@@ -110,12 +111,11 @@ void    drawMap2D(t_data *mlx)
 					loopJ = 0;
 					while (loopJ < TILE_SIZE)
 					{
-						my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00FFFFFF); // 0x00FF0000 red
+						my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00FFFFFF);
 						loopJ++;
 					}
 					loopI++;
 				}
-				// had loop 3la 9bel dak line between squares
 			}
 			else if (map[i][j] == 1 || map[i][j] == DOOR)
 			{
@@ -127,15 +127,13 @@ void    drawMap2D(t_data *mlx)
 						if (map[i][j] == DOOR && loopI % 2 == 0)
 							my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00000);
 						else
-							my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00a9a9a9 );
+							my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00a9a9a9);
 						loopJ++;
 					}
 					loopI++;
 				}
 			}
-			j++;
 		}
-		i++;
 	}
 }
 
@@ -143,34 +141,6 @@ float ray_dist(float ax, float ay, float bx, float by, float ang)
 {
 	return (sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
 }
-
-
-
-void	draw_wall(float r, float lineO, float lineH, t_data *mlx)
-{
-	int i = 0;
-	int j = 0;
-	int y = 0;
-	float ty = 0;
-	float  t_step = (float)square_size / lineH;
-
-	while (i < lineH)
-	{
-		j = 1;
-		int c = mlx->buff[(int)ty * 64];
-		int color = c;
-		while (j < 8)
-		{
-			my_mlx_pixel_put(mlx, r * 8 - j + 1200, i + lineO, color);
-			j++;
-		}
-		i++;
-		ty += t_step;
-	}
-	
-}
-
-
 
 void	draw_floors(float x, float y, t_data *mlx)
 {
@@ -182,210 +152,233 @@ void	draw_ceiling(float x, float y, t_data *mlx)
 	my_mlx_pixel_put_cast(mlx, (int)(x), (int)y, 0x0087CEEB);
 }
 
+// vertical checks
 
-void    cast(t_data *mlx, float rayAngle)
+void	vertical_checks(t_vars *var)
 {
-	int rays_num = 1000;
-	int color = 0x00e83838;
-	int rayXpos[rays_num];
-	int rayYpos[rays_num];
-	int playerXpos[rays_num];
-	int playerYpos[rays_num];
-	int max_ray_checks = 20;
-	int r = 0, mx, my, mp, dof;
-	float disT;
-	float rx, ry, ra, xo, yo, disV, disH, vx, vy;
-	ra=FixAng(pa+30);
-	int i = 0;
-	float hx = px, hy = py;
-
-	while (r < rays_num)
-	{
-		int whichSide = 0;
-		// vertical checks
-		disV = 1000000;
-		float Tan = tan(degToRad(ra));
-		dof = 0;
-		if(cos(degToRad(ra)) > 0) //looking right
+	var->disV = 1000000;
+		var->Tan = tan(degToRad(var->ra));
+		var->dof = 0;
+		if(cos(degToRad(var->ra)) > 0) //looking right
 		{
-			rx = (((int)px / 64) * 64) + 64;      
-			ry = (px - rx) * Tan + py;
-			xo = 64; 
-			yo = -xo * Tan;
+			var->rx = (((int)px / 64) * 64) + 64;      
+			var->ry = (px - var->rx) * var->Tan + py;
+			var->xo = 64; 
+			var->yo = -var->xo * var->Tan;
 		}
-		else if(cos(degToRad(ra)) < 0) //looking left
+		else if(cos(degToRad(var->ra)) < 0) //looking left
 		{
-			rx = (((int)px / 64) * 64) - 0.0001;
-			ry =(px - rx) * Tan + py; 
-			xo = -64;
-			yo = -xo * Tan;
+			var->rx = (((int)px / 64) * 64) - 0.0001;
+			var->ry =(px - var->rx) * var->Tan + py; 
+			var->xo = -64;
+			var->yo = -var->xo * var->Tan;
 		}
 		else 
 		{
-			rx = px;
-			ry = py;
-			dof = max_ray_checks;
+			var->rx = px;
+			var->ry = py;
+			var->dof = var->max_ray_checks;
 		}
-		while (dof < max_ray_checks)
+		while (var->dof < var->max_ray_checks)
 		{
-			mx = (int)(rx) / 64;
-			my = (int)(ry) / 64;
+			var->mx = (int)(var->rx) / 64;
+			var->my = (int)(var->ry) / 64;
 			
-			mp = my * mapX + mx;
-			if (mp > 0 && mp < mapX * mapY && (map[my][mx] == 1 || map[my][mx] == DOOR))
+			var->mp = var->my * mapX + var->mx;
+			if (var->mp > 0 && var->mp < mapX * mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 			{
-				disV = ray_dist(px, py, rx, ry, ra);
-				dof = max_ray_checks;
+				var->disV = ray_dist(px, py, var->rx, var->ry, var->ra);
+				var->dof = var->max_ray_checks;
 			}
-			else 
-			{
-				rx += xo;
-				ry += yo;
-				dof += 1;
-			}
-		}
-		vx = rx; vy = ry;
-		// horz checks
-		dof = 0; disH = 100000;
-		Tan = 1.0 / Tan;
-		if (sin(degToRad(ra)) > 0) // looking up
+		else 
 		{
-			ry = (((int)py / 64) * 64) - 0.0001;
-			rx = (py - ry) * Tan + px;
-			yo = -64;
-			xo = -yo * Tan;
+			var->rx += var->xo;
+			var->ry += var->yo;
+			var->dof += 1;
 		}
-		else if (sin(degToRad(ra)) < 0) // looking down
+	}
+}
+
+void	horiz_checks(t_vars *var)
+{
+	if (sin(degToRad(var->ra)) > 0) // looking up
 		{
-			ry = (((int)py / 64) * 64) + 64;      
-			rx = (py - ry) * Tan + px; 
-			yo = 64; 
-			xo = -yo * Tan;
+			var->ry = (((int)py / 64) * 64) - 0.0001;
+			var->rx = (py - var->ry) * var->Tan + px;
+			var->yo = -64;
+			var->xo = -var->yo * var->Tan;
+		}
+		else if (sin(degToRad(var->ra)) < 0) // looking down
+		{
+			var->ry = (((int)py / 64) * 64) + 64;      
+			var->rx = (py - var->ry) * var->Tan + px; 
+			var->yo = 64; 
+			var->xo = -var->yo * var->Tan;
 		}
 		else
 		{
-			rx = px;
-			ry = py;
-			dof = max_ray_checks;
+			var->rx = px;
+			var->ry = py;
+			var->dof = var->max_ray_checks;
 		}
-		while (dof < max_ray_checks)
+		while (var->dof < var->max_ray_checks)
 		{
-			mx = (int)(rx) / 64; 
-			my = (int)(ry) / 64;
-			mp = my * mapX + mx; 
-			if (mp > 0 && mp < mapX * mapY && (map[my][mx] == 1 || map[my][mx] == DOOR))
+			var->mx = (int)(var->rx) / 64; 
+			var->my = (int)(var->ry) / 64;
+			var->mp = var->my * mapX + var->mx; 
+			if (var->mp > 0 && var->mp < mapX * mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 			{
-				dof = max_ray_checks;
-				disH = ray_dist(px, py, rx, ry, ra);
+				var->dof = var->max_ray_checks;
+				var->disH = ray_dist(px, py, var->rx, var->ry, var->ra);
 			}
 			else
 			{
-				rx += xo;
-				ry += yo;
-				dof += 1;
+				var->rx += var->xo;
+				var->ry += var->yo;
+				var->dof += 1;
 			}
 		}
-		float shade = 1;
-		if (disV < disH)
+}
+//init vars
+void	init_cast_vars(t_vars *var)
+{
+	var->rays_num = 1000;
+	var->color = 0x00e83838;
+	var->max_ray_checks = 20;
+	var->r = 0;
+	var->ra = FixAng(pa+30);
+	var->i = 0;
+	var->hx = px;
+	var->hy = py;
+}
+
+void	switch_var(t_vars *var)
+{
+	var->vx = var->rx; var->vy = var->ry;
+	var->dof = 0; var->disH = 100000;
+	var->Tan = 1.0 / var->Tan;
+}
+
+void	line_calculation(t_vars *var)
+{
+	var->ca = FixAng(pa - var->ra); // fish eye
+		var->disH = var->disH * cos(degToRad(var->ca));
+		var->lineH = (mapS * 640) / (var->disH);
+		var->ty_step = 64.0 / (float)var->lineH;
+		var->ty_off = 0;
+		if(var->lineH > 640)
 		{
-			whichSide = 1;
-			shade = 0.5;
-			rx = vx;
-			ry = vy;
-			disH = disV;
-		}
-		
-		rayXpos[i] = rx / 4;
-		rayYpos[i] = ry / 4;
-		playerXpos[i] = px / 4;
-		playerYpos[i] = py / 4;
-		
-  		int ca = FixAng(pa - ra); // fish eye
-		disH = disH * cos(degToRad(ca));
-		int lineH = (mapS * 640) / (disH);
-		float ty_step = 64.0 / (float)lineH;
-		float ty_off = 0;
-		if(lineH > 640)
-		{
-			ty_off = (lineH - 640) / 2.0;
-			lineH = 640;
+			var->ty_off = (var->lineH - 640) / 2.0;
+			var->lineH = 640;
 		}  //line height and limit
-		int lineOff = 320 - (lineH / 2);
-		depth[r] = disH;
+		var->lineOff = 320 - (var->lineH / 2);
+		depth[var->r] = var->disH;
 		
-		int y = 0;
-		float ty = ty_off * ty_step;
+		var->y = 0;
+		var->ty = var->ty_off * var->ty_step;
 		
-		float tx;
-		if(shade == 1){ 
-			tx = (int)(rx) % 64; 
-			if(ra > 180)
-				tx = 63 - tx;
+		if(var->shade == 1){ 
+			var->tx = (int)(var->rx) % 64; 
+			if(var->ra > 180)
+				var->tx = 63 - var->tx;
 		}
   		else        
 		{ 
-			tx = (int)(ry) % 64; 
-			if(ra > 90 && ra < 270)
-				tx = 63 -  tx;
+			var->tx = (int)(var->ry) % 64; 
+			if(var->ra > 90 && var->ra < 270)
+				var->tx = 63 -  var->tx;
 		}
+}
 
-		
-		while (y < lineH)
-		{
-				int value, color;
-				value = ((int)(ty) * 64) + (int)(tx);
-					if (shade == 1)
-					{
-						if (ra > 0 && ra < 180)
-						{
-							if (map[(int)(ry / 64)][(int)(rx / 64)] == DOOR)
-								color = mlx->door_buff[value];
-							else
-								color = mlx->buff[value];
-						}
-						else
-							color = mlx->ts_buff[value];
-					}
-					else
-					{
-						if (ra > 90 && ra < 270)
-						{
-							color = mlx->tw_buff[value];
-						}
-						else
-						{
-							if (map[(int)(ry / 64)][(int)(rx / 64)] == DOOR)
-								color = mlx->door_buff[value];
-							else
-								color = mlx->te_buff[value];
-						}
-					}
-				
-				my_mlx_pixel_put_cast(mlx, r, y + lineOff, color);
-			y++;
-			ty += ty_step;
-			
-		}
-		
-		// draw floors and cieling
-		int y123 = lineOff + lineH;
-		int counter = 0;
-		while (y123 < 640)
-		{
-			draw_floors(r, y123, mlx);
-			draw_ceiling(r, 640 - y123, mlx);
-			y123++;
-		}
-		
-		ra = FixAng(ra - 0.060);
-		r++;
-		i++;
-	}
-	i = 0;
-	while (i < rays_num)
+void	painting_the_line(t_vars *var, t_data *mlx)
+{
+	while (var->y < var->lineH)
 	{
-		draw_line_cast(playerXpos[i], playerYpos[i], rayXpos[i], rayYpos[i], mlx, color);
-		i++;
+		int value, color;
+		value = ((int)(var->ty) * 64) + (int)(var->tx);
+		if (var->shade == 1)
+		{
+			if (var->ra > 0 && var->ra < 180)
+			{
+				if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+					color = mlx->door_buff[value];
+				else
+					color = mlx->buff[value];
+			}
+			else
+				color = mlx->ts_buff[value];
+		}
+		else
+		{
+			if (var->ra > 90 && var->ra < 270)
+				color = mlx->tw_buff[value];
+			else
+			{
+				if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+				color = mlx->door_buff[value];
+				else
+					color = mlx->te_buff[value];
+			}
+		}
+		my_mlx_pixel_put_cast(mlx, var->r, var->y + var->lineOff, color);
+		var->y++;
+		var->ty += var->ty_step;
+			
+	}
+}
+
+void	draw_floor_and_ceiling(t_vars *var, t_data *mlx)
+{
+	int y123 = var->lineOff + var->lineH;
+	int counter = 0;
+	while (y123 < 640)
+	{
+		draw_floors(var->r, y123, mlx);
+		draw_ceiling(var->r, 640 - y123, mlx);
+		y123++;
+	}
+}
+
+void    cast(t_data *mlx, float rayAngle)
+{
+	t_vars var;
+	init_cast_vars(&var);
+	int rayXpos[var.rays_num];
+	int rayYpos[var.rays_num];
+	int playerXpos[var.rays_num];
+	int playerYpos[var.rays_num];
+
+	while (var.r < var.rays_num)
+	{
+		vertical_checks(&var);
+		switch_var(&var);
+		horiz_checks(&var);
+		var.shade = 1;
+		if (var.disV < var.disH)
+		{
+			var.shade = 0.5;
+			var.rx = var.vx;
+			var.ry = var.vy;
+			var.disH = var.disV;
+		}
+		
+		// remove this
+		rayXpos[var.i] = var.rx / 4;
+		rayYpos[var.i] = var.ry / 4;
+		playerXpos[var.i] = px / 4;
+		playerYpos[var.i] = py / 4;
+		line_calculation(&var);
+  		painting_the_line(&var, mlx);
+		draw_floor_and_ceiling(&var, mlx);
+		var.ra = FixAng(var.ra - 0.060);
+		var.r++;
+		var.i++;
+	}
+	var.i = 0;
+	while (var.i < var.rays_num)
+	{
+		draw_line_cast(playerXpos[var.i], playerYpos[var.i], rayXpos[var.i], rayYpos[var.i], mlx, var.color);
+		var.i++;
 	}
 }
 
@@ -541,11 +534,28 @@ void	init(t_data *mlx)
 {
 	int w, h;
 	 
+	// texture North <--
+	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/redbrick.xpm", &w, &h);
+	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
+	int i = 0;
+	int k = 0;
+	while (i < 64)
+	{
+		int j = 0;
+		while (j < 64)
+		{
+			mlx->buff[k] = get_color(mlx, j, i);
+			j++;
+			k++;
+		}
+		i++;
+	}
+
 	// texture West <--
 	mlx->tw_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wall2.xpm", &w, &h);
 	mlx->tw_addr = mlx_get_data_addr(mlx->tw_img, &mlx->tw_bits_per_pixel, &mlx->tw_line_length, &mlx->tw_endian);
-	int i = 0;
-	int k = 0;
+	 i = 0;
+	 k = 0;
 	while (i < 64)
 	{
 		int j = 0;
@@ -627,17 +637,67 @@ void	init(t_data *mlx)
 
 	
 }
-
+int j = 1;
 int	render(t_data *mlx)
 {
-	mlx_destroy_image(mlx->mlx, mlx->img);
-	mlx_destroy_image(mlx->mlx, mlx->cast_img);
-	mlx_destroy_image(mlx->mlx, mlx->player_img);
-	init(mlx);
+	mlx_clear_window(mlx->mlx, mlx->win);
 	draw_everything(mlx);
+
 	// drawSprite(mlx);
-	
+	int w, h;
+	// testing animation
+	static int k = 0;
+
+	// if (k == 20)
+	// {
+	// 	mlx_clear_window(mlx->mlx, mlx->win);
+	// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt_img[0], 0, 0);
+	// }
+	// if (k == 40)
+	// {
+	// 	mlx_clear_window(mlx->mlx, mlx->win);
+	// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt_img[1], 0, 0);
+	// }
+	// if (k == 60)
+	// {
+	// 	mlx_clear_window(mlx->mlx, mlx->win);
+	// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt_img[2], 0, 0);
+	// }
+	// if (k == 80)
+	// {
+	// 	mlx_clear_window(mlx->mlx, mlx->win);
+	// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt_img[3], 0, 0);
+	// }
+	// if (k == 80)
+	// 	k = 0;
+	// k++;
+
 	return (1);
+}
+
+void	read_animation(t_data *mlx)
+{
+	int i = 0;
+	int w, h;
+
+	// while (i < 12)
+	// {
+		mlx->sprt_img[0] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_0.xpm", &w, &h);
+		mlx->sprt_addr[0] = mlx_get_data_addr(mlx->sprt_img[0], &mlx->sprt_bits_per_pixel[0], &mlx->sprt_line_length[0], &mlx->sprt_endian[0]);
+
+		mlx->sprt_img[1] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_1.xpm", &w, &h);
+		mlx->sprt_addr[1] = mlx_get_data_addr(mlx->sprt_img[1], &mlx->sprt_bits_per_pixel[1], &mlx->sprt_line_length[1], &mlx->sprt_endian[1]);
+
+		mlx->sprt_img[2] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_2.xpm", &w, &h);
+		mlx->sprt_addr[2] = mlx_get_data_addr(mlx->sprt_img[2], &mlx->sprt_bits_per_pixel[2], &mlx->sprt_line_length[2], &mlx->sprt_endian[2]);
+
+		mlx->sprt_img[3] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_3.xpm", &w, &h);
+		mlx->sprt_addr[3] = mlx_get_data_addr(mlx->sprt_img[3], &mlx->sprt_bits_per_pixel[3], &mlx->sprt_line_length[3], &mlx->sprt_endian[3]);
+
+		mlx->sprt_img[4] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_4.xpm", &w, &h);
+		mlx->sprt_addr[4] = mlx_get_data_addr(mlx->sprt_img[4], &mlx->sprt_bits_per_pixel[4], &mlx->sprt_line_length[4], &mlx->sprt_endian[4]);
+	// 	i++;
+	// }
 }
 
 void	init_vars(t_data *mlx)
@@ -724,28 +784,18 @@ int main(void)
 	
 	
 	int w, h;
-	mlx.t_img = mlx_xpm_file_to_image(mlx.mlx, "./textures/redbrick.xpm", &w, &h);
-	mlx.t_addr = mlx_get_data_addr(mlx.t_img, &mlx.t_bits_per_pixel, &mlx.t_line_length, &mlx.t_endian);
+	int time = 100000;
+	
 	
 	int i = 0;
 	int j = 0;
 	
 	int k = 0;
-	while (i < 64)
-	{
-		j = 0;
-		while (j < 64)
-		{
-			mlx.buff[k] = get_color(&mlx, j, i); 
-			j++;
-			k++;
-		}
-		i++;
-	}
 	init(&mlx);
 	init_vars(&mlx);
 	draw_everything(&mlx);
-	drawSprite(&mlx);
+	// drawSprite(&mlx);
+	read_animation(&mlx);
 	mlx_loop_hook(mlx.mlx, render, &mlx);
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
 	mlx_loop(mlx.mlx);
