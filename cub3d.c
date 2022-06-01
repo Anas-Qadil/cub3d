@@ -262,32 +262,32 @@ void	switch_var(t_vars *var)
 void	line_calculation(t_vars *var)
 {
 	var->ca = FixAng(pa - var->ra); // fish eye
-		var->disH = var->disH * cos(degToRad(var->ca));
-		var->lineH = (mapS * 640) / (var->disH);
-		var->ty_step = 64.0 / (float)var->lineH;
-		var->ty_off = 0;
-		if(var->lineH > 640)
-		{
-			var->ty_off = (var->lineH - 640) / 2.0;
-			var->lineH = 640;
-		}  //line height and limit
-		var->lineOff = 320 - (var->lineH / 2);
-		depth[var->r] = var->disH;
+	var->disH = var->disH * cos(degToRad(var->ca));
+	var->lineH = (mapS * 640) / (var->disH);
+	var->ty_step = 64.0 / (float)var->lineH;
+	var->ty_off = 0;
+	if(var->lineH > 640)
+	{
+		var->ty_off = (var->lineH - 640) / 2.0;
+		var->lineH = 640;
+	}  //line height and limit
+	var->lineOff = 320 - (var->lineH / 2);
+	depth[var->r] = var->disH;
 		
-		var->y = 0;
-		var->ty = var->ty_off * var->ty_step;
+	var->y = 0;
+	var->ty = var->ty_off * var->ty_step;
 		
-		if(var->shade == 1){ 
-			var->tx = (int)(var->rx) % 64; 
-			if(var->ra > 180)
-				var->tx = 63 - var->tx;
-		}
-  		else        
-		{ 
-			var->tx = (int)(var->ry) % 64; 
-			if(var->ra > 90 && var->ra < 270)
-				var->tx = 63 -  var->tx;
-		}
+	if(var->shade == 1){ 
+		var->tx = (int)(var->rx) % 64; 
+		if(var->ra > 180)
+			var->tx = 63 - var->tx;
+	}
+  	else        
+	{ 
+		var->tx = (int)(var->ry) % 64; 
+		if(var->ra > 90 && var->ra < 270)
+			var->tx = 63 -  var->tx;
+	}
 }
 
 void	painting_the_line(t_vars *var, t_data *mlx)
@@ -382,23 +382,24 @@ void    cast(t_data *mlx, float rayAngle)
 	}
 }
 
-int	close_it(int keycode, t_data *mlx)
+void	keycode_init(t_keyvars *var)
 {
-	int x = px;
-	int xo = 0;
+	var->xo = 0;
 	if (pdx < 0)
-		xo = -20;
+		var->xo = -20;
 	else 
-		xo = 20;
-	int yo = 0;
+		var->xo = 20;
+	var->yo = 0;
 	if(pdy < 0) 
-		yo = -20;
+		var->yo = -20;
 	else 
-		yo = 20;
-	int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0, ipx_sub_xo = (px - xo) / 64.0;
-	int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0, ipy_sub_yo = (py - yo) / 64.0;
-	
-	int y = py;
+		var->yo = 20;
+	var->ipx = px / 64.0, var->ipx_add_xo = (px + var->xo) / 64.0, var->ipx_sub_xo = (px - var->xo) / 64.0;
+	var->ipy = py / 64.0, var->ipy_add_yo = (py + var->yo) / 64.0, var->ipy_sub_yo = (py - var->yo) / 64.0;
+}
+
+void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode)
+{
 	if (keycode == left_arrow)
 	{
 		pa += 0.2 * 30;
@@ -415,46 +416,52 @@ int	close_it(int keycode, t_data *mlx)
 	}
 	if (keycode == W)
 	{
-		if (map[ipy][ipx_add_xo] == 0 || map[ipy][ipx_add_xo] == NORTH)
+		if (map[var->ipy][var->ipx_add_xo] == 0 || map[var->ipy][var->ipx_add_xo] == NORTH)
 			px += pdx * 12;
-		if (map[ipy_add_yo][ipx] == 0 || map[ipy_add_yo][ipx] == NORTH )
+		if (map[var->ipy_add_yo][var->ipx] == 0 || map[var->ipy_add_yo][var->ipx] == NORTH )
 			py += pdy * 12;
-	}
-	if (keycode == D)
-	{
-		if (map[(int)py / 64][(int) (px + 20) / 64] == 0 || map[(int)py / 64][(int) (px + 20) / 64] == NORTH)
-				px += 10;
-	}
-	if (keycode == A)
-	{
-		if (map[(int)py / 64][(int) (px - 20) / 64] == 0 || map[(int)py / 64][(int) (px - 20) / 64] == NORTH)
-				px -= 10;
 	}
 	if (keycode == S)
 	{
-		if (map[ipy][ipx_sub_xo] == 0 || map[ipy][ipx_sub_xo] == NORTH)
+		if (map[var->ipy][var->ipx_sub_xo] == 0 || map[var->ipy][var->ipx_sub_xo] == NORTH)
 			px -= pdx * 12;
-		if (map[ipy_sub_yo][ipx] == 0 || map[ipy_sub_yo][ipx] == NORTH)
+		if (map[var->ipy_sub_yo][var->ipx] == 0 || map[var->ipy_sub_yo][var->ipx] == NORTH)
 			py -= pdy * 12;
 	}
-	// open door
+}
+
+void	open_door(t_keyvars *var)
+{
+	var->xo = 0;
+	if (pdx < 0)
+		var->xo = -25;
+	else 
+		var->xo = 25;
+	var->yo = 0; 
+	if (pdy < 0) 
+		var->yo  = -25; 
+	else 
+		var->yo = 25;
+	var->ipx = px / 64.0, var->ipx_add_xo = (px + var->xo) / 64.0;
+	var->ipy = py / 64.0, var->ipy_add_yo = (py + var->yo) / 64.0;
+	if (map[var->ipy_add_yo][var->ipx_add_xo] == DOOR)
+		map[var->ipy_add_yo][var->ipx_add_xo] = 0;
+}
+
+int	close_it(int keycode, t_data *mlx)
+{
+	t_keyvars var;
+	
+	keycode_init(&var);
+	keyhook_1(mlx, &var, keycode);
+	if (keycode == D)
+		if (map[(int)py / 64][(int) (px + 20) / 64] == 0 || map[(int)py / 64][(int) (px + 20) / 64] == NORTH)
+				px += 10;
+	if (keycode == A)
+		if (map[(int)py / 64][(int) (px - 20) / 64] == 0 || map[(int)py / 64][(int) (px - 20) / 64] == NORTH)
+				px -= 10;
 	if (keycode == 49)
-	{
-		int xo = 0;
-		if (pdx < 0)
-			xo = -25;
-		else 
-			xo = 25;
-		int yo = 0; 
-		if (pdy < 0) 
-			yo  = -25; 
-		else 
-			yo = 25;
-		int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0;
-		int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0;
-		if (map[ipy_add_yo][ipx_add_xo] == DOOR)
-			map[ipy_add_yo][ipx_add_xo] = 0;
-	}
+		open_door(&var);
 	return (0);
 }
 

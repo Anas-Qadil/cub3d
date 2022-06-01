@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/01 17:36:02 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/01 18:30:16 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,17 @@ typedef struct s_vars
 	int value;
 	float	shade;
 }	t_vars;
+
+typedef struct s_keyvars{
+	int xo;
+	int yo;
+	int ipx;
+	int ipy;
+	int ipx_add_xo;
+	int ipy_add_yo;
+	int ipx_sub_xo;
+	int ipy_sub_yo;
+} t_keyvars;
 
 typedef struct  s_sprite
 {
