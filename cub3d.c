@@ -4,6 +4,8 @@
 #define PI 3.141
 #define P2 PI/2
 #define P3  3*PI/2
+#define DOOR 126
+
 float px, py, pdx, pdy, pa;
 int mapS = 64, mapY = 15, mapX = 11;
 t_ray rays[60];
@@ -24,15 +26,16 @@ int cast_w = 953;
 int cast_h = 642;
 
 
+
 int map[11][15] = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1},
 	{1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, DOOR, 0, 0, 0, 1, 1},
 	{1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1},
+	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
@@ -109,7 +112,7 @@ void    drawMap2D(t_data *mlx)
 				}
 				// had loop 3la 9bel dak line between squares
 			}
-			else if (map[i][j] == 1)
+			else if (map[i][j] == 1 || map[i][j] == DOOR)
 			{
 				while (loopI < TILE_SIZE)
 				{
@@ -221,7 +224,7 @@ void    cast(t_data *mlx, float rayAngle)
 			my = (int)(ry) / 64;
 			
 			mp = my * mapX + mx;
-			if (mp > 0 && mp < mapX * mapY && map[my][mx] == 1)
+			if (mp > 0 && mp < mapX * mapY && (map[my][mx] == 1 || map[my][mx] == DOOR))
 			{
 				disV = ray_dist(px, py, rx, ry, ra);
 				dof = max_ray_checks;
@@ -262,7 +265,7 @@ void    cast(t_data *mlx, float rayAngle)
 			mx = (int)(rx) / 64; 
 			my = (int)(ry) / 64; 
 			mp = my * mapX + mx; 
-			if (mp > 0 && mp < mapX * mapY && map[my][mx] == 1)
+			if (mp > 0 && mp < mapX * mapY && (map[my][mx] == 1 || map[my][mx] == DOOR))
 			{
 				dof = max_ray_checks;
 				disH = ray_dist(px, py, rx, ry, ra);
@@ -321,33 +324,32 @@ void    cast(t_data *mlx, float rayAngle)
 		
 		while (y < lineH)
 		{
-			// if (cos(degToRad(ra)) < 0)
-			// {
-			// 	int color = mlx->tw_buff[((int)(ty) * 64) + (int)(tx)];
-			// 	my_mlx_pixel_put_cast(mlx, r, y + lineOff, color);
-			// }
-			// else
-			// {
 				int value, color;
-				value = ((int)(ty) * 64) + (int)(tx) * shade;
-				if (shade == 1)
-				{
-					if (ra > 0 && ra < 180)
-						color = mlx->buff[value];
+				value = ((int)(ty) * 64) + (int)(tx);
+					if (shade == 1)
+					{
+						if (ra > 0 && ra < 180)
+							color = mlx->buff[value];
+						else
+							color = mlx->ts_buff[value];
+					}
 					else
-						color = mlx->ts_buff[value];
-				}
-				else
-				{
-					if (ra > 90 && ra < 270)
-						color = mlx->tw_buff[value];
-					else
-						color = mlx->te_buff[value];
+					{
+						if (ra > 90 && ra < 270)
+						{
+							color = mlx->tw_buff[value];
+						}
+						else
+						{
 
-				}
-					
+						if (map[(int)(ry / 64)][(int)(rx / 64)] == DOOR)
+							color = mlx->door_buff[value];
+						else
+							color = mlx->te_buff[value];
+						}
+					}
+				
 				my_mlx_pixel_put_cast(mlx, r, y + lineOff, color);
-			// }
 			y++;
 			ty += ty_step;
 			
@@ -435,7 +437,8 @@ int	close_it(int keycode, t_data *mlx)
 			yo = 25;
 		int ipx = px / 64.0, ipx_add_xo = (px + xo) / 64.0;
 		int ipy = py / 64.0, ipy_add_yo = (py + yo) / 64.0;
-		map[ipy_add_yo][ipx_add_xo] = 0;
+		if (map[ipy_add_yo][ipx_add_xo] == DOOR)
+			map[ipy_add_yo][ipx_add_xo] = 0;
 	}
 	return (0);
 }
@@ -501,6 +504,16 @@ unsigned int	get_color_4(t_data *mlx, int x, int y)
 	return ((((unsigned char)ptr[2]) << 16)
 		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }
+unsigned int	get_color_5(t_data *mlx, int x, int y)
+{
+	char	*ptr;
+	int		pixel;
+
+	pixel = y * mlx->door_line_length + x * 4;
+	ptr = mlx->door_addr + pixel;
+	return ((((unsigned char)ptr[2]) << 16)
+		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
+}
 
 void	init(t_data *mlx)
 {
@@ -524,7 +537,7 @@ void	init(t_data *mlx)
 	}
 
 	// // texture East -->
-	mlx->te_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/greystone_w.xpm", &w, &h);
+	mlx->te_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/EA.xpm", &w, &h);
 	mlx->te_addr = mlx_get_data_addr(mlx->te_img, &mlx->te_bits_per_pixel, &mlx->te_line_length, &mlx->te_endian);
 	i = 0;
 	k = 0;
@@ -551,6 +564,23 @@ void	init(t_data *mlx)
 		while (j < 64)
 		{
 			mlx->ts_buff[k] = get_color_4(mlx, j, i);
+			j++;
+			k++;
+		}
+		i++;
+	}
+
+	//door
+	mlx->door_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/door.xpm", &w, &h);
+	mlx->door_addr = mlx_get_data_addr(mlx->door_img, &mlx->door_bits_per_pixel, &mlx->door_line_length, &mlx->door_endian);
+	i = 0;
+	k = 0;
+	while (i < 64)
+	{
+		int j = 0;
+		while (j < 64)
+		{
+			mlx->door_buff[k] = get_color_5(mlx, j, i);
 			j++;
 			k++;
 		}
@@ -639,10 +669,11 @@ int main(void)
 		}
 		i++;
 	}
+	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.t_img, 0, 0);
 	init(&mlx);
 	init_vars(&mlx);
 	draw_everything(&mlx);
-	// drawSprite(&mlx);
+	drawSprite(&mlx);
 	mlx_loop_hook(mlx.mlx, render, &mlx);
 	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
 	mlx_loop(mlx.mlx);

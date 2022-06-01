@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/05/29 15:58:36 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/01 09:13:49 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,14 @@ typedef struct	s_data {
 	int		te_endian;
 	int		te_colors[32][32];
 	int		te_buff[4096];
+
+	// DOOR
+	void	*door_img;
+	void	*door_addr;
+	int		door_bits_per_pixel;
+	int		door_line_length;
+	int		door_endian;
+	int		door_buff[4096];
 
 	// cast 3d
 	void	*cast_img;
