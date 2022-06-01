@@ -5,9 +5,15 @@
 #define P2 PI/2
 #define P3  3*PI/2
 #define DOOR 126
+#define NORTH 13
+#define W 13
+#define S 1
+#define D 2
+#define A 0
+
 
 float px, py, pdx, pdy, pa;
-int mapS = 64, mapY = 15, mapX = 11;
+int mapS = 64, mapY = 11, mapX = 15;
 t_ray rays[60];
 
 // pikuma calculation and vars
@@ -26,18 +32,17 @@ int cast_w = 953;
 int cast_h = 642;
 
 
-
 int map[11][15] = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1},
 	{1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, DOOR, 0, 0, 0, 1, 1},
-	{1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1},
+	{1, 0, 0, 0, 1, DOOR, 1, 1, 0, 1, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1},
-	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1},
+	{1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, NORTH, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
@@ -98,7 +103,7 @@ void    drawMap2D(t_data *mlx)
 			saveI += loopI;
 			loopI = 0;
 			loopJ = 0;
-			if (map[i][j] == 0)
+			if (map[i][j] == 0 || map[i][j] == NORTH)
 			{
 				while (loopI < TILE_SIZE)
 				{
@@ -119,7 +124,10 @@ void    drawMap2D(t_data *mlx)
 					loopJ = 0;
 					while (loopJ < TILE_SIZE)
 					{
-						my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00a9a9a9 );
+						if (map[i][j] == DOOR && loopI % 2 == 0)
+							my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00000);
+						else
+							my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00a9a9a9 );
 						loopJ++;
 					}
 					loopI++;
@@ -263,7 +271,7 @@ void    cast(t_data *mlx, float rayAngle)
 		while (dof < max_ray_checks)
 		{
 			mx = (int)(rx) / 64; 
-			my = (int)(ry) / 64; 
+			my = (int)(ry) / 64;
 			mp = my * mapX + mx; 
 			if (mp > 0 && mp < mapX * mapY && (map[my][mx] == 1 || map[my][mx] == DOOR))
 			{
@@ -329,7 +337,12 @@ void    cast(t_data *mlx, float rayAngle)
 					if (shade == 1)
 					{
 						if (ra > 0 && ra < 180)
-							color = mlx->buff[value];
+						{
+							if (map[(int)(ry / 64)][(int)(rx / 64)] == DOOR)
+								color = mlx->door_buff[value];
+							else
+								color = mlx->buff[value];
+						}
 						else
 							color = mlx->ts_buff[value];
 					}
@@ -341,11 +354,10 @@ void    cast(t_data *mlx, float rayAngle)
 						}
 						else
 						{
-
-						if (map[(int)(ry / 64)][(int)(rx / 64)] == DOOR)
-							color = mlx->door_buff[value];
-						else
-							color = mlx->te_buff[value];
+							if (map[(int)(ry / 64)][(int)(rx / 64)] == DOOR)
+								color = mlx->door_buff[value];
+							else
+								color = mlx->te_buff[value];
 						}
 					}
 				
@@ -408,18 +420,28 @@ int	close_it(int keycode, t_data *mlx)
 		pdx = cos(degToRad(pa));
 		pdy = -sin(degToRad(pa));
 	}
-	if (keycode == top_arrow)
+	if (keycode == W)
 	{
-		if (map[ipy][ipx_add_xo] == 0)
+		if (map[ipy][ipx_add_xo] == 0 || map[ipy][ipx_add_xo] == NORTH)
 			px += pdx * 12;
-		if (map[ipy_add_yo][ipx] == 0)
+		if (map[ipy_add_yo][ipx] == 0 || map[ipy_add_yo][ipx] == NORTH )
 			py += pdy * 12;
 	}
-	if (keycode == bottom_arrow)
+	if (keycode == D)
 	{
-		if (map[ipy][ipx_sub_xo] == 0)
+		if (map[(int)py / 64][(int) (px + 20) / 64] == 0 || map[(int)py / 64][(int) (px + 20) / 64] == NORTH)
+				px += 10;
+	}
+	if (keycode == A)
+	{
+		if (map[(int)py / 64][(int) (px - 20) / 64] == 0 || map[(int)py / 64][(int) (px - 20) / 64] == NORTH)
+				px -= 10;
+	}
+	if (keycode == S)
+	{
+		if (map[ipy][ipx_sub_xo] == 0 || map[ipy][ipx_sub_xo] == NORTH)
 			px -= pdx * 12;
-		if (map[ipy_sub_yo][ipx] == 0)
+		if (map[ipy_sub_yo][ipx] == 0 || map[ipy_sub_yo][ipx] == NORTH)
 			py -= pdy * 12;
 	}
 	// open door
@@ -613,7 +635,6 @@ int	render(t_data *mlx)
 	mlx_destroy_image(mlx->mlx, mlx->player_img);
 	init(mlx);
 	draw_everything(mlx);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->t_img, 300, 0);
 	// drawSprite(mlx);
 	
 	return (1);
@@ -629,16 +650,68 @@ void	init_vars(t_data *mlx)
 	mlx->spz= 20;
 }
 
+int	get_player_y_pos(t_data *mlx)
+{
+	int i = 0;
+	int found = 0;
+	
+	while (i < mapY)
+	{
+		int j = 0;
+		while (j < mapX)
+		{
+			if (map[i][j] == NORTH)
+			{
+				found = i;
+				break ;
+			}
+			j++;
+		}
+		if (found != 0)
+			break;
+		i++;
+	}
+	return ((found * 64) + 20);	
+}
+
+int	get_player_x_pos(t_data *mlx)
+{
+	int i = 0;
+	int found = 0;
+	
+	while (i < mapY)
+	{
+		int j = 0;
+		while (j < mapX)
+		{
+			if (map[i][j] == NORTH)
+			{
+				found = j;
+				break ;
+			}
+			j++;
+		}
+		if (found != 0)
+			break;
+		i++;
+	}
+	return ((found * 64) + 20);	
+}
+
 int main(void)
 {
 	t_data		mlx;
 	t_player	player;
-	px = 150;
-	py = 600;
+
+	px = get_player_x_pos(&mlx);
+	py = get_player_y_pos(&mlx);
+	pa = 90;
+	// px = 150;
+	// py = 600;
 	
 	playerInit(&player);
-	pdx = cos(pa) * 5;
-	pdy = sin(pa) * 15;
+	pdx = cos(degToRad(pa)); 
+	pdy = -sin(degToRad(pa));
 	mlx.mlx = mlx_init();
 	mlx.win_x = 953;
 	mlx.win_y = 642;
@@ -669,7 +742,6 @@ int main(void)
 		}
 		i++;
 	}
-	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.t_img, 0, 0);
 	init(&mlx);
 	init_vars(&mlx);
 	draw_everything(&mlx);
