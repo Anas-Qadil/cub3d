@@ -215,7 +215,6 @@ void    cast(t_data *mlx, float rayAngle)
 			ry = py;
 			dof = max_ray_checks;
 		}
-		
 		while (dof < max_ray_checks)
 		{
 			mx = (int)(rx) / 64;
@@ -308,13 +307,13 @@ void    cast(t_data *mlx, float rayAngle)
 		
 		float tx;
 		if(shade == 1){ 
-			tx = (int)(rx / 2.0) % 64; 
+			tx = (int)(rx) % 64; 
 			if(ra > 180)
 				tx = 63 - tx;
 		}
   		else        
 		{ 
-			tx = (int)(ry / 2.0) % 64; 
+			tx = (int)(ry) % 64; 
 			if(ra > 90 && ra < 270)
 				tx = 63 -  tx;
 		}
@@ -329,8 +328,24 @@ void    cast(t_data *mlx, float rayAngle)
 			// }
 			// else
 			// {
-				int value = ((int)(ty) * 64) + (int)(tx) * 2;
-				int color = mlx->buff[value];
+				int value, color;
+				value = ((int)(ty) * 64) + (int)(tx) * shade;
+				if (shade == 1)
+				{
+					if (ra > 0 && ra < 180)
+						color = mlx->buff[value];
+					else
+						color = mlx->ts_buff[value];
+				}
+				else
+				{
+					if (ra > 90 && ra < 270)
+						color = mlx->tw_buff[value];
+					else
+						color = mlx->te_buff[value];
+
+				}
+					
 				my_mlx_pixel_put_cast(mlx, r, y + lineOff, color);
 			// }
 			y++;
@@ -341,10 +356,10 @@ void    cast(t_data *mlx, float rayAngle)
 		// draw floors and cieling
 		int y123 = lineOff + lineH;
 		int counter = 0;
-		while (y123 < old_Width)
+		while (y123 < 640)
 		{
 			draw_floors(r, y123, mlx);
-			draw_ceiling(r, old_Width - y123, mlx);
+			draw_ceiling(r, 640 - y123, mlx);
 			y123++;
 		}
 		
@@ -456,13 +471,33 @@ unsigned int	get_color(t_data *t, int x, int y)
 		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }
 
-unsigned int	get_color_2(t_data *t, int x, int y)
+unsigned int	get_color_2(t_data *mlx, int x, int y)
 {
 	char	*ptr;
 	int		pixel;
 
-	pixel = y * t->tw_line_length + x * 4;
-	ptr = t->tw_addr + pixel;
+	pixel = y * mlx->tw_line_length + x * 4;
+	ptr = mlx->tw_addr + pixel;
+	return ((((unsigned char)ptr[2]) << 16)
+		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
+}
+unsigned int	get_color_3(t_data *mlx, int x, int y)
+{
+	char	*ptr;
+	int		pixel;
+
+	pixel = y * mlx->te_line_length + x * 4;
+	ptr = mlx->te_addr + pixel;
+	return ((((unsigned char)ptr[2]) << 16)
+		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
+}
+unsigned int	get_color_4(t_data *mlx, int x, int y)
+{
+	char	*ptr;
+	int		pixel;
+
+	pixel = y * mlx->ts_line_length + x * 4;
+	ptr = mlx->ts_addr + pixel;
 	return ((((unsigned char)ptr[2]) << 16)
 		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }
@@ -481,7 +516,7 @@ void	init(t_data *mlx)
 		int j = 0;
 		while (j < 64)
 		{
-			mlx->tw_buff[k] = get_color_2(mlx, i, j);
+			mlx->tw_buff[k] = get_color_2(mlx, j, i);
 			j++;
 			k++;
 		}
@@ -489,12 +524,38 @@ void	init(t_data *mlx)
 	}
 
 	// // texture East -->
-	// mlx->te_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/greystone_w.xpm", &w, &h);
-	// mlx->te_addr = mlx_get_data_addr(mlx->te_img, &mlx->te_bits_per_pixel, &mlx->te_line_length, &mlx->te_endian);
+	mlx->te_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/greystone_w.xpm", &w, &h);
+	mlx->te_addr = mlx_get_data_addr(mlx->te_img, &mlx->te_bits_per_pixel, &mlx->te_line_length, &mlx->te_endian);
+	i = 0;
+	k = 0;
+	while (i < 64)
+	{
+		int j = 0;
+		while (j < 64)
+		{
+			mlx->te_buff[k] = get_color_3(mlx, j, i);
+			j++;
+			k++;
+		}
+		i++;
+	}
 
 	// // texture South
-	// mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/greystone_w.xpm", &w, &h);
-	// mlx->t_addr = mlx_get_data_addr(mlx->ts_img, &mlx->ts_bits_per_pixel, &mlx->ts_line_length, &mlx->ts_endian);
+	mlx->ts_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/bluestone.xpm", &w, &h);
+	mlx->ts_addr = mlx_get_data_addr(mlx->ts_img, &mlx->ts_bits_per_pixel, &mlx->ts_line_length, &mlx->ts_endian);
+	i = 0;
+	k = 0;
+	while (i < 64)
+	{
+		int j = 0;
+		while (j < 64)
+		{
+			mlx->ts_buff[k] = get_color_4(mlx, j, i);
+			j++;
+			k++;
+		}
+		i++;
+	}
 
 	// map img
 	mlx->img = mlx_new_image(mlx->mlx, 240, 175);
