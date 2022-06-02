@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 13:36:24 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 14:00:26 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -560,145 +560,29 @@ unsigned int	get_color_5(t_data *mlx, int x, int y)
 		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }
 
+void	read_textures(t_data *mlx)
+{
+	read_north_texture(mlx);
+	read_west_texture(mlx);
+	read_east_texture(mlx);
+	read_south_texture(mlx);
+	read_door_texture(mlx);
+}
+
 void	init(t_data *mlx)
 {
-	int w, h;
-	 
-	// texture North <--
-	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/redbrick.xpm", &w, &h);
-	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel, &mlx->t_line_length, &mlx->t_endian);
-	int i = 0;
-	int k = 0;
-	while (i < 64)
-	{
-		int j = 0;
-		while (j < 64)
-		{
-			mlx->buff[k] = get_color(mlx, j, i);
-			j++;
-			k++;
-		}
-		i++;
-	}
-
-	// texture West <--
-	mlx->tw_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/wall2.xpm", &w, &h);
-	mlx->tw_addr = mlx_get_data_addr(mlx->tw_img, &mlx->tw_bits_per_pixel, &mlx->tw_line_length, &mlx->tw_endian);
-	 i = 0;
-	 k = 0;
-	while (i < 64)
-	{
-		int j = 0;
-		while (j < 64)
-		{
-			mlx->tw_buff[k] = get_color_2(mlx, j, i);
-			j++;
-			k++;
-		}
-		i++;
-	}
-
-	// // texture East -->
-	mlx->te_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/EA.xpm", &w, &h);
-	mlx->te_addr = mlx_get_data_addr(mlx->te_img, &mlx->te_bits_per_pixel, &mlx->te_line_length, &mlx->te_endian);
-	i = 0;
-	k = 0;
-	while (i < 64)
-	{
-		int j = 0;
-		while (j < 64)
-		{
-			mlx->te_buff[k] = get_color_3(mlx, j, i);
-			j++;
-			k++;
-		}
-		i++;
-	}
-
-	// // texture South
-	mlx->ts_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/bluestone.xpm", &w, &h);
-	mlx->ts_addr = mlx_get_data_addr(mlx->ts_img, &mlx->ts_bits_per_pixel, &mlx->ts_line_length, &mlx->ts_endian);
-	i = 0;
-	k = 0;
-	while (i < 64)
-	{
-		int j = 0;
-		while (j < 64)
-		{
-			mlx->ts_buff[k] = get_color_4(mlx, j, i);
-			j++;
-			k++;
-		}
-		i++;
-	}
-
-	//door
-	mlx->door_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/door.xpm", &w, &h);
-	mlx->door_addr = mlx_get_data_addr(mlx->door_img, &mlx->door_bits_per_pixel, &mlx->door_line_length, &mlx->door_endian);
-	i = 0;
-	k = 0;
-	while (i < 64)
-	{
-		int j = 0;
-		while (j < 64)
-		{
-			mlx->door_buff[k] = get_color_5(mlx, j, i);
-			j++;
-			k++;
-		}
-		i++;
-	}
-
-	// map img
-	mlx->img = mlx_new_image(mlx->mlx, 240, 175);
-	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length,
-								&mlx->endian);
+	read_textures(mlx);
+	create_images(mlx);
 	
-	// 3d img
-	mlx->cast_img = mlx_new_image(mlx->mlx, 2000, 1000);
-	mlx->cast_addr = mlx_get_data_addr(mlx->cast_img, &mlx->cast_bits_per_pixel, &mlx->cast_line_length,
-								&mlx->cast_endian);
-
-	//player
-	mlx->player_img = mlx_new_image(mlx->mlx, 5, 5);
-
-    mlx->player_addr = mlx_get_data_addr(mlx->player_img, &mlx->player_bits_per_pixel, &mlx->player_line_length,
-								&mlx->player_endian);
 }
 
 int	render(t_data *mlx)
 {
-	// mlx_clear_window(mlx->mlx, mlx->win);
 	update_everything();
 	draw_everything(mlx);
-
 	return (1);
 }
 
-void	read_animation(t_data *mlx)
-{
-	int i = 0;
-	int w, h;
-
-	// while (i < 12)
-	// {
-		mlx->sprt_img[0] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_0.xpm", &w, &h);
-		mlx->sprt_addr[0] = mlx_get_data_addr(mlx->sprt_img[0], &mlx->sprt_bits_per_pixel[0], &mlx->sprt_line_length[0], &mlx->sprt_endian[0]);
-
-		mlx->sprt_img[1] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_1.xpm", &w, &h);
-		mlx->sprt_addr[1] = mlx_get_data_addr(mlx->sprt_img[1], &mlx->sprt_bits_per_pixel[1], &mlx->sprt_line_length[1], &mlx->sprt_endian[1]);
-
-		mlx->sprt_img[2] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_2.xpm", &w, &h);
-		mlx->sprt_addr[2] = mlx_get_data_addr(mlx->sprt_img[2], &mlx->sprt_bits_per_pixel[2], &mlx->sprt_line_length[2], &mlx->sprt_endian[2]);
-
-		mlx->sprt_img[3] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_3.xpm", &w, &h);
-		mlx->sprt_addr[3] = mlx_get_data_addr(mlx->sprt_img[3], &mlx->sprt_bits_per_pixel[3], &mlx->sprt_line_length[3], &mlx->sprt_endian[3]);
-
-		mlx->sprt_img[4] = mlx_xpm_file_to_image(mlx->mlx, "./textures/soul_4.xpm", &w, &h);
-		mlx->sprt_addr[4] = mlx_get_data_addr(mlx->sprt_img[4], &mlx->sprt_bits_per_pixel[4], &mlx->sprt_line_length[4], &mlx->sprt_endian[4]);
-	// 	i++;
-	// }
-}
 
 void	init_vars(t_data *mlx)
 {

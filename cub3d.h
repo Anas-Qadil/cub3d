@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/01 21:29:48 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 13:59:46 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,7 @@ void    draw_everything(t_data *mlx);
 void draw_line(float ax, float ay, float bx, float by, t_data *param, int color);
 void draw_line_wall(float ax, float ay, float bx, float by, t_data *param, int color);
 
-unsigned int	get_color(t_data *t, int x, int y);
+
 float degToRad(float a);
 float FixAng(float a);
 float distance(float ax, float ay, float bx, float by, float ang);
@@ -261,6 +261,22 @@ void draw_line_cast(float ax, float ay, float bx, float by, t_data *param, int c
 
 unsigned int	get_color_2(t_data *t, int x, int y);
 int	render(t_data *mlx);
+
+void    read_north_texture(t_data *mlx);
+void    read_west_texture(t_data *mlx);
+void    read_east_texture(t_data *mlx);
+void    read_south_texture(t_data *mlx);
+
+// colors;
+unsigned int	get_color(t_data *t, int x, int y);
+unsigned int	get_color_2(t_data *mlx, int x, int y);
+unsigned int	get_color_3(t_data *mlx, int x, int y);
+unsigned int	get_color_4(t_data *mlx, int x, int y);
+unsigned int	get_color_5(t_data *mlx, int x, int y);
+void    read_door_texture(t_data *mlx);
+
+//images
+void    create_images(t_data *mlx);
 
 #endif
 
