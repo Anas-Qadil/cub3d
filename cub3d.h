@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 15:12:02 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 15:21:25 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,12 @@ typedef struct	s_data {
 
 	int		win_y;
 	int 	win_x;
+
+	//hooks
+	int move_left;
+	int move_right;
+	int move_up;
+	int move_down;
 
 	// textures N
 	void	*t_img;
@@ -298,6 +304,11 @@ void	read_textures(t_data *mlx);
 
 //render
 void	update_everything(t_data *mlx);
+
+//hooks
+void   init_hooks(t_data *mlx);
+int	stop_update( int keycode, t_data *mlx);
+void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode);
 
 #endif
 

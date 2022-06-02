@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 15:02:34 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 15:22:42 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,12 @@ void	drawMap2D_init(t_map_vars *var)
 	var->loopJ = 0;
 	var->saveI = 0;
 	var->saveJ = 0;
+}
+
+void   init_hooks(t_data *mlx)
+{
+    mlx->move_up = 0;
+    mlx->move_down = 0;
+    mlx->move_right = 0;
+    mlx->move_left = 0;
 }

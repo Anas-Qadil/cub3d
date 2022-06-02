@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 15:13:33 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 15:24:27 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,12 @@
 
 void	update_everything(t_data *mlx);
 
-int move_left = 0;
-int move_right = 0;
-int move_up = 0;
-int move_down = 0;
+
 int i = 0;
 
 float px, py, pdx, pdy, pa;
 int mapS = 64, mapY = 11, mapX = 15;
 t_ray rays[60];
-
-// pikuma calculation and vars
 
 const int TILE_SIZE = 16;
 
@@ -207,42 +202,42 @@ void	vertical_checks(t_vars *var)
 void	horiz_checks(t_vars *var)
 {
 	if (sin(degToRad(var->ra)) > 0) // looking up
+	{
+		var->ry = (((int)py / 64) * 64) - 0.0001;
+		var->rx = (py - var->ry) * var->Tan + px;
+		var->yo = -64;
+		var->xo = -var->yo * var->Tan;
+	}
+	else if (sin(degToRad(var->ra)) < 0) // looking down
+	{
+		var->ry = (((int)py / 64) * 64) + 64;      
+		var->rx = (py - var->ry) * var->Tan + px; 
+		var->yo = 64; 
+		var->xo = -var->yo * var->Tan;
+	}
+	else
+	{
+		var->rx = px;
+		var->ry = py;
+		var->dof = var->max_ray_checks;
+	}
+	while (var->dof < var->max_ray_checks)
+	{
+		var->mx = (int)(var->rx) / 64; 
+		var->my = (int)(var->ry) / 64;
+		var->mp = var->my * mapX + var->mx; 
+		if (var->mp > 0 && var->mp < mapX * mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
-			var->ry = (((int)py / 64) * 64) - 0.0001;
-			var->rx = (py - var->ry) * var->Tan + px;
-			var->yo = -64;
-			var->xo = -var->yo * var->Tan;
-		}
-		else if (sin(degToRad(var->ra)) < 0) // looking down
-		{
-			var->ry = (((int)py / 64) * 64) + 64;      
-			var->rx = (py - var->ry) * var->Tan + px; 
-			var->yo = 64; 
-			var->xo = -var->yo * var->Tan;
+			var->dof = var->max_ray_checks;
+			var->disH = ray_dist(px, py, var->rx, var->ry, var->ra);
 		}
 		else
 		{
-			var->rx = px;
-			var->ry = py;
-			var->dof = var->max_ray_checks;
+			var->rx += var->xo;
+			var->ry += var->yo;
+			var->dof += 1;
 		}
-		while (var->dof < var->max_ray_checks)
-		{
-			var->mx = (int)(var->rx) / 64; 
-			var->my = (int)(var->ry) / 64;
-			var->mp = var->my * mapX + var->mx; 
-			if (var->mp > 0 && var->mp < mapX * mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
-			{
-				var->dof = var->max_ray_checks;
-				var->disH = ray_dist(px, py, var->rx, var->ry, var->ra);
-			}
-			else
-			{
-				var->rx += var->xo;
-				var->ry += var->yo;
-				var->dof += 1;
-			}
-		}
+	}
 }
 
 void	init_cast_vars(t_vars *var)
@@ -403,24 +398,6 @@ void	keycode_init(t_keyvars *var)
 	var->ipy = py / 64.0, var->ipy_add_yo = (py + var->yo) / 64.0, var->ipy_sub_yo = (py - var->yo) / 64.0;
 }
 
-void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode)
-{
-	if (keycode == left_arrow)
-	{
-		move_left = 1;
-		move_right = 0;
-	}
-	if (keycode == right_arrow)
-	{
-		move_right = 1;
-		move_left = 0;
-	}
-	if (keycode == W)
-		move_up = 1;
-	if (keycode == S)
-		move_down = 1;
-}
-
 void	open_door(t_keyvars *var)
 {
 	var->xo = 0;
@@ -520,42 +497,29 @@ void	update_everything(t_data *mlx)
 	t_keyvars var;
 
 	keycode_init(&var);
-	if (move_left == 1)
-		pa += 0.2 * 8 * move_left;
+	if (mlx->move_left == 1)
+		pa += 0.2 * 8 * mlx->move_left;
 	else
-		pa -= 0.2 * 8 * move_right;
+		pa -= 0.2 * 8 * mlx->move_right;
 	pa = FixAng(pa);
 	pdx = cos(degToRad(pa));
 	pdy = -sin(degToRad(pa));
-	if (move_up == 1)
+	if (mlx->move_up == 1)
 	{
 		if (map[var.ipy][var.ipx_add_xo] == 0 || map[var.ipy][var.ipx_add_xo] == NORTH)
-			px += pdx * 4 * move_up;
+			px += pdx * 4 * mlx->move_up;
 		if (map[var.ipy_add_yo][var.ipx] == 0 || map[var.ipy_add_yo][var.ipx] == NORTH )
-			py += pdy * 4 * move_up;
-		move_down = 0;
+			py += pdy * 4 * mlx->move_up;
+		mlx->move_down = 0;
 	}
-	if (move_down == 1)
+	if (mlx->move_down == 1)
 	{
 		if (map[var.ipy][var.ipx_sub_xo] == 0 || map[var.ipy][var.ipx_sub_xo] == NORTH)
 			px -= pdx * 4;
 		if (map[var.ipy_sub_yo][var.ipx] == 0 || map[var.ipy_sub_yo][var.ipx] == NORTH)
 			py -= pdy * 4;
-		move_up = 0;
+		mlx->move_up = 0;
 	}
-}
-
-int	stop_update( int keycode, t_data *mlx)
-{
-	if (keycode == W)
-		move_up = 0;
-	if (keycode == S)
-		move_down = 0;
-	if (keycode == left_arrow)
-		move_left = 0;
-	if (keycode == right_arrow)
-		move_right = 0;
-	return (0);
 }
 
 int main(void)
@@ -575,7 +539,7 @@ int main(void)
 	mlx.win = mlx_new_window(mlx.mlx, mlx.win_x, mlx.win_y, "Cub3d");
 	mlx.player = &player;
 
-	
+	init_hooks(&mlx);
 	init(&mlx);
 	init_vars(&mlx);
 	draw_everything(&mlx);
