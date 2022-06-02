@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/01 18:30:16 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/01 21:29:48 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@
 #define top_arrow 126
 #define right_arrow 124
 #define bottom_arrow 125
-
-
-// pikuma calculation and vars
-
-
-
 
 
 #include <stdio.h>
@@ -212,6 +206,16 @@ typedef struct  s_sprite
 	int spx, spy, spz;
 } t_sprite;
 
+typedef struct  s_map_vars
+{
+	int i;
+	int j;
+	int loopI;
+	int loopJ;
+	int saveI;
+	int saveJ;
+} 	t_map_vars;
+
 
 typedef struct s_point {
 
@@ -256,6 +260,7 @@ void	my_mlx_pixel_put_player(t_data *data, int x, int y, int color);
 void draw_line_cast(float ax, float ay, float bx, float by, t_data *param, int color);
 
 unsigned int	get_color_2(t_data *t, int x, int y);
+int	render(t_data *mlx);
 
 #endif
 

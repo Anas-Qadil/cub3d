@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
+/*   Updated: 2022/06/02 07:55:06 by aqadil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 #define DR 0.0174533 // one degree in radian
@@ -10,7 +22,12 @@
 #define S 1
 #define D 2
 #define A 0
+void	update_everything();
 
+int move_left = 0;
+int move_right = 0;
+int move_up = 0;
+int move_down = 0;
 int i = 0;
 
 float px, py, pdx, pdy, pa;
@@ -82,57 +99,67 @@ void	drawSprite(t_data *mlx)
 	}
 }
 
-void	draw_squares(int loopI, int loopJ, int saveI, int saveJ, t_data *mlx)
+void	drawMap2D_init(t_map_vars *var)
 {
-	
+	var->i = -1;
+	var->j = -1;
+	var->loopI = 0;
+	var->loopJ = 0;
+	var->saveI = 0;
+	var->saveJ = 0;
+}
+
+void	drawMap2D_floor(t_map_vars *var, t_data *mlx)
+{
+	while (var->loopI < TILE_SIZE)	
+	{
+		var->loopJ = 0;
+		while (var->loopJ < TILE_SIZE)
+		{
+			my_mlx_pixel_put(mlx, var->saveI + var->loopI, var->saveJ + var->loopJ, 0x00FFFFFF);
+			var->loopJ++;
+		}
+		var->loopI++;
+	}
+}
+
+void	drawMap2D_walls(t_map_vars *var, t_data *mlx)
+{
+	while (var->loopI < TILE_SIZE)
+	{
+		var->loopJ = 0;
+		while (var->loopJ < TILE_SIZE)
+		{
+			if (map[var->i][var->j] == DOOR && var->loopI % 2 == 0)
+				my_mlx_pixel_put(mlx, var->saveI + var->loopI, var->saveJ + var->loopJ, 0x00000);
+			else
+				my_mlx_pixel_put(mlx, var->saveI + var->loopI, var->saveJ + var->loopJ, 0x00a9a9a9);
+			var->loopJ++;
+		}
+		var->loopI++;
+	}
 }
 
 void    drawMap2D(t_data *mlx)
 {
-	int i = -1, j = -1;
-	int loopI = 0, loopJ = 0;
-	int saveI = 0, saveJ = 0;
-	
-	while (++i < MAP_NUM_ROWS)
+	t_map_vars var;
+
+	drawMap2D_init(&var);
+	while (++var.i < MAP_NUM_ROWS)
 	{
-		j = -1;
-		saveI = 0;
-		saveJ += loopJ;
-		loopI = 0;
-		loopJ = 0;
-		while (++j < MAP_NUM_COLS)
+		var.j = -1;
+		var.saveI = 0;
+		var.saveJ += var.loopJ;
+		var.loopI = 0;
+		var.loopJ = 0;
+		while (++var.j < MAP_NUM_COLS)
 		{
-			saveI += loopI;
-			loopI = 0;
-			if (map[i][j] == 0 || map[i][j] == NORTH)
-			{
-				while (loopI < TILE_SIZE)
-				{
-					loopJ = 0;
-					while (loopJ < TILE_SIZE)
-					{
-						my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00FFFFFF);
-						loopJ++;
-					}
-					loopI++;
-				}
-			}
-			else if (map[i][j] == 1 || map[i][j] == DOOR)
-			{
-				while (loopI < TILE_SIZE)
-				{
-					loopJ = 0;
-					while (loopJ < TILE_SIZE)
-					{
-						if (map[i][j] == DOOR && loopI % 2 == 0)
-							my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00000);
-						else
-							my_mlx_pixel_put(mlx, saveI + loopI, saveJ + loopJ, 0x00a9a9a9);
-						loopJ++;
-					}
-					loopI++;
-				}
-			}
+			var.saveI += var.loopI;
+			var.loopI = 0;
+			if (map[var.i][var.j] == 0 || map[var.i][var.j] == NORTH)
+				drawMap2D_floor(&var, mlx);
+			else if (map[var.i][var.j] == 1 || map[var.i][var.j] == DOOR)
+				drawMap2D_walls(&var, mlx);
 		}
 	}
 }
@@ -152,44 +179,42 @@ void	draw_ceiling(float x, float y, t_data *mlx)
 	my_mlx_pixel_put_cast(mlx, (int)(x), (int)y, 0x0087CEEB);
 }
 
-// vertical checks
-
 void	vertical_checks(t_vars *var)
 {
 	var->disV = 1000000;
-		var->Tan = tan(degToRad(var->ra));
-		var->dof = 0;
-		if(cos(degToRad(var->ra)) > 0) //looking right
+	var->Tan = tan(degToRad(var->ra));
+	var->dof = 0;
+	if(cos(degToRad(var->ra)) > 0) //looking right
+	{
+		var->rx = (((int)px / 64) * 64) + 64;      
+		var->ry = (px - var->rx) * var->Tan + py;
+		var->xo = 64; 
+		var->yo = -var->xo * var->Tan;
+	}
+	else if(cos(degToRad(var->ra)) < 0) //looking left
+	{
+		var->rx = (((int)px / 64) * 64) - 0.0001;
+		var->ry =(px - var->rx) * var->Tan + py; 
+		var->xo = -64;
+		var->yo = -var->xo * var->Tan;
+	}
+	else 
+	{
+		var->rx = px;
+		var->ry = py;
+		var->dof = var->max_ray_checks;
+	}
+	while (var->dof < var->max_ray_checks)
+	{
+		var->mx = (int)(var->rx) / 64;
+		var->my = (int)(var->ry) / 64;
+			
+		var->mp = var->my * mapX + var->mx;
+		if (var->mp > 0 && var->mp < mapX * mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
-			var->rx = (((int)px / 64) * 64) + 64;      
-			var->ry = (px - var->rx) * var->Tan + py;
-			var->xo = 64; 
-			var->yo = -var->xo * var->Tan;
-		}
-		else if(cos(degToRad(var->ra)) < 0) //looking left
-		{
-			var->rx = (((int)px / 64) * 64) - 0.0001;
-			var->ry =(px - var->rx) * var->Tan + py; 
-			var->xo = -64;
-			var->yo = -var->xo * var->Tan;
-		}
-		else 
-		{
-			var->rx = px;
-			var->ry = py;
+			var->disV = ray_dist(px, py, var->rx, var->ry, var->ra);
 			var->dof = var->max_ray_checks;
 		}
-		while (var->dof < var->max_ray_checks)
-		{
-			var->mx = (int)(var->rx) / 64;
-			var->my = (int)(var->ry) / 64;
-			
-			var->mp = var->my * mapX + var->mx;
-			if (var->mp > 0 && var->mp < mapX * mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
-			{
-				var->disV = ray_dist(px, py, var->rx, var->ry, var->ra);
-				var->dof = var->max_ray_checks;
-			}
 		else 
 		{
 			var->rx += var->xo;
@@ -239,7 +264,7 @@ void	horiz_checks(t_vars *var)
 			}
 		}
 }
-//init vars
+
 void	init_cast_vars(t_vars *var)
 {
 	var->rays_num = 1000;
@@ -402,31 +427,29 @@ void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode)
 {
 	if (keycode == left_arrow)
 	{
-		pa += 0.2 * 30;
-		pa = FixAng(pa);
-		pdx = cos(degToRad(pa)); 
-		pdy = -sin(degToRad(pa));
+		move_left = 1;
+		move_right = 0;
 	}
 	if (keycode == right_arrow)
 	{
-		pa -= 0.2 * 30;
-		pa = FixAng(pa);
-		pdx = cos(degToRad(pa));
-		pdy = -sin(degToRad(pa));
+		move_right = 1;
+		move_left = 0;
 	}
 	if (keycode == W)
 	{
-		if (map[var->ipy][var->ipx_add_xo] == 0 || map[var->ipy][var->ipx_add_xo] == NORTH)
-			px += pdx * 12;
-		if (map[var->ipy_add_yo][var->ipx] == 0 || map[var->ipy_add_yo][var->ipx] == NORTH )
-			py += pdy * 12;
+		move_up = 1;
+		// if (map[var->ipy][var->ipx_add_xo] == 0 || map[var->ipy][var->ipx_add_xo] == NORTH)
+		// 	px += pdx * 12;
+		// if (map[var->ipy_add_yo][var->ipx] == 0 || map[var->ipy_add_yo][var->ipx] == NORTH )
+		// 	py += pdy * 12;
 	}
 	if (keycode == S)
 	{
-		if (map[var->ipy][var->ipx_sub_xo] == 0 || map[var->ipy][var->ipx_sub_xo] == NORTH)
-			px -= pdx * 12;
-		if (map[var->ipy_sub_yo][var->ipx] == 0 || map[var->ipy_sub_yo][var->ipx] == NORTH)
-			py -= pdy * 12;
+		// if (map[var->ipy][var->ipx_sub_xo] == 0 || map[var->ipy][var->ipx_sub_xo] == NORTH)
+		// 	px -= pdx * 12;
+		// if (map[var->ipy_sub_yo][var->ipx] == 0 || map[var->ipy_sub_yo][var->ipx] == NORTH)
+		// 	py -= pdy * 12;
+		move_down = 1;
 	}
 }
 
@@ -641,43 +664,13 @@ void	init(t_data *mlx)
 
     mlx->player_addr = mlx_get_data_addr(mlx->player_img, &mlx->player_bits_per_pixel, &mlx->player_line_length,
 								&mlx->player_endian);
-
-	
 }
-int j = 1;
+
 int	render(t_data *mlx)
 {
-	mlx_clear_window(mlx->mlx, mlx->win);
+	// mlx_clear_window(mlx->mlx, mlx->win);
+	update_everything();
 	draw_everything(mlx);
-
-	// drawSprite(mlx);
-	int w, h;
-	// testing animation
-	static int k = 0;
-
-	// if (k == 20)
-	// {
-	// 	mlx_clear_window(mlx->mlx, mlx->win);
-	// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt_img[0], 0, 0);
-	// }
-	// if (k == 40)
-	// {
-	// 	mlx_clear_window(mlx->mlx, mlx->win);
-	// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt_img[1], 0, 0);
-	// }
-	// if (k == 60)
-	// {
-	// 	mlx_clear_window(mlx->mlx, mlx->win);
-	// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt_img[2], 0, 0);
-	// }
-	// if (k == 80)
-	// {
-	// 	mlx_clear_window(mlx->mlx, mlx->win);
-	// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt_img[3], 0, 0);
-	// }
-	// if (k == 80)
-	// 	k = 0;
-	// k++;
 
 	return (1);
 }
@@ -765,6 +758,51 @@ int	get_player_x_pos(t_data *mlx)
 	return ((found * 64) + 20);	
 }
 
+void	update_everything()
+{
+	t_keyvars var;
+
+	keycode_init(&var);
+	if (move_left == 1)
+		pa += 0.2 * 10 * move_left;
+	else
+		pa -= 0.2 * 10 * move_right;
+	pa = FixAng(pa);
+	pdx = cos(degToRad(pa));
+	pdy = -sin(degToRad(pa));
+	if (move_up == 1)
+	{
+		if (map[var.ipy][var.ipx_add_xo] == 0 || map[var.ipy][var.ipx_add_xo] == NORTH)
+			px += pdx * 5 * move_up;
+		if (map[var.ipy_add_yo][var.ipx] == 0 || map[var.ipy_add_yo][var.ipx] == NORTH )
+			py += pdy * 5 * move_up;
+		move_down = 0;
+	}
+	if (move_down == 1)
+	{
+		if (map[var.ipy][var.ipx_sub_xo] == 0 || map[var.ipy][var.ipx_sub_xo] == NORTH)
+			px -= pdx * 5;
+		if (map[var.ipy_sub_yo][var.ipx] == 0 || map[var.ipy_sub_yo][var.ipx] == NORTH)
+			py -= pdy * 5;
+		move_up = 0;
+	}
+}
+
+int	stop_update( int keycode, t_data *mlx)
+{
+	printf("%d\n", keycode);
+	fflush(stdout);
+	if (keycode == W)
+		move_up = 0;
+	if (keycode == S)
+		move_down = 0;
+	if (keycode == left_arrow)
+		move_left = 0;
+	if (keycode == right_arrow)
+		move_right = 0;
+	return (0);
+}
+
 int main(void)
 {
 	t_data		mlx;
@@ -773,8 +811,6 @@ int main(void)
 	px = get_player_x_pos(&mlx);
 	py = get_player_y_pos(&mlx);
 	pa = 90;
-	// px = 150;
-	// py = 600;
 	
 	playerInit(&player);
 	pdx = cos(degToRad(pa)); 
@@ -802,9 +838,11 @@ int main(void)
 	init_vars(&mlx);
 	draw_everything(&mlx);
 	// drawSprite(&mlx);
-	read_animation(&mlx);
+	// read_animation(&mlx);
+	mlx_hook(mlx.win, 2, (1L<<0), close_it, &mlx);
+	mlx_hook(mlx.win, 3, (1L<<1), stop_update, &mlx);
+	
 	mlx_loop_hook(mlx.mlx, render, &mlx);
-	mlx_hook(mlx.win, 2, 1L<<0, close_it, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
 }
