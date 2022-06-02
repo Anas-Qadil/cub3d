@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:12:37 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 20:23:52 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 21:27:28 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,22 @@ void	painting_the_line(t_vars *var, t_data *mlx)
 					color = mlx->buff[value];
 			}
 			else
-				color = mlx->ts_buff[value];
+			{
+				if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+					color = mlx->door_buff[value];
+				else
+					color = mlx->ts_buff[value];
+			}
 		}
 		else
 		{
 			if (var->ra > 90 && var->ra < 270)
-				color = mlx->tw_buff[value];
+			{
+				if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+					color = mlx->door_buff[value];
+				else
+					color = mlx->tw_buff[value];
+			}
 			else
 			{
 				if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)

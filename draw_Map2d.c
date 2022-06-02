@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:30:40 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 21:19:55 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 21:25:30 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,23 @@ void	drawMap2D_walls(t_map_vars *var, t_data *mlx)
 	}
 }
 
+void	drawMap2D_closed_doors(t_map_vars *var, t_data *mlx)
+{
+	while (var->loopI < mlx->square_size)
+	{
+		var->loopJ = 0;
+		while (var->loopJ < mlx->square_size)
+		{
+			if (map[var->i][var->j] == DOOR_CLOSED && var->loopI % 2 == 0)
+				my_mlx_pixel_put(mlx, var->saveI + var->loopI, var->saveJ + var->loopJ, 0x00808080);
+			else
+				my_mlx_pixel_put(mlx, var->saveI + var->loopI, var->saveJ + var->loopJ, 0x00FFFFFF);
+			var->loopJ++;
+		}
+		var->loopI++;
+	}
+}
+
 void    drawMap2D(t_data *mlx)
 {
 	t_map_vars var;
@@ -61,8 +78,10 @@ void    drawMap2D(t_data *mlx)
 		{
 			var.saveI += var.loopI;
 			var.loopI = 0;
-			if (map[var.i][var.j] == 0 || map[var.i][var.j] == NORTH || map[var.i][var.j] == DOOR_CLOSED)
+			if (map[var.i][var.j] == 0 || map[var.i][var.j] == NORTH)
 				drawMap2D_floor(&var, mlx);
+			else if (map[var.i][var.j] == DOOR_CLOSED)
+				drawMap2D_closed_doors(&var, mlx);
 			else if (map[var.i][var.j] == 1 || map[var.i][var.j] == DOOR)
 				drawMap2D_walls(&var, mlx);
 		}
