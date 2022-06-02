@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 17:47:47 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 18:01:36 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ void	init_everything(t_data *mlx)
 	mlx->mapS = 64;
 	mlx->mapY = 11;
 	mlx->mapX = 15;
+	mlx->pa = 90;
+	mlx->px = get_player_x_pos(mlx);
+	mlx->py = get_player_y_pos(mlx);
+	mlx->pdx = cos(degToRad(mlx->pa)); 
+	mlx->pdy = -sin(degToRad(mlx->pa));
 	
 	init_hooks(mlx);
 	init_vars(mlx);

@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 17:56:14 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 18:19:17 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,7 @@ void	my_mlx_pixel_put_cast(t_data *data, int x, int y, int color);
 
 void	my_mlx_pixel_put_player(t_data *data, int x, int y, int color);
 void draw_line_cast(float ax, float ay, float bx, float by, t_data *param, int color);
-
+float ray_dist(float ax, float ay, float bx, float by, float ang);
 unsigned int	get_color_2(t_data *t, int x, int y);
 int	render(t_data *mlx);
 
@@ -336,6 +336,15 @@ void	draw_floors(float x, float y, t_data *mlx);
 //player
 int	get_player_y_pos(t_data *mlx);
 int	get_player_x_pos(t_data *mlx);
+
+//3ddraw
+void	painting_the_line(t_vars *var, t_data *mlx);
+
+//checks 
+void	vertical_checks(t_vars *var, t_data *mlx);
+void	switch_var(t_vars *var);
+void	horiz_checks(t_vars *var, t_data *mlx);
+void	line_calculation(t_vars *var, t_data *mlx);
 
 #endif
 
