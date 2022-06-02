@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 07:55:06 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 13:36:24 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -764,26 +764,26 @@ void	update_everything()
 
 	keycode_init(&var);
 	if (move_left == 1)
-		pa += 0.2 * 10 * move_left;
+		pa += 0.2 * 8 * move_left;
 	else
-		pa -= 0.2 * 10 * move_right;
+		pa -= 0.2 * 8 * move_right;
 	pa = FixAng(pa);
 	pdx = cos(degToRad(pa));
 	pdy = -sin(degToRad(pa));
 	if (move_up == 1)
 	{
 		if (map[var.ipy][var.ipx_add_xo] == 0 || map[var.ipy][var.ipx_add_xo] == NORTH)
-			px += pdx * 5 * move_up;
+			px += pdx * 4 * move_up;
 		if (map[var.ipy_add_yo][var.ipx] == 0 || map[var.ipy_add_yo][var.ipx] == NORTH )
-			py += pdy * 5 * move_up;
+			py += pdy * 4 * move_up;
 		move_down = 0;
 	}
 	if (move_down == 1)
 	{
 		if (map[var.ipy][var.ipx_sub_xo] == 0 || map[var.ipy][var.ipx_sub_xo] == NORTH)
-			px -= pdx * 5;
+			px -= pdx * 4;
 		if (map[var.ipy_sub_yo][var.ipx] == 0 || map[var.ipy_sub_yo][var.ipx] == NORTH)
-			py -= pdy * 5;
+			py -= pdy * 4;
 		move_up = 0;
 	}
 }
