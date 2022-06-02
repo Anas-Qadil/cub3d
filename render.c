@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 20:29:13 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 21:18:30 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,30 @@ void	read_textures(t_data *mlx)
 	read_door_texture(mlx);
 }
 
+void	check_doors(t_data *mlx)
+{
+	int i = 0;
+	int j = 0;
+
+	while (i < mlx->mapY)
+	{
+		j = 0;
+		while (j < mlx->mapX)
+		{
+			if (map[i][j] == DOOR_CLOSED)
+				map[i][j] = DOOR;
+			j++;
+		}
+		i++;
+	}
+}
+
 int	render(t_data *mlx)
 {
 	update_everything(mlx);
 	draw_everything(mlx);
+	mlx->start++;
+	if (mlx->start == 100)
+		check_doors(mlx);
 	return (1);
 }
