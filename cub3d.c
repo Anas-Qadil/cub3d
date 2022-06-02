@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 18:19:03 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 18:48:37 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void    cast(t_data *mlx, float rayAngle)
 		line_calculation(&var, mlx);
   		painting_the_line(&var, mlx);
 		draw_floor_and_ceiling(&var, mlx);
-		var.ra = FixAng(var.ra - 0.060);
+		var.ra = FixAng(var.ra - var.next_ra);
 		var.r++;
 		var.i++;
 	}

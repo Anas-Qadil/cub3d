@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 13:58:24 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 13:58:59 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 18:41:08 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    create_images(t_data *mlx)
 	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length,
 								&mlx->endian);
 	// 3d img
-	mlx->cast_img = mlx_new_image(mlx->mlx, 2000, 1000);
+	mlx->cast_img = mlx_new_image(mlx->mlx, mlx->win_x, mlx->win_y);
 	mlx->cast_addr = mlx_get_data_addr(mlx->cast_img, &mlx->cast_bits_per_pixel, &mlx->cast_line_length,
 								&mlx->cast_endian);
 

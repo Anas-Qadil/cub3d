@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 18:33:06 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 18:35:55 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,15 +113,15 @@ void	line_calculation(t_vars *var, t_data *mlx)
 {
 	var->ca = FixAng(mlx->pa - var->ra); // fish eye
 	var->disH = var->disH * cos(degToRad(var->ca));
-	var->lineH = (mlx->mapS * 640) / (var->disH);
+	var->lineH = (mlx->mapS * mlx->win_y) / (var->disH);
 	var->ty_step = 64.0 / (float)var->lineH;
 	var->ty_off = 0;
-	if(var->lineH > 640)
+	if(var->lineH > mlx->win_y)
 	{
-		var->ty_off = (var->lineH - 640) / 2.0;
-		var->lineH = 640;
+		var->ty_off = (var->lineH - mlx->win_y) / 2.0;
+		var->lineH = mlx->win_y;
 	}  //line height and limit
-	var->lineOff = 320 - (var->lineH / 2);
+	var->lineOff = (mlx->line_height) - (var->lineH / 2);
 
 	var->y = 0;
 	var->ty = var->ty_off * var->ty_step;

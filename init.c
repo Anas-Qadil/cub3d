@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 18:01:36 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 19:28:37 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,14 @@ void   init_hooks(t_data *mlx)
 
 void	init_cast_vars(t_vars *var, t_data *mlx)
 {
-	var->rays_num = 1000;
+	float calul = (float)(mlx->win_x / 1000.0);
+	
+	var->rays_num =  mlx->win_x;
+	// printf("%f\n", calul);
+	// printf("%d\n", var->rays_num);
+	var->next_ra = (0.060 / ((calul) + ((calul * 5) / 100)));
+	// printf("%f\n", var->next_ra);
+	// fflush(stdout);
 	var->color = 0x00e83838;
 	var->max_ray_checks = 20;
 	var->r = 0;
@@ -61,8 +68,8 @@ void	init_cast_vars(t_vars *var, t_data *mlx)
 void	init_everything(t_data *mlx)
 {
 	mlx->mlx = mlx_init();
-	mlx->win_x = 953;
-	mlx->win_y = 642;
+	mlx->win_x = 1500;
+	mlx->win_y = 1000;
 	mlx->win = mlx_new_window(mlx->mlx, mlx->win_x, mlx->win_y, "Cub3d");
 	mlx->square_size = 16;
 	mlx->mapS = 64;
@@ -73,6 +80,7 @@ void	init_everything(t_data *mlx)
 	mlx->py = get_player_y_pos(mlx);
 	mlx->pdx = cos(degToRad(mlx->pa)); 
 	mlx->pdy = -sin(degToRad(mlx->pa));
+	mlx->line_height = mlx->win_y / 2;
 	
 	init_hooks(mlx);
 	init_vars(mlx);
