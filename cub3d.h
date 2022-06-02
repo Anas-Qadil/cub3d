@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 18:48:15 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 20:05:02 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,9 @@ void	init_vars(t_data *mlx);
 void	drawMap2D_init(t_map_vars *var);
 void	init(t_data *mlx);
 void	init_cast_vars(t_vars *var, t_data *mlx);
+void	init_player(t_data *mlx);
+void	init_map(t_data *mlx);
+void	init_window(t_data *mlx);
 
 //textures
 void	read_textures(t_data *mlx);
