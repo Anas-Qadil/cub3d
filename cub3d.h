@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 16:37:23 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 16:47:14 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,12 @@ typedef struct	s_data {
 	float	pdx;
 	float	pdy;
 	float	pa;
+	
+	//2d map vars
+	int	square_size;
+	int	mapS;
+	int	mapY;
+	int	mapX;
 	
 
 	//hooks

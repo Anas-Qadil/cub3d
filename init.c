@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 15:31:43 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 16:47:32 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void	init_everything(t_data *mlx)
 	mlx->win_x = 953;
 	mlx->win_y = 642;
 	mlx->win = mlx_new_window(mlx->mlx, mlx->win_x, mlx->win_y, "Cub3d");
+	mlx->square_size = 16;
+	mlx->mapS = 64;
+	mlx->mapY = 11;
+	mlx->mapX = 15;
 	
 	init_hooks(mlx);
 	init_vars(mlx);

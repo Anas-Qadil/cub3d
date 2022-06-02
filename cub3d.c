@@ -6,27 +6,11 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 16:36:51 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 17:06:09 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-
-
-float  pdx, pdy, pa;
-int mapS = 64, mapY = 11, mapX = 15;
-t_ray rays[60];
-
-const int TILE_SIZE = 16;
-
-const int square_size = 64;
-
-const int MAP_NUM_ROWS = 11;
-const int MAP_NUM_COLS = 15;
-const float FOV_ANGLE = 60 * (PI / 180);
-const int NUM_RAYS = 60;
-const int WALL_STRIP_WIDTH = 1;
 
 int cast_w = 953;
 int cast_h = 642;
@@ -83,10 +67,10 @@ int eat = 0;
 
 void	drawMap2D_floor(t_map_vars *var, t_data *mlx)
 {
-	while (var->loopI < TILE_SIZE)	
+	while (var->loopI < mlx->square_size)	
 	{
 		var->loopJ = 0;
-		while (var->loopJ < TILE_SIZE)
+		while (var->loopJ < mlx->square_size)
 		{
 			my_mlx_pixel_put(mlx, var->saveI + var->loopI, var->saveJ + var->loopJ, 0x00FFFFFF);
 			var->loopJ++;
@@ -97,10 +81,10 @@ void	drawMap2D_floor(t_map_vars *var, t_data *mlx)
 
 void	drawMap2D_walls(t_map_vars *var, t_data *mlx)
 {
-	while (var->loopI < TILE_SIZE)
+	while (var->loopI < mlx->square_size)
 	{
 		var->loopJ = 0;
-		while (var->loopJ < TILE_SIZE)
+		while (var->loopJ < mlx->square_size)
 		{
 			if (map[var->i][var->j] == DOOR && var->loopI % 2 == 0)
 				my_mlx_pixel_put(mlx, var->saveI + var->loopI, var->saveJ + var->loopJ, 0x00000);
@@ -117,14 +101,14 @@ void    drawMap2D(t_data *mlx)
 	t_map_vars var;
 
 	drawMap2D_init(&var);
-	while (++var.i < MAP_NUM_ROWS)
+	while (++var.i < mlx->mapY)
 	{
 		var.j = -1;
 		var.saveI = 0;
 		var.saveJ += var.loopJ;
 		var.loopI = 0;
 		var.loopJ = 0;
-		while (++var.j < MAP_NUM_COLS)
+		while (++var.j < mlx->mapX)
 		{
 			var.saveI += var.loopI;
 			var.loopI = 0;
@@ -181,8 +165,8 @@ void	vertical_checks(t_vars *var, t_data *mlx)
 		var->mx = (int)(var->rx) / 64;
 		var->my = (int)(var->ry) / 64;
 			
-		var->mp = var->my * mapX + var->mx;
-		if (var->mp > 0 && var->mp < mapX * mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
+		var->mp = var->my * mlx->mapX + var->mx;
+		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
 			var->disV = ray_dist(mlx->px, mlx->py, var->rx, var->ry, var->ra);
 			var->dof = var->max_ray_checks;
@@ -222,8 +206,8 @@ void	horiz_checks(t_vars *var, t_data *mlx)
 	{
 		var->mx = (int)(var->rx) / 64; 
 		var->my = (int)(var->ry) / 64;
-		var->mp = var->my * mapX + var->mx; 
-		if (var->mp > 0 && var->mp < mapX * mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
+		var->mp = var->my * mlx->mapX + var->mx; 
+		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
 			var->dof = var->max_ray_checks;
 			var->disH = ray_dist(mlx->px, mlx->py, var->rx, var->ry, var->ra);
@@ -243,7 +227,7 @@ void	init_cast_vars(t_vars *var, t_data *mlx)
 	var->color = 0x00e83838;
 	var->max_ray_checks = 20;
 	var->r = 0;
-	var->ra = FixAng(pa+30);
+	var->ra = FixAng(mlx->pa+30);
 	var->i = 0;
 	var->hx = mlx->px;
 	var->hy = mlx->py;
@@ -256,11 +240,11 @@ void	switch_var(t_vars *var)
 	var->Tan = 1.0 / var->Tan;
 }
 
-void	line_calculation(t_vars *var)
+void	line_calculation(t_vars *var, t_data *mlx)
 {
-	var->ca = FixAng(pa - var->ra); // fish eye
+	var->ca = FixAng(mlx->pa - var->ra); // fish eye
 	var->disH = var->disH * cos(degToRad(var->ca));
-	var->lineH = (mapS * 640) / (var->disH);
+	var->lineH = (mlx->mapS * 640) / (var->disH);
 	var->ty_step = 64.0 / (float)var->lineH;
 	var->ty_off = 0;
 	if(var->lineH > 640)
@@ -364,7 +348,7 @@ void    cast(t_data *mlx, float rayAngle)
 		rayYpos[var.i] = var.ry / 4;
 		playerXpos[var.i] = mlx->px / 4;
 		playerYpos[var.i] = mlx->py / 4;
-		line_calculation(&var);
+		line_calculation(&var, mlx);
   		painting_the_line(&var, mlx);
 		draw_floor_and_ceiling(&var, mlx);
 		var.ra = FixAng(var.ra - 0.060);
@@ -382,12 +366,12 @@ void    cast(t_data *mlx, float rayAngle)
 void	keycode_init(t_keyvars *var, t_data *mlx)
 {
 	var->xo = 0;
-	if (pdx < 0)
+	if (mlx->pdx < 0)
 		var->xo = -20;
 	else 
 		var->xo = 20;
 	var->yo = 0;
-	if(pdy < 0) 
+	if(mlx->pdy < 0) 
 		var->yo = -20;
 	else 
 		var->yo = 20;
@@ -398,12 +382,12 @@ void	keycode_init(t_keyvars *var, t_data *mlx)
 void	open_door(t_keyvars *var, t_data *mlx)
 {
 	var->xo = 0;
-	if (pdx < 0)
+	if (mlx->pdx < 0)
 		var->xo = -25;
 	else 
 		var->xo = 25;
 	var->yo = 0; 
-	if (pdy < 0) 
+	if (mlx->pdy < 0) 
 		var->yo  = -25; 
 	else 
 		var->yo = 25;
@@ -446,10 +430,10 @@ int	get_player_y_pos(t_data *mlx)
 	int i = 0;
 	int found = 0;
 	
-	while (i < mapY)
+	while (i < mlx->mapY)
 	{
 		int j = 0;
-		while (j < mapX)
+		while (j < mlx->mapX)
 		{
 			if (map[i][j] == NORTH)
 			{
@@ -470,10 +454,10 @@ int	get_player_x_pos(t_data *mlx)
 	int i = 0;
 	int found = 0;
 	
-	while (i < mapY)
+	while (i < mlx->mapY)
 	{
 		int j = 0;
-		while (j < mapX)
+		while (j < mlx->mapX)
 		{
 			if (map[i][j] == NORTH)
 			{
@@ -495,26 +479,26 @@ void	update_everything(t_data *mlx)
 
 	keycode_init(&var, mlx);
 	if (mlx->move_left == 1)
-		pa += 0.2 * 8 * mlx->move_left;
+		mlx->pa += 0.2 * 8 * mlx->move_left;
 	else
-		pa -= 0.2 * 8 * mlx->move_right;
-	pa = FixAng(pa);
-	pdx = cos(degToRad(pa));
-	pdy = -sin(degToRad(pa));
+		mlx->pa -= 0.2 * 8 * mlx->move_right;
+	mlx->pa = FixAng(mlx->pa);
+	mlx->pdx = cos(degToRad(mlx->pa));
+	mlx->pdy = -sin(degToRad(mlx->pa));
 	if (mlx->move_up == 1)
 	{
 		if (map[var.ipy][var.ipx_add_xo] == 0 || map[var.ipy][var.ipx_add_xo] == NORTH)
-			mlx->px += pdx * 4 * mlx->move_up;
+			mlx->px += mlx->pdx * 4 * mlx->move_up;
 		if (map[var.ipy_add_yo][var.ipx] == 0 || map[var.ipy_add_yo][var.ipx] == NORTH )
-			mlx->py += pdy * 4 * mlx->move_up;
+			mlx->py += mlx->pdy * 4 * mlx->move_up;
 		mlx->move_down = 0;
 	}
 	if (mlx->move_down == 1)
 	{
 		if (map[var.ipy][var.ipx_sub_xo] == 0 || map[var.ipy][var.ipx_sub_xo] == NORTH)
-			mlx->px -= pdx * 4;
+			mlx->px -= mlx->pdx * 4;
 		if (map[var.ipy_sub_yo][var.ipx] == 0 || map[var.ipy_sub_yo][var.ipx] == NORTH)
-			mlx->py -= pdy * 4;
+			mlx->py -= mlx->pdy * 4;
 		mlx->move_up = 0;
 	}
 }
@@ -525,14 +509,14 @@ int main(void)
 	t_player	player;
 
 	// py = get_player_y_pos(&mlx);
-	pa = 90;
+	init_everything(&mlx);
+	mlx.pa = 90;
 	mlx.px = get_player_x_pos(&mlx);;
 	mlx.py = get_player_y_pos(&mlx);;
 	
-	pdx = cos(degToRad(pa)); 
-	pdy = -sin(degToRad(pa));
+	mlx.pdx = cos(degToRad(mlx.pa)); 
+	mlx.pdy = -sin(degToRad(mlx.pa));
 	
-	init_everything(&mlx);
 	
 	mlx_hook(mlx.win, 2, (1L<<0), close_it, &mlx);
 	mlx_hook(mlx.win, 3, (1L<<1), stop_update, &mlx);
