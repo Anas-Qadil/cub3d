@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:12:37 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 18:13:41 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 20:23:52 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	painting_the_line(t_vars *var, t_data *mlx)
 			else
 			{
 				if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
-				color = mlx->door_buff[value];
+					color = mlx->door_buff[value];
 				else
 					color = mlx->te_buff[value];
 			}

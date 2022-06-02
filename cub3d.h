@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 20:05:02 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 20:24:23 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #define P2 PI/2
 #define P3  3*PI/2
 #define DOOR 126
+#define DOOR_CLOSED 621
 #define NORTH 13
 #define W 13
 #define S 1

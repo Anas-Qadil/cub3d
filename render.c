@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 18:03:33 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 20:29:13 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ void	update_everything(t_data *mlx)
 	mlx->pdy = -sin(degToRad(mlx->pa));
 	if (mlx->move_up == 1)
 	{
-		if (map[var.ipy][var.ipx_add_xo] == 0 || map[var.ipy][var.ipx_add_xo] == NORTH)
+		if (map[var.ipy][var.ipx_add_xo] == 0 || map[var.ipy][var.ipx_add_xo] == NORTH || map[var.ipy][var.ipx_add_xo] == DOOR_CLOSED)
 			mlx->px += mlx->pdx * 4 * mlx->move_up;
-		if (map[var.ipy_add_yo][var.ipx] == 0 || map[var.ipy_add_yo][var.ipx] == NORTH )
+		if (map[var.ipy_add_yo][var.ipx] == 0 || map[var.ipy_add_yo][var.ipx] == NORTH || map[var.ipy_add_yo][var.ipx] == DOOR_CLOSED)
 			mlx->py += mlx->pdy * 4 * mlx->move_up;
 		mlx->move_down = 0;
 	}
 	if (mlx->move_down == 1)
 	{
-		if (map[var.ipy][var.ipx_sub_xo] == 0 || map[var.ipy][var.ipx_sub_xo] == NORTH)
+		if (map[var.ipy][var.ipx_sub_xo] == 0 || map[var.ipy][var.ipx_sub_xo] == NORTH || map[var.ipy][var.ipx_sub_xo] == DOOR_CLOSED)
 			mlx->px -= mlx->pdx * 4;
-		if (map[var.ipy_sub_yo][var.ipx] == 0 || map[var.ipy_sub_yo][var.ipx] == NORTH)
+		if (map[var.ipy_sub_yo][var.ipx] == 0 || map[var.ipy_sub_yo][var.ipx] == NORTH || map[var.ipy_sub_yo][var.ipx] == DOOR_CLOSED)
 			mlx->py -= mlx->pdy * 4;
 		mlx->move_up = 0;
 	}

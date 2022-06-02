@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 17:54:20 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 20:38:59 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,22 @@ void	open_door(t_keyvars *var, t_data *mlx)
 	var->ipx = mlx->px / 64.0, var->ipx_add_xo = (mlx->px + var->xo) / 64.0;
 	var->ipy = mlx->py / 64.0, var->ipy_add_yo = (mlx->py + var->yo) / 64.0;
 	if (map[var->ipy_add_yo][var->ipx_add_xo] == DOOR)
-		map[var->ipy_add_yo][var->ipx_add_xo] = 0;
+		map[var->ipy_add_yo][var->ipx_add_xo] = DOOR_CLOSED;
+	else if (map[var->ipy_add_yo][var->ipx_add_xo] == DOOR_CLOSED)
+	{
+		map[var->ipy_add_yo][var->ipx_add_xo] = DOOR;
+		if (map[(int)(mlx->py / 64)][(int)(mlx->px / 64)])
+		if (map[(int)(var->ipx_add_xo)][(int)(var->ipy_add_yo)] == 1)
+		{
+			//this need to be fixed;
+			var->ipx_add_xo = (mlx->px + var->xo + var->xo) / 64.0;
+			var->ipy_add_yo = (mlx->py + var->yo + var->yo) / 64.0;
+			mlx->px = var->ipx_add_xo * 64;
+			mlx->py = var->ipy_add_yo * 64;
+		}
+	}
+		
+		
 }
 
 int	close_it(int keycode, t_data *mlx)
