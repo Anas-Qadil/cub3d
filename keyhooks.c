@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 21:14:28 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 21:51:41 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,23 +80,7 @@ void	open_door(t_keyvars *var, t_data *mlx)
 	{
 		map[var->ipy_add_yo][var->ipx_add_xo] = DOOR_CLOSED;
 		mlx->start = 1;
-	}
-	// else if (map[var->ipy_add_yo][var->ipx_add_xo] == DOOR_CLOSED)
-	// {
-	// 	map[var->ipy_add_yo][var->ipx_add_xo] = DOOR;
-		
-	// 	// if (map[(int)(mlx->py / 64)][(int)(mlx->px / 64)])
-	// 	// if (map[(int)(var->ipx_add_xo)][(int)(var->ipy_add_yo)] == 1)
-	// 	// {
-	// 	// 	//this need to be fixed;
-	// 	// 	var->ipx_add_xo = (mlx->px + var->xo + var->xo) / 64.0;
-	// 	// 	var->ipy_add_yo = (mlx->py + var->yo + var->yo) / 64.0;
-	// 	// 	mlx->px = var->ipx_add_xo * 64;
-	// 	// 	mlx->py = var->ipy_add_yo * 64;
-	// 	// }
-	// }
-		
-		
+	}	
 }
 
 int	close_it(int keycode, t_data *mlx)
@@ -113,5 +97,7 @@ int	close_it(int keycode, t_data *mlx)
 				mlx->px -= 10;
 	if (keycode == 49)
 		open_door(&var, mlx);
+	if (mlx->gameState == HOME_SCREEN && keycode == ENTER_KEY)
+		mlx->gameState = GAME;
 	return (0);
 }

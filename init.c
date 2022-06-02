@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 20:17:27 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 21:49:52 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,21 @@ void	init_player(t_data *mlx)
 	mlx->pdy = -sin(degToRad(mlx->pa));
 }
 
+void	read_HOME_image(t_data *mlx)
+{
+	int w, h;
+	mlx->HOME_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/Home.xpm", &w, &h);
+	mlx->HOME_addr = mlx_get_data_addr(mlx->HOME_img, &mlx->bits_per_pixel, &mlx->HOME_line_length, &mlx->HOME_endian);
+}
+
 void	init_everything(t_data *mlx)
 {
+	mlx->gameState = HOME_SCREEN;
 	init_window(mlx);
 	init_map(mlx);
 	init_player(mlx);
 	init_hooks(mlx);
 	init_vars(mlx);
 	init(mlx);
+	read_HOME_image(mlx);
 }

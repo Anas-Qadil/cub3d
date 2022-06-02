@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 21:18:30 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 21:49:59 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,17 @@ void	check_doors(t_data *mlx)
 
 int	render(t_data *mlx)
 {
-	update_everything(mlx);
-	draw_everything(mlx);
-	mlx->start++;
-	if (mlx->start == 100)
-		check_doors(mlx);
+	if (mlx->gameState == GAME)
+	{
+		update_everything(mlx);
+		draw_everything(mlx);
+		mlx->start++;
+		if (mlx->start == 100)
+			check_doors(mlx);
+	}
+	if (mlx->gameState == HOME_SCREEN)
+	{
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->HOME_img, 0, 0);
+	}
 	return (1);
 }

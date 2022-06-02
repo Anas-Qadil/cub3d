@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 21:14:43 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 21:51:25 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #define top_arrow 126
 #define right_arrow 124
 #define bottom_arrow 125
+#define ENTER_KEY 36
 #define DR 0.0174533 // one degree in radian
 #define PI 3.141
 #define P2 PI/2
@@ -28,7 +29,10 @@
 #define S 1
 #define D 2
 #define A 0
-
+#define HOME_SCREEN 0
+#define GAME	1
+#define WIN	2
+#define LOSE 3
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -108,6 +112,8 @@ typedef struct	s_data {
 	//doors
 	int start;
 	
+	//game state
+	int gameState;
 	
 
 	//hooks
@@ -115,6 +121,13 @@ typedef struct	s_data {
 	int move_right;
 	int move_up;
 	int move_down;
+
+	//home image
+	void	*HOME_img;
+	char	*HOME_addr;
+	int		HOME_bits_per_pixel;
+	int		HOME_line_length;
+	int		HOME_endian;
 
 	// textures N
 	void	*t_img;
