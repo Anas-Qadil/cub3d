@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 15:21:25 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 16:37:23 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,13 @@ typedef struct	s_data {
 
 	int		win_y;
 	int 	win_x;
+	//player
+	float	px;
+	float	py;
+	float	pdx;
+	float	pdy;
+	float	pa;
+	
 
 	//hooks
 	int move_left;
@@ -295,6 +302,7 @@ void    read_door_texture(t_data *mlx);
 void    create_images(t_data *mlx);
 
 //init
+void	init_everything(t_data *mlx);
 void	init_vars(t_data *mlx);
 void	drawMap2D_init(t_map_vars *var);
 void	init(t_data *mlx);

@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 15:22:42 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 15:31:43 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,20 @@ void	drawMap2D_init(t_map_vars *var)
 
 void   init_hooks(t_data *mlx)
 {
-    mlx->move_up = 0;
-    mlx->move_down = 0;
-    mlx->move_right = 0;
-    mlx->move_left = 0;
+	mlx->move_up = 0;
+	mlx->move_down = 0;
+	mlx->move_right = 0;
+	mlx->move_left = 0;
+}
+
+void	init_everything(t_data *mlx)
+{
+	mlx->mlx = mlx_init();
+	mlx->win_x = 953;
+	mlx->win_y = 642;
+	mlx->win = mlx_new_window(mlx->mlx, mlx->win_x, mlx->win_y, "Cub3d");
+	
+	init_hooks(mlx);
+	init_vars(mlx);
+	init(mlx);
 }
