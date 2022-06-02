@@ -6,23 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 14:00:26 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 15:13:33 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-#define DR 0.0174533 // one degree in radian
-#define PI 3.141
-#define P2 PI/2
-#define P3  3*PI/2
-#define DOOR 126
-#define NORTH 13
-#define W 13
-#define S 1
-#define D 2
-#define A 0
-void	update_everything();
+void	update_everything(t_data *mlx);
 
 int move_left = 0;
 int move_right = 0;
@@ -97,16 +87,6 @@ void	drawSprite(t_data *mlx)
 		while (++j < all)
 			mlx_pixel_put(mlx->mlx, mlx->win, sx * 8 - j, sy * 8 - i, 0x00FF0000);
 	}
-}
-
-void	drawMap2D_init(t_map_vars *var)
-{
-	var->i = -1;
-	var->j = -1;
-	var->loopI = 0;
-	var->loopJ = 0;
-	var->saveI = 0;
-	var->saveJ = 0;
 }
 
 void	drawMap2D_floor(t_map_vars *var, t_data *mlx)
@@ -436,21 +416,9 @@ void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode)
 		move_left = 0;
 	}
 	if (keycode == W)
-	{
 		move_up = 1;
-		// if (map[var->ipy][var->ipx_add_xo] == 0 || map[var->ipy][var->ipx_add_xo] == NORTH)
-		// 	px += pdx * 12;
-		// if (map[var->ipy_add_yo][var->ipx] == 0 || map[var->ipy_add_yo][var->ipx] == NORTH )
-		// 	py += pdy * 12;
-	}
 	if (keycode == S)
-	{
-		// if (map[var->ipy][var->ipx_sub_xo] == 0 || map[var->ipy][var->ipx_sub_xo] == NORTH)
-		// 	px -= pdx * 12;
-		// if (map[var->ipy_sub_yo][var->ipx] == 0 || map[var->ipy_sub_yo][var->ipx] == NORTH)
-		// 	py -= pdy * 12;
 		move_down = 1;
-	}
 }
 
 void	open_door(t_keyvars *var)
@@ -497,101 +465,6 @@ void    draw_everything(t_data *mlx)
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->cast_img, 0, 0);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player_img, px / 4, py / 4);
-}
-
-void    playerInit(t_player *player)
-{
-	player->turnDirection = 0;
-	player->walkDirection = 0;
-	player->rotationAngle = PI / 2;
-	player->moveSpeed = 3.0;
-	player->rotationSpeed = 3 * (PI / 180);
-}
-
-unsigned int	get_color(t_data *t, int x, int y)
-{
-	char	*ptr;
-	int		pixel;
-
-	pixel = y * t->t_line_length + x * 4;
-	ptr = t->t_addr + pixel;
-	return ((((unsigned char)ptr[2]) << 16)
-		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
-}
-
-unsigned int	get_color_2(t_data *mlx, int x, int y)
-{
-	char	*ptr;
-	int		pixel;
-
-	pixel = y * mlx->tw_line_length + x * 4;
-	ptr = mlx->tw_addr + pixel;
-	return ((((unsigned char)ptr[2]) << 16)
-		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
-}
-unsigned int	get_color_3(t_data *mlx, int x, int y)
-{
-	char	*ptr;
-	int		pixel;
-
-	pixel = y * mlx->te_line_length + x * 4;
-	ptr = mlx->te_addr + pixel;
-	return ((((unsigned char)ptr[2]) << 16)
-		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
-}
-unsigned int	get_color_4(t_data *mlx, int x, int y)
-{
-	char	*ptr;
-	int		pixel;
-
-	pixel = y * mlx->ts_line_length + x * 4;
-	ptr = mlx->ts_addr + pixel;
-	return ((((unsigned char)ptr[2]) << 16)
-		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
-}
-unsigned int	get_color_5(t_data *mlx, int x, int y)
-{
-	char	*ptr;
-	int		pixel;
-
-	pixel = y * mlx->door_line_length + x * 4;
-	ptr = mlx->door_addr + pixel;
-	return ((((unsigned char)ptr[2]) << 16)
-		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
-}
-
-void	read_textures(t_data *mlx)
-{
-	read_north_texture(mlx);
-	read_west_texture(mlx);
-	read_east_texture(mlx);
-	read_south_texture(mlx);
-	read_door_texture(mlx);
-}
-
-void	init(t_data *mlx)
-{
-	read_textures(mlx);
-	create_images(mlx);
-	
-}
-
-int	render(t_data *mlx)
-{
-	update_everything();
-	draw_everything(mlx);
-	return (1);
-}
-
-
-void	init_vars(t_data *mlx)
-{
-	mlx->type = 1;
-	mlx->state = 1;
-	mlx->map = 0;
-	mlx->spx = 8 * 64;
-	mlx->spy = 4 * 64;
-	mlx->spz= 20;
 }
 
 int	get_player_y_pos(t_data *mlx)
@@ -642,7 +515,7 @@ int	get_player_x_pos(t_data *mlx)
 	return ((found * 64) + 20);	
 }
 
-void	update_everything()
+void	update_everything(t_data *mlx)
 {
 	t_keyvars var;
 
@@ -674,8 +547,6 @@ void	update_everything()
 
 int	stop_update( int keycode, t_data *mlx)
 {
-	printf("%d\n", keycode);
-	fflush(stdout);
 	if (keycode == W)
 		move_up = 0;
 	if (keycode == S)
@@ -696,33 +567,19 @@ int main(void)
 	py = get_player_y_pos(&mlx);
 	pa = 90;
 	
-	playerInit(&player);
 	pdx = cos(degToRad(pa)); 
 	pdy = -sin(degToRad(pa));
 	mlx.mlx = mlx_init();
 	mlx.win_x = 953;
 	mlx.win_y = 642;
-	mlx.win = mlx_new_window(mlx.mlx, 1000, 640, "Cub3d");
-	player.mlx = mlx.mlx;
-	player.win = mlx.win;
-
+	mlx.win = mlx_new_window(mlx.mlx, mlx.win_x, mlx.win_y, "Cub3d");
 	mlx.player = &player;
 
 	
-	
-	int w, h;
-	int time = 100000;
-	
-	
-	int i = 0;
-	int j = 0;
-	
-	int k = 0;
 	init(&mlx);
 	init_vars(&mlx);
 	draw_everything(&mlx);
 	// drawSprite(&mlx);
-	// read_animation(&mlx);
 	mlx_hook(mlx.win, 2, (1L<<0), close_it, &mlx);
 	mlx_hook(mlx.win, 3, (1L<<1), stop_update, &mlx);
 	

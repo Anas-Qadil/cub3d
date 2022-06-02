@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 13:59:46 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 15:12:02 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,16 @@
 #define top_arrow 126
 #define right_arrow 124
 #define bottom_arrow 125
+#define DR 0.0174533 // one degree in radian
+#define PI 3.141
+#define P2 PI/2
+#define P3  3*PI/2
+#define DOOR 126
+#define NORTH 13
+#define W 13
+#define S 1
+#define D 2
+#define A 0
 
 
 #include <stdio.h>
@@ -277,6 +287,17 @@ void    read_door_texture(t_data *mlx);
 
 //images
 void    create_images(t_data *mlx);
+
+//init
+void	init_vars(t_data *mlx);
+void	drawMap2D_init(t_map_vars *var);
+void	init(t_data *mlx);
+
+//textures
+void	read_textures(t_data *mlx);
+
+//render
+void	update_everything(t_data *mlx);
 
 #endif
 
