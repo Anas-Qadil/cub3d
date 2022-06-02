@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 16:47:14 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 17:56:14 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct	s_data {
 	int	mapS;
 	int	mapY;
 	int	mapX;
+	
 	
 
 	//hooks
@@ -256,13 +257,11 @@ typedef struct s_point {
 void    draw_square(t_data *mlx, int x);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void    draw_player(t_data *mlx);
-int	close_it(int keycode, t_data *mlx);
 char	*ft_itoa(int n);
 
 float	fmodule(float i);
 float	ft_abs(float dx, float dy);
 void	ft_putchar(char c);
-int	close_it(int keycode, t_data *mlx);
 void    drawLine(t_ray *ray, int px, int py);
 void	my_mlx_pixel_put2(t_player *data, int x, int y, int color);
 void	my_mlx_pixel_put3(t_ray *data, int x, int y, int color);
@@ -271,10 +270,6 @@ void	draw_ray(int ax, int ay,int bx, int by, t_data *param);
 
 void    draw_everything(t_data *mlx);
 
-
-// delete thus
-void draw_line(float ax, float ay, float bx, float by, t_data *param, int color);
-void draw_line_wall(float ax, float ay, float bx, float by, t_data *param, int color);
 
 
 float degToRad(float a);
@@ -312,6 +307,7 @@ void	init_everything(t_data *mlx);
 void	init_vars(t_data *mlx);
 void	drawMap2D_init(t_map_vars *var);
 void	init(t_data *mlx);
+void	init_cast_vars(t_vars *var, t_data *mlx);
 
 //textures
 void	read_textures(t_data *mlx);
@@ -320,9 +316,26 @@ void	read_textures(t_data *mlx);
 void	update_everything(t_data *mlx);
 
 //hooks
+void	keycode_init(t_keyvars *var, t_data *mlx);
 void   init_hooks(t_data *mlx);
 int	stop_update( int keycode, t_data *mlx);
 void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode);
+int	close_it(int keycode, t_data *mlx);
+void	open_door(t_keyvars *var, t_data *mlx);
+
+//draw_2dmap
+void	drawMap2D_floor(t_map_vars *var, t_data *mlx);
+void	drawMap2D_walls(t_map_vars *var, t_data *mlx);
+void    drawMap2D(t_data *mlx);
+
+//draw floor ceiling
+void	draw_floor_and_ceiling(t_vars *var, t_data *mlx);
+void	draw_ceiling(float x, float y, t_data *mlx);
+void	draw_floors(float x, float y, t_data *mlx);
+
+//player
+int	get_player_y_pos(t_data *mlx);
+int	get_player_x_pos(t_data *mlx);
 
 #endif
 

@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 16:47:32 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 17:47:47 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,18 @@ void   init_hooks(t_data *mlx)
 	mlx->move_left = 0;
 }
 
+void	init_cast_vars(t_vars *var, t_data *mlx)
+{
+	var->rays_num = 1000;
+	var->color = 0x00e83838;
+	var->max_ray_checks = 20;
+	var->r = 0;
+	var->ra = FixAng(mlx->pa+30);
+	var->i = 0;
+	var->hx = mlx->px;
+	var->hy = mlx->py;
+}
+
 void	init_everything(t_data *mlx)
 {
 	mlx->mlx = mlx_init();
@@ -61,3 +73,4 @@ void	init_everything(t_data *mlx)
 	init_vars(mlx);
 	init(mlx);
 }
+

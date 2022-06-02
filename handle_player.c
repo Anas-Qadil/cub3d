@@ -6,9 +6,58 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:05:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 14:13:22 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/02 17:55:45 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+extern int map[11][15];
+
+int	get_player_y_pos(t_data *mlx)
+{
+	int i = 0;
+	int found = 0;
+	
+	while (i < mlx->mapY)
+	{
+		int j = 0;
+		while (j < mlx->mapX)
+		{
+			if (map[i][j] == NORTH)
+			{
+				found = i;
+				break ;
+			}
+			j++;
+		}
+		if (found != 0)
+			break;
+		i++;
+	}
+	return ((found * 64) + 20);	
+}
+
+int	get_player_x_pos(t_data *mlx)
+{
+	int i = 0;
+	int found = 0;
+	
+	while (i < mlx->mapY)
+	{
+		int j = 0;
+		while (j < mlx->mapX)
+		{
+			if (map[i][j] == NORTH)
+			{
+				found = j;
+				break ;
+			}
+			j++;
+		}
+		if (found != 0)
+			break;
+		i++;
+	}
+	return ((found * 64) + 20);	
+}
