@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:30:40 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 21:25:30 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 11:19:49 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void    drawMap2D(t_data *mlx)
 	t_map_vars var;
 
 	drawMap2D_init(&var);
+	
 	while (++var.i < mlx->mapY)
 	{
 		var.j = -1;

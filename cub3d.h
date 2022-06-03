@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 11:06:32 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 15:08:42 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,9 @@ typedef struct	s_data {
 	int		t_bits_per_pixel;
 	int		t_line_length;
 	int		t_endian;
-	int		colors[32][32];
-	int		buff[4096];
+	int		t_w;
+	int		t_h;
+	int		*buff;
 
 	// textures S
 	void	*ts_img;
@@ -177,8 +178,9 @@ typedef struct	s_data {
 	int		ts_bits_per_pixel;
 	int		ts_line_length;
 	int		ts_endian;
-	int		ts_colors[32][32];
-	int		ts_buff[4096];
+	int		ts_w;
+	int		ts_h;
+	int		*ts_buff;
 	
 	// textures W
 	void	*tw_img;
@@ -186,8 +188,9 @@ typedef struct	s_data {
 	int		tw_bits_per_pixel;
 	int		tw_line_length;
 	int		tw_endian;
-	int		tw_colors[32][32];
-	int		tw_buff[4096];
+	int		tw_w;
+	int		tw_h;
+	int		*tw_buff;
 	
 	// textures E
 	void	*te_img;
@@ -195,8 +198,9 @@ typedef struct	s_data {
 	int		te_bits_per_pixel;
 	int		te_line_length;
 	int		te_endian;
-	int		te_colors[32][32];
-	int		te_buff[4096];
+	int		te_w;
+	int		te_h;
+	int		*te_buff;
 
 	// DOOR
 	void	*door_img;
@@ -204,7 +208,9 @@ typedef struct	s_data {
 	int		door_bits_per_pixel;
 	int		door_line_length;
 	int		door_endian;
-	int		door_buff[4096];
+	int		door_w;
+	int		door_h;
+	int		*door_buff;
 
 	// cast 3d
 	void	*cast_img;
@@ -368,6 +374,11 @@ void	init_home_screen_vars(t_data *mlxmlx);
 
 //textures
 void	read_textures(t_data *mlx);
+void    door_calculs(t_vars *var, t_data *mlx);
+void    north_calculs(t_vars *var, t_data *mlx);
+void    south_calculs(t_vars *var, t_data *mlx);
+void    west_calculs(t_vars *var, t_data *mlx);
+void    east_calculs(t_vars *var, t_data *mlx);
 
 //render
 void	update_everything(t_data *mlx);

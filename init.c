@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 10:51:03 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 15:30:42 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,6 @@ void	read_HOME_image(t_data *mlx)
 	mlx->PRESS_addr = mlx_get_data_addr(mlx->PRESS_img, &mlx->bits_per_pixel, &mlx->PRESS_line_length, &mlx->PRESS_endian);
 	mlx->PRESS_w = w;
 	mlx->PRESS_h = h;
-	
-	
-	
 	mlx->LOADING_img = mlx_new_image(mlx->mlx, mlx->LOADING_w, mlx->LOADING_h);
 	mlx->LOADING_addr = mlx_get_data_addr(mlx->LOADING_img, &mlx->LOADING_bits_per_pixel, &mlx->LOADING_line_length, &mlx->LOADING_endian);
 	

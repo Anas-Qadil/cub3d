@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 09:39:17 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 10:51:45 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 15:29:13 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void    check_if_player_is_dead(t_data *mlx)
 
 void    render_home_screen(t_data *mlx)
 {
-
-	//testing
     int HOME_x = (mlx->win_x / 2) - (mlx->HOME_w / 2);
 	int load_x = (mlx->win_x / 2) - (mlx->LOADING_w / 2);
 	int load_y = (mlx->win_y / 2) + (mlx->win_y / 2.8);
@@ -45,5 +43,6 @@ void    render_home_screen(t_data *mlx)
 	}
     else
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->PRESS_img, load_x - 100, load_y - 50);
-        
+    // printf("hello\n");
+    // fflush(stdout);
 }

@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 18:35:55 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 15:11:30 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	horiz_checks(t_vars *var, t_data *mlx)
 	{
 		var->ry = (((int)mlx->py / 64) * 64) + 64;      
 		var->rx = (mlx->py - var->ry) * var->Tan + mlx->px; 
-		var->yo = 64; 
+		var->yo = 64;
 		var->xo = -var->yo * var->Tan;
 	}
 	else
@@ -111,31 +111,43 @@ void	horiz_checks(t_vars *var, t_data *mlx)
 
 void	line_calculation(t_vars *var, t_data *mlx)
 {
-	var->ca = FixAng(mlx->pa - var->ra); // fish eye
-	var->disH = var->disH * cos(degToRad(var->ca));
-	var->lineH = (mlx->mapS * mlx->win_y) / (var->disH);
-	var->ty_step = 64.0 / (float)var->lineH;
-	var->ty_off = 0;
-	if(var->lineH > mlx->win_y)
+	int value;
+	int color;
+	
+	value = ((int)(var->ty) * mlx->t_w) + (int)(var->tx * (mlx->t_w / 64));
+	if (var->shade == 1)
 	{
-		var->ty_off = (var->lineH - mlx->win_y) / 2.0;
-		var->lineH = mlx->win_y;
-	}  //line height and limit
-	var->lineOff = (mlx->line_height) - (var->lineH / 2);
-
-	var->y = 0;
-	var->ty = var->ty_off * var->ty_step;
-	if(var->shade == 1)
-	{
-		var->tx = (int)(var->rx) % 64;
-		if(var->ra > 180)
-			var->tx = 63 - var->tx;
+		if (var->ra > 0 && var->ra < 180)
+		{
+				if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+					door_calculs(var, mlx);
+				else
+					north_calculs(var, mlx);
+		}
+		else
+		{
+			if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+				door_calculs(var, mlx);
+			else
+				south_calculs(var, mlx);
+		}
 	}
-  	else
+	else
 	{
-		var->tx = (int)(var->ry) % 64; 
-		if(var->ra > 90 && var->ra < 270)
-			var->tx = 63 -  var->tx;
+		if (var->ra > 90 && var->ra < 270)
+		{
+			if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+				door_calculs(var, mlx);
+			else
+				west_calculs(var, mlx);
+		}
+		else
+		{
+			if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+				door_calculs(var, mlx);
+			else
+				east_calculs(var, mlx);
+		}
 	}
 }
 
