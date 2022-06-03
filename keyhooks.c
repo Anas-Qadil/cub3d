@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 10:04:23 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 11:05:03 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ int	close_it(int keycode, t_data *mlx)
 		mlx->gameState = GAME;
 	}
 	if (mlx->gameState == LOSE && keycode == ENTER_KEY)
-	{
 		mlx->gameState = HOME_SCREEN;
-	}
+	if (keycode == EXIT)
+		free_and_exit(mlx);
 	return (0);
 }

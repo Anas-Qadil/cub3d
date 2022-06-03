@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 10:44:44 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 11:06:32 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 #define GAME	1
 #define WIN	2
 #define LOSE 3
+#define EXIT 53
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -412,6 +413,9 @@ void    check_if_player_is_dead(t_data *mlx);
 
 //home screen
 void    render_home_screen(t_data *mlx);
+
+//free and exit
+void    free_and_exit(t_data *mlx);
 
 #endif
 
