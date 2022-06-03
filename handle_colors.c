@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:14:26 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 14:14:49 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 19:11:59 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,16 @@ unsigned int	get_color_5(t_data *mlx, int x, int y)
 
 	pixel = y * mlx->door_line_length + x * 4;
 	ptr = mlx->door_addr + pixel;
+	return ((((unsigned char)ptr[2]) << 16)
+		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
+}
+unsigned int	get_color_sprt(t_data *mlx, int x, int y)
+{
+	char	*ptr;
+	int		pixel;
+
+	pixel = y * mlx->sprt_line_length + x * 4;
+	ptr = mlx->sprt_addr + pixel;
 	return ((((unsigned char)ptr[2]) << 16)
 		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }

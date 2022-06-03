@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:25:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 21:56:03 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 19:11:34 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ void	my_mlx_pixel_put_Loading(t_data *data, int x, int y, int color)
 	char	*dst;
 
 	dst = data->LOADING_addr + (y * data->LOADING_line_length + x * (data->LOADING_bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+void	my_mlx_pixel_put_sprt(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->sprt_addr + (y * data->sprt_line_length + x * (data->sprt_bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
 

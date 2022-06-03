@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:12:37 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 15:11:24 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 20:36:01 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,5 @@ void    draw_everything(t_data *mlx)
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->cast_img, 0, 0);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 1, 1);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->player_img, mlx->px / 4, mlx->py / 4);
+	drawSprite(mlx);
 }

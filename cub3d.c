@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 08:37:39 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 19:30:15 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,42 +25,6 @@ int map[11][15] = {
 	{1, 0, 0, 0, NORTH, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
-
-int depth[1000];
-
-// void	drawSprite(t_data *mlx)
-// {
-
-// 	if (px < mlx->spx + 30 && px > mlx->spx - 30 && py < mlx->spy + 30 && py > mlx->spy - 30 && eat == 0)
-// 		eat = 1;
-// 	// if (mlx->spx > px) {mlx->spx = mlx->spx - 0.3;}
-// 	// if (mlx->spx < px) {mlx->spx = mlx->spx + 0.3;}
-// 	// if (mlx->spy > py) {mlx->spy = mlx->spy - 0.3;}
-// 	// if (mlx->spy < py) {mlx->spy = mlx->spy + 0.3;}
-
-// 	float	sx = mlx->spx - px;
-// 	float	sy = mlx->spy - py;
-// 	float	sz = mlx->spz;
-
-// 	float	CS = cos(degToRad(pa)), SN = sin(degToRad(pa));
-// 	float a = sy * CS + sx * SN;
-// 	float b = sx * CS - sy * SN;
-// 	sx = a; sy = b;
-
-// 	sx = (sx * 108.0 / sy) + (120 / 2);
-// 	sy = (sz * 108.0 / sy) + (80 / 2);
-// 	int i = -1;
-// 	int all = 120 * 80 / b;
-// 	// sprite attack
-// 	while (++i < all)
-// 	{
-// 		int j = -1;
-// 		while (++j < all)
-// 			mlx_pixel_put(mlx->mlx, mlx->win, sx * 8 - j, sy * 8 - i, 0x00FF0000);
-// 	}
-// }
-
-
 
 void    cast(t_data *mlx, float rayAngle)
 {
@@ -86,7 +50,7 @@ void    cast(t_data *mlx, float rayAngle)
 			var.ry = var.vy;
 			var.disH = var.disV;
 		}
-		
+		// mlx->depth[var.r] = var.disH;
 		// remove this
 		rayXpos[var.i] = var.rx / 4;
 		rayYpos[var.i] = var.ry / 4;

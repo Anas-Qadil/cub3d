@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 15:36:52 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 18:57:08 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	close_it(int keycode, t_data *mlx)
 				mlx->px -= 10;
 	if (keycode == 49 && mlx->gameState == GAME)
 		open_door(&var, mlx);
-	if (mlx->gameState == HOME_SCREEN && keycode == ENTER_KEY && mlx->isLoadingDone == 1)
+	if (mlx->gameState == HOME_SCREEN && keycode == ENTER_KEY /*&& mlx->isLoadingDone == 1*/)
 	{
 		init_player(mlx);
 		mlx->gameState = GAME;

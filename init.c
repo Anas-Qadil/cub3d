@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 15:30:42 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 21:28:08 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_vars(t_data *mlx)
 	mlx->map = 0;
 	mlx->spx = 8 * 64;
 	mlx->spy = 4 * 64;
-	mlx->spz= 20;
+	mlx->spz = 50;
 }
 
 void	drawMap2D_init(t_map_vars *var)
@@ -148,8 +148,9 @@ void	init_everything(t_data *mlx)
 	init_map(mlx);
 	init_player(mlx);
 	init_hooks(mlx);
-	init_vars(mlx);
 	init(mlx);
 	init_home_screen_vars(mlx);
 	read_HOME_image(mlx);
+	init_vars(mlx);
+	init_sprite(mlx);
 }

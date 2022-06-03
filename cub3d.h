@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 15:08:42 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 19:29:53 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,11 +231,15 @@ typedef struct	s_data {
 	int state;
 	int map;
 	float spx, spy, spz;
-	void	*sprt_img[12];
-	char	*sprt_addr[12];
-	int		sprt_bits_per_pixel[12];
-	int		sprt_line_length[12];
-	int		sprt_endian[12];
+	void	*sprt_img;
+	char	*sprt_addr;
+	int		sprt_bits_per_pixel;
+	int		sprt_line_length;
+	int		sprt_endian;
+	int		sprt_buff[100000];
+	int		sprt_w;
+	int		sprt_h;
+	int		depth[1500];
 	
 }				t_data;
 
@@ -427,6 +431,12 @@ void    render_home_screen(t_data *mlx);
 
 //free and exit
 void    free_and_exit(t_data *mlx);
+
+//sprite
+void	my_mlx_pixel_put_sprt(t_data *data, int x, int y, int color);
+void    init_sprite(t_data *mlx);
+unsigned int	get_color_sprt(t_data *mlx, int x, int y);
+void	drawSprite(t_data *mlx);
 
 #endif
 
