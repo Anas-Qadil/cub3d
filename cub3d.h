@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 10:00:17 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 10:44:44 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,17 @@ typedef struct	s_data {
 	int		HOME_bits_per_pixel;
 	int		HOME_line_length;
 	int		HOME_endian;
+	int		HOME_w;
+	int		HOME_h;
 
+	// Press Image
+	void	*PRESS_img;
+	void	*PRESS_addr;
+	int		PRESS_bits_per_pixel;
+	int		PRESS_line_length;
+	int		PRESS_endian;
+	int		PRESS_w;
+	int		PRESS_h;
 
 	//loading image
 	void	*LOADING_img;
@@ -147,6 +157,8 @@ typedef struct	s_data {
 	int 	LOADING_j;
 	int 	LOADING_counter;
 	int		isLoadingDone;
+	int		LOADING_w;
+	int		LOADING_h;
 
 
 	// textures N
