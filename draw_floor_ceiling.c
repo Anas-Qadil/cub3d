@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:49:27 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 15:22:59 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 15:59:50 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	draw_floors(float x, float y, t_data *mlx)
 {
-	my_mlx_pixel_put_cast(mlx, (int)(x), (int)y, 0x00FFFFFF);
+	my_mlx_pixel_put_cast(mlx, (int)(x), (int)y, 0x00a9a9a9);
 }
 
 void	draw_ceiling(float x, float y, t_data *mlx)
