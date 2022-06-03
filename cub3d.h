@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 21:51:25 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 10:00:17 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,13 @@ typedef struct	s_data {
 	
 	//game state
 	int gameState;
+
+	//LOSE SCREEN
+	void	*LOSE_img;
+	void	*LOSE_addr;
+	int		LOSE_bits_per_pixel;
+	int		LOSE_line_length;
+	int		LOSE_endian;
 	
 
 	//hooks
@@ -124,10 +131,23 @@ typedef struct	s_data {
 
 	//home image
 	void	*HOME_img;
-	char	*HOME_addr;
+	void	*HOME_addr;
 	int		HOME_bits_per_pixel;
 	int		HOME_line_length;
 	int		HOME_endian;
+
+
+	//loading image
+	void	*LOADING_img;
+	void	*LOADING_addr;
+	int		LOADING_bits_per_pixel;
+	int		LOADING_line_length;
+	int		LOADING_endian;
+	int 	LOADING_i;
+	int 	LOADING_j;
+	int 	LOADING_counter;
+	int		isLoadingDone;
+
 
 	// textures N
 	void	*t_img;
@@ -331,6 +351,7 @@ void	init_cast_vars(t_vars *var, t_data *mlx);
 void	init_player(t_data *mlx);
 void	init_map(t_data *mlx);
 void	init_window(t_data *mlx);
+void	init_home_screen_vars(t_data *mlxmlx);
 
 //textures
 void	read_textures(t_data *mlx);
@@ -368,6 +389,17 @@ void	vertical_checks(t_vars *var, t_data *mlx);
 void	switch_var(t_vars *var);
 void	horiz_checks(t_vars *var, t_data *mlx);
 void	line_calculation(t_vars *var, t_data *mlx);
+void	my_mlx_pixel_put_Loading(t_data *data, int x, int y, int color);
+
+//loading
+void	draw_Loading(t_data *mlx);
+
+//lose screen
+void    render_lose_screen(t_data *mlx);
+void    check_if_player_is_dead(t_data *mlx);
+
+//home screen
+void    render_home_screen(t_data *mlx);
 
 #endif
 

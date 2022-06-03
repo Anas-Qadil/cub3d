@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 21:49:52 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 10:05:11 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,50 @@ void	init_player(t_data *mlx)
 	mlx->pdy = -sin(degToRad(mlx->pa));
 }
 
+void	draw_Loading(t_data *mlx)
+{
+	int i = 0;
+	int j = 0;
+
+	while (mlx->LOADING_i < 1)
+	{
+		while (mlx->LOADING_j < 400)
+		{
+			my_mlx_pixel_put_Loading(mlx, mlx->LOADING_j, mlx->LOADING_i, 0x00FFFFFF);
+			mlx->LOADING_j++;
+			if (mlx->LOADING_j % 2 == 0)
+			{
+				break;
+			}
+		}
+		if (mlx->LOADING_j >= 399)
+		{
+			mlx->LOADING_i++;
+			mlx->isLoadingDone = 1;
+		}
+		if (mlx->LOADING_j % 2 == 0)
+			break;
+	}
+}
+
 void	read_HOME_image(t_data *mlx)
 {
 	int w, h;
 	mlx->HOME_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/Home.xpm", &w, &h);
 	mlx->HOME_addr = mlx_get_data_addr(mlx->HOME_img, &mlx->bits_per_pixel, &mlx->HOME_line_length, &mlx->HOME_endian);
+	
+	
+	mlx->LOADING_img = mlx_new_image(mlx->mlx, 400, 50);
+	mlx->LOADING_addr = mlx_get_data_addr(mlx->LOADING_img, &mlx->LOADING_bits_per_pixel, &mlx->LOADING_line_length, &mlx->LOADING_endian);
+	
+}
+
+void	init_home_screen_vars(t_data *mlx)
+{
+	mlx->LOADING_i = 0;
+	mlx->LOADING_j = 0;
+	mlx->LOADING_counter = 0;
+	mlx->isLoadingDone = 0;
 }
 
 void	init_everything(t_data *mlx)
@@ -104,5 +143,6 @@ void	init_everything(t_data *mlx)
 	init_hooks(mlx);
 	init_vars(mlx);
 	init(mlx);
+	init_home_screen_vars(mlx);
 	read_HOME_image(mlx);
 }

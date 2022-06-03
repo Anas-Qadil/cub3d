@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/02 21:51:41 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/03 10:04:23 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,22 @@ int	close_it(int keycode, t_data *mlx)
 	
 	keycode_init(&var, mlx);
 	keyhook_1(mlx, &var, keycode);
-	if (keycode == D)
+	if (keycode == D && mlx->gameState == GAME)
 		if (map[(int)mlx->py / 64][(int) (mlx->px + 20) / 64] == 0 || map[(int)mlx->py / 64][(int) (mlx->px + 20) / 64] == NORTH)
 				mlx->px += 10;
-	if (keycode == A)
+	if (keycode == A && mlx->gameState == GAME)
 		if (map[(int)mlx->py / 64][(int) (mlx->px - 20) / 64] == 0 || map[(int)mlx->py / 64][(int) (mlx->px - 20) / 64] == NORTH)
 				mlx->px -= 10;
-	if (keycode == 49)
+	if (keycode == 49 && mlx->gameState == GAME)
 		open_door(&var, mlx);
-	if (mlx->gameState == HOME_SCREEN && keycode == ENTER_KEY)
+	if (mlx->gameState == HOME_SCREEN && keycode == ENTER_KEY && mlx->isLoadingDone == 1)
+	{
+		init_player(mlx);
 		mlx->gameState = GAME;
+	}
+	if (mlx->gameState == LOSE && keycode == ENTER_KEY)
+	{
+		mlx->gameState = HOME_SCREEN;
+	}
 	return (0);
 }
