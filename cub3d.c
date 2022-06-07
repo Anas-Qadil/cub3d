@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 21:04:41 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 22:03:03 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,54 @@ void	cast(t_data *mlx, float rayAngle)
 	}
 }
 
+int mouse(int x, int y, t_data *mlx)
+{
+	if (x > mlx->win_x)
+	{
+		mlx->move_right = 1;
+		mlx->move_left = 0;
+	}
+	else if (x < 0)
+	{
+		mlx->move_left = 1;
+		mlx->move_right = 0;
+	}
+	else if (x > 0 && y > 0)
+	{
+		if (x > mlx->mouse_x + 20)
+		{
+			mlx->move_right = 1;
+			mlx->move_left = 0;
+			mlx->mouse_x = x;
+		}
+		else
+			mlx->move_right = 0;
+		if (x < mlx->mouse_x - 20)
+		{
+			mlx->move_left = 1;
+			mlx->move_right = 0;
+			mlx->mouse_x = x;
+		}
+		else
+			mlx->move_left = 0;
+	}
+	return (0);
+}
+
 int	main(void)
 {
 	t_data		mlx;
 	t_player	player;
 
+	int x, y;
+
+	mlx.old_mouse_x = 0;
+	mlx.old_mouse_y = 0;
+	mlx.mouse_x = 0;
+	mlx.mouse_y = 0;
 	init_everything(&mlx);
 	mlx_hook(mlx.win, 2, (1L << 0), close_it, &mlx);
+	mlx_hook(mlx.win, 6, 0L, mouse, &mlx);
 	mlx_hook(mlx.win, 3, (1L << 1), stop_update, &mlx);
 	mlx_loop_hook(mlx.mlx, render, &mlx);
 	mlx_loop(mlx.mlx);

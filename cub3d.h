@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 21:05:43 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 21:45:03 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ typedef struct s_data {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		mouse_x;
+	int		mouse_y;
+	int		old_mouse_x;
+	int		old_mouse_y;
 	int		x;
 	int		y;
 	int		win_y;

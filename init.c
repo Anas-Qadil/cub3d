@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 21:00:59 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 21:53:59 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	init_window(t_data *mlx)
 
 void	init_everything(t_data *mlx)
 {
-	mlx->game_state = HOME_SCREEN;
+	mlx->game_state = GAME;
 	open_textures(mlx);
 	init_window(mlx);
 	init_map(mlx);
