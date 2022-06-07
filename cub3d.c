@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:54:03 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 21:04:41 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	open_door(t_keyvars *var, t_data *mlx)
 	var->ipy_add_yo = (mlx->py + var->yo) / 64.0;
 	if (map[var->ipy_add_yo][var->ipx_add_xo] == DOOR)
 	{
-		map[var->ipy_add_yo][var->ipx_add_xo] = DOOR_CloseD;
+		map[var->ipy_add_yo][var->ipx_add_xo] = DOOR_CLOSED;
 		mlx->start = 1;
 	}
 }

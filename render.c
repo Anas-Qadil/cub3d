@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:55:54 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 21:04:41 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern int map[11][15];
 int	check_valid_move(t_keyvars *var, int pos)
 {
 	if (pos == NORTH || pos == WEST || pos == SOUTH
-		|| pos == EAST || pos == 0 || pos == DOOR_CloseD)
+		|| pos == EAST || pos == 0 || pos == DOOR_CLOSED)
 		return (1);
 	return (0);
 }
@@ -71,7 +71,7 @@ void	check_doors(t_data *mlx)
 		j = 0;
 		while (j < mlx->map_x)
 		{
-			if (map[i][j] == DOOR_CloseD)
+			if (map[i][j] == DOOR_CLOSED)
 				map[i][j] = DOOR;
 			j++;
 		}
@@ -91,9 +91,9 @@ int	render(t_data *mlx)
 			check_doors(mlx);
 		check_if_player_is_dead(mlx);
 	}
-	if (mlx->game_state == home_SCREEN)
-		render_home_screen(mlx);
-	if (mlx->game_state == lose)
+	if (mlx->game_state == HOME_SCREEN)
+		render_HOME_SCREEN(mlx);
+	if (mlx->game_state == LOSE)
 		render_lose_screen(mlx);
 	return (1);
 }

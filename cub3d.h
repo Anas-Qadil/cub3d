@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:59:26 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 21:05:43 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,25 @@
 
 # define LEFT_ARROW 123
 # define TOP_ARROW 126
-# define right_arrow 124
-# define bottom_arrow 125
+# define RIGHT_ARROW 124
+# define BOTTOM_ARROW 125
 # define ENTER_KEY 36
 # define DR 0.0174533 // one degree in radian
 # define PI 3.141
-# define P2 PI/2
-# define P3  3*PI/2
 # define DOOR 126
-# define DOOR_CloseD 621
+# define DOOR_CLOSED 621
 # define NORTH 100
-# define	EAST 101
-# define	SOUTH 102
-# define	WEST 103
+# define EAST 101
+# define SOUTH 102
+# define WEST 103
 # define W 13
 # define S 1
 # define D 2
 # define A 0
-# define home_SCREEN 0
+# define HOME_SCREEN 0
 # define GAME	1
 # define WIN	2
-# define lose 3
+# define LOSE 3
 # define EXIT 53
 # define SPRT 4321
 
@@ -316,7 +314,7 @@ void			init_cast_vars(t_vars *var, t_data *mlx);
 void			init_player(t_data *mlx);
 void			init_map(t_data *mlx);
 void			init_window(t_data *mlx);
-void			init_home_screen_vars(t_data *mlxmlx);
+void			init_HOME_SCREEN_vars(t_data *mlxmlx);
 void			read_textures(t_data *mlx);
 void			door_calculs(t_vars *var, t_data *mlx);
 void			north_calculs(t_vars *var, t_data *mlx);
@@ -348,7 +346,7 @@ void			open_textures(t_data *mlx);
 void			draw_loading(t_data *mlx);
 void			render_lose_screen(t_data *mlx);
 void			check_if_player_is_dead(t_data *mlx);
-void			render_home_screen(t_data *mlx);
+void			render_HOME_SCREEN(t_data *mlx);
 void			free_and_exit(t_data *mlx);
 void			my_mlx_pixel_put_sprt(t_data *data, int x, int y, int color);
 void			init_sprite(t_data *mlx);

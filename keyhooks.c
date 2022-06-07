@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:59:13 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 21:03:25 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	stop_update( int keycode, t_data *mlx)
 		mlx->move_down = 0;
 	if (keycode == LEFT_ARROW)
 		mlx->move_left = 0;
-	if (keycode == right_arrow)
+	if (keycode == RIGHT_ARROW)
 		mlx->move_right = 0;
 	if (keycode == A)
 		mlx->a_pressed = 0;
@@ -38,7 +38,7 @@ void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode)
 		mlx->move_left = 1;
 		mlx->move_right = 0;
 	}
-	if (keycode == right_arrow)
+	if (keycode == RIGHT_ARROW)
 	{
 		mlx->move_right = 1;
 		mlx->move_left = 0;
@@ -101,14 +101,14 @@ int	close_it(int keycode, t_data *mlx)
 		mlx->a_pressed = 1;
 	if (keycode == 49 && mlx->game_state == GAME)
 		open_door(&var, mlx);
-	if (mlx->game_state == home_SCREEN
+	if (mlx->game_state == HOME_SCREEN
 		&& keycode == ENTER_KEY && mlx->isloadingdone == 1)
 	{
 		init_player(mlx);
 		mlx->game_state = GAME;
 	}
-	if (mlx->game_state == lose && keycode == ENTER_KEY)
-		mlx->game_state = home_SCREEN;
+	if (mlx->game_state == LOSE && keycode == ENTER_KEY)
+		mlx->game_state = HOME_SCREEN;
 	if (keycode == EXIT)
 		free_and_exit(mlx);
 	return (0);

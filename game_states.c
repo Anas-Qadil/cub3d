@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 09:39:17 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:55:54 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 21:03:59 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	render_lose_screen(t_data *mlx)
 void	check_if_player_is_dead(t_data *mlx)
 {
 	if (map[(int)(mlx->py / 64)][(int)(mlx->px / 64)] == DOOR)
-		mlx->game_state = lose;
+		mlx->game_state = LOSE;
 }
 
-void	render_home_screen(t_data *mlx)
+void	render_HOME_SCREEN(t_data *mlx)
 {
 	int	home_x;
 	int	load_x;

@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:30:40 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:54:40 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 21:04:41 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	draw_map2d_closed_doors(t_map_vars *var, t_data *mlx)
 		var->loopj = 0;
 		while (var->loopj < mlx->square_size)
 		{
-			if (map[var->i][var->j] == DOOR_CloseD && var->loopi % 2 == 0)
+			if (map[var->i][var->j] == DOOR_CLOSED && var->loopi % 2 == 0)
 				my_mlx_pixel_put(mlx, var->savei + var->loopi,
 					var->savej + var->loopj, 0x00808080);
 			else
@@ -87,7 +87,7 @@ void	draw_map_2d(t_data *mlx)
 			|| map[var.i][var.j] == EAST || map[var.i][var.j] == SOUTH
 			|| map[var.i][var.j] == WEST)
 				draw_map_2d_floor(&var, mlx);
-			else if (map[var.i][var.j] == DOOR_CloseD)
+			else if (map[var.i][var.j] == DOOR_CLOSED)
 				draw_map2d_closed_doors(&var, mlx);
 			else if (map[var.i][var.j] == 1 || map[var.i][var.j] == DOOR)
 				draw_map_2d_walls(&var, mlx);
