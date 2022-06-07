@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 15:57:03 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 16:05:17 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -468,6 +468,9 @@ void	handle_north_tx(t_vars *var, t_data *mlx);
 void	handle_east_west(t_vars *var, t_data *mlx);
 void	handle_east_tx(t_vars *var, t_data *mlx);
 void	handle_north_south(t_vars *var, t_data *mlx);
+
+void    calcule_vertical_interception(t_vars *var, t_data *mlx);
+void    calcule_horz_interception(t_vars *var, t_data *mlx);
 
 
 #endif

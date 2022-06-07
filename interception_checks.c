@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 10:33:47 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 16:13:03 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,14 @@ extern int map[11][15];
 
 void	vertical_checks(t_vars *var, t_data *mlx)
 {
-	var->disV = 1000000;
-	var->Tan = tan(degToRad(var->ra));
-	var->dof = 0;
-	if(cos(degToRad(var->ra)) > 0) //looking right
-	{
-		var->rx = (((int)mlx->px / 64) * 64) + 64;      
-		var->ry = (mlx->px - var->rx) * var->Tan + mlx->py;
-		var->xo = 64; 
-		var->yo = -var->xo * var->Tan;
-	}
-	else if(cos(degToRad(var->ra)) < 0) //looking left
-	{
-		var->rx = (((int)mlx->px / 64) * 64) - 0.0001;
-		var->ry =(mlx->px - var->rx) * var->Tan + mlx->py;
-		var->xo = -64;
-		var->yo = -var->xo * var->Tan;
-	}
-	else 
-	{
-		var->rx = mlx->px;
-		var->ry = mlx->py;
-		var->dof = var->max_ray_checks;
-	}
+	calcule_vertical_interception(var, mlx);
 	while (var->dof < var->max_ray_checks)
 	{
 		var->mx = (int)(var->rx) / 64;
 		var->my = (int)(var->ry) / 64;
-
 		var->mp = var->my * mlx->mapX + var->mx;
-		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR ))
+		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY
+			&& (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
 			var->disV = ray_dist(mlx->px, mlx->py, var->rx, var->ry, var->ra);
 			var->dof = var->max_ray_checks;
@@ -70,32 +48,14 @@ void	switch_var(t_vars *var)
 
 void	horiz_checks(t_vars *var, t_data *mlx)
 {
-	if (sin(degToRad(var->ra)) > 0) // looking up
-	{
-		var->ry = (((int)mlx->py / 64) * 64) - 0.0001;
-		var->rx = (mlx->py - var->ry) * var->Tan + mlx->px;
-		var->yo = -64;
-		var->xo = -var->yo * var->Tan;
-	}
-	else if (sin(degToRad(var->ra)) < 0) // looking down
-	{
-		var->ry = (((int)mlx->py / 64) * 64) + 64;      
-		var->rx = (mlx->py - var->ry) * var->Tan + mlx->px; 
-		var->yo = 64;
-		var->xo = -var->yo * var->Tan;
-	}
-	else
-	{
-		var->rx = mlx->px;
-		var->ry = mlx->py;
-		var->dof = var->max_ray_checks;
-	}
+	calcule_horz_interception(var, mlx);
 	while (var->dof < var->max_ray_checks)
 	{
-		var->mx = (int)(var->rx) / 64; 
+		var->mx = (int)(var->rx) / 64;
 		var->my = (int)(var->ry) / 64;
 		var->mp = var->my * mlx->mapX + var->mx;
-		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR ))
+		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY
+			&& (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
 			var->dof = var->max_ray_checks;
 			var->disH = ray_dist(mlx->px, mlx->py, var->rx, var->ry, var->ra);
@@ -109,30 +69,32 @@ void	horiz_checks(t_vars *var, t_data *mlx)
 	}
 }
 
+void	line_c_door_north(t_vars *var, t_data *mlx)
+{
+	if (var->ra > 0 && var->ra < 180)
+	{
+		if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+			door_calculs(var, mlx);
+		else
+			south_calculs(var, mlx);
+	}
+	else
+	{
+		if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+			door_calculs(var, mlx);
+		else
+			north_calculs(var, mlx);
+	}
+}
+
 void	line_calculation(t_vars *var, t_data *mlx)
 {
-	int value;
-	int color;
-	
+	int	value;
+	int	color;
+
 	value = ((int)(var->ty) * mlx->t_w) + (int)(var->tx * (mlx->t_w / 64));
 	if (var->shade == 1)
-	{
-		if (var->ra > 0 && var->ra < 180)
-		{
-				if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
-					door_calculs(var, mlx);
-				else
-					south_calculs(var, mlx);
-		}
-		else
-		{
-			if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
-				door_calculs(var, mlx);
-			else
-				north_calculs(var, mlx);
-				
-		}
-	}
+		line_c_door_north(var, mlx);
 	else
 	{
 		if (var->ra > 90 && var->ra < 270)
@@ -151,5 +113,3 @@ void	line_calculation(t_vars *var, t_data *mlx)
 		}
 	}
 }
-
-
