@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 19:27:14 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 19:30:35 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,33 +253,31 @@ typedef struct s_keyvars{
 	int turn_ipy_add_yo;
 	int turn_ipx_sub_xo;
 	int turn_ipy_sub_yo;
-	
-} t_keyvars;
+}	t_keyvars;
 
-typedef struct  s_sprite
+typedef struct s_sprite
 {
-	int type;
-	int state;
-	int map;
-	int spx, spy, spz;
-} t_sprite;
+	int	type;
+	int	state;
+	int	map;
+	int	spx;
+	int	spy;
+	int	spz;
+}	t_sprite;
 
-typedef struct  s_map_vars
+typedef struct s_map_vars
 {
-	int i;
-	int j;
-	int loopI;
-	int loopJ;
-	int saveI;
-	int saveJ;
-} 	t_map_vars;
-
+	int	i;
+	int	j;
+	int	loopi;
+	int	loopj;
+	int	savei;
+	int	savej;
+}	t_map_vars;
 
 typedef struct s_point {
-
 	float	x;
-	float 	y;
-	
+	float	y;
 }	t_point;
 
 void			draw_square(t_data *mlx, int x);
@@ -290,11 +288,9 @@ float			fmodule(float i);
 void			init_hooks(t_data *mlx);
 float			ft_abs(float dx, float dy);
 void			ft_putchar(char c);
-void			draw_ray(int ax, int ay,int bx, int by, t_data *param);
 void			draw_everything(t_data *mlx);
 float			deg_to_rad(float a);
 float			fix_ang(float a);
-float			distance(float ax, float ay, float bx, float by, float ang);
 void			cast(t_data *mlx, float rayAngle);
 void			draw_floors(float x, float y, t_data *mlx);
 void			draw_ceiling(float x, float y, t_data *mlx);

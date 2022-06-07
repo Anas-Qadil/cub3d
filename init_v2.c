@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:47:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:33:25 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 19:30:35 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	draw_map_2d_init(t_map_vars *var)
 {
 	var->i = -1;
 	var->j = -1;
-	var->loopI = 0;
-	var->loopJ = 0;
-	var->saveI = 0;
-	var->saveJ = 0;
+	var->loopi = 0;
+	var->loopj = 0;
+	var->savei = 0;
+	var->savej = 0;
 }
 
 void	init_hooks(t_data *mlx)

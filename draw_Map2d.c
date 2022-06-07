@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:30:40 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 15:14:13 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 19:30:35 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,54 +16,54 @@ extern int map[11][15];
 
 void	draw_map_2d_floor(t_map_vars *var, t_data *mlx)
 {
-	while (var->loopI < mlx->square_size)
+	while (var->loopi < mlx->square_size)
 	{
-		var->loopJ = 0;
-		while (var->loopJ < mlx->square_size)
+		var->loopj = 0;
+		while (var->loopj < mlx->square_size)
 		{
-			my_mlx_pixel_put(mlx, var->saveI + var->loopI,
-				var->saveJ + var->loopJ, 0x00FFFFFF);
-			var->loopJ++;
+			my_mlx_pixel_put(mlx, var->savei + var->loopi,
+				var->savej + var->loopj, 0x00FFFFFF);
+			var->loopj++;
 		}
-		var->loopI++;
+		var->loopi++;
 	}
 }
 
 void	draw_map_2d_walls(t_map_vars *var, t_data *mlx)
 {
-	while (var->loopI < mlx->square_size)
+	while (var->loopi < mlx->square_size)
 	{
-		var->loopJ = 0;
-		while (var->loopJ < mlx->square_size)
+		var->loopj = 0;
+		while (var->loopj < mlx->square_size)
 		{
-			if (map[var->i][var->j] == DOOR && var->loopI % 2 == 0)
-				my_mlx_pixel_put(mlx, var->saveI + var->loopI,
-					var->saveJ + var->loopJ, 0x00000);
+			if (map[var->i][var->j] == DOOR && var->loopi % 2 == 0)
+				my_mlx_pixel_put(mlx, var->savei + var->loopi,
+					var->savej + var->loopj, 0x00000);
 			else
-				my_mlx_pixel_put(mlx, var->saveI + var->loopI,
-					var->saveJ + var->loopJ, 0x00a9a9a9);
-			var->loopJ++;
+				my_mlx_pixel_put(mlx, var->savei + var->loopi,
+					var->savej + var->loopj, 0x00a9a9a9);
+			var->loopj++;
 		}
-		var->loopI++;
+		var->loopi++;
 	}
 }
 
 void	draw_map2d_closed_doors(t_map_vars *var, t_data *mlx)
 {
-	while (var->loopI < mlx->square_size)
+	while (var->loopi < mlx->square_size)
 	{
-		var->loopJ = 0;
-		while (var->loopJ < mlx->square_size)
+		var->loopj = 0;
+		while (var->loopj < mlx->square_size)
 		{
-			if (map[var->i][var->j] == DOOR_CLOSED && var->loopI % 2 == 0)
-				my_mlx_pixel_put(mlx, var->saveI + var->loopI,
-					var->saveJ + var->loopJ, 0x00808080);
+			if (map[var->i][var->j] == DOOR_CLOSED && var->loopi % 2 == 0)
+				my_mlx_pixel_put(mlx, var->savei + var->loopi,
+					var->savej + var->loopj, 0x00808080);
 			else
-				my_mlx_pixel_put(mlx, var->saveI + var->loopI,
-					var->saveJ + var->loopJ, 0x00FFFFFF);
-			var->loopJ++;
+				my_mlx_pixel_put(mlx, var->savei + var->loopi,
+					var->savej + var->loopj, 0x00FFFFFF);
+			var->loopj++;
 		}
-		var->loopI++;
+		var->loopi++;
 	}
 }
 
@@ -75,14 +75,14 @@ void	draw_map_2d(t_data *mlx)
 	while (++var.i < mlx->mapY)
 	{
 		var.j = -1;
-		var.saveI = 0;
-		var.saveJ += var.loopJ;
-		var.loopI = 0;
-		var.loopJ = 0;
+		var.savei = 0;
+		var.savej += var.loopj;
+		var.loopi = 0;
+		var.loopj = 0;
 		while (++var.j < mlx->mapX)
 		{
-			var.saveI += var.loopI;
-			var.loopI = 0;
+			var.savei += var.loopi;
+			var.loopi = 0;
 			if (map[var.i][var.j] == 0 || map[var.i][var.j] == NORTH
 			|| map[var.i][var.j] == EAST || map[var.i][var.j] == SOUTH
 			|| map[var.i][var.j] == WEST)
