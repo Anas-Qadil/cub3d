@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:12:37 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 15:25:26 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:52:12 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ extern int map[11][15];
 
 void	painting_the_line(t_vars *var, t_data *mlx)
 {
-	while (var->y < var->lineH)
+	while (var->y < var->line_h)
 	{
 		if (var->shade == 1)
 			handle_east_west(var, mlx);
 		else
 			handle_north_south(var, mlx);
-		my_mlx_pixel_put_cast(mlx, var->r, var->y + var->lineOff, mlx->color);
+		my_mlx_pixel_put_cast(mlx, var->r, var->y + var->line_offset, mlx->color);
 		var->y++;
 		var->ty += (var->ty_step);
 	}

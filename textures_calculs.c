@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 13:34:52 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:12:14 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:54:26 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 void	door_calculs(t_vars *var, t_data *mlx)
 {
 	var->ca = fix_ang(mlx->pa - var->ra);
-	var->disH = var->disH * cos(deg_to_rad(var->ca));
-	var->lineH = (mlx->mapS * mlx->win_y) / (var->disH);
-	var->ty_step = mlx->door_h / (float)var->lineH;
+	var->dis_h = var->dis_h * cos(deg_to_rad(var->ca));
+	var->line_h = (mlx->map_s * mlx->win_y) / (var->dis_h);
+	var->ty_step = mlx->door_h / (float)var->line_h;
 	var->ty_off = 0;
-	if (var->lineH > mlx->win_y)
+	if (var->line_h > mlx->win_y)
 	{
-		var->ty_off = (var->lineH - mlx->win_y) / 2;
-		var->lineH = mlx->win_y;
+		var->ty_off = (var->line_h - mlx->win_y) / 2;
+		var->line_h = mlx->win_y;
 	}
-	var->lineOff = (mlx->line_height) - (var->lineH / 2);
+	var->line_offset = (mlx->line_height) - (var->line_h / 2);
 	var->y = 0;
 	var->ty = var->ty_off * var->ty_step;
 	if (var->shade == 1)
@@ -44,16 +44,16 @@ void	door_calculs(t_vars *var, t_data *mlx)
 void	north_calculs(t_vars *var, t_data *mlx)
 {
 	var->ca = fix_ang(mlx->pa - var->ra);
-	var->disH = var->disH * cos(deg_to_rad(var->ca));
-	var->lineH = (mlx->mapS * mlx->win_y) / (var->disH);
-	var->ty_step = mlx->t_h / (float)var->lineH;
+	var->dis_h = var->dis_h * cos(deg_to_rad(var->ca));
+	var->line_h = (mlx->map_s * mlx->win_y) / (var->dis_h);
+	var->ty_step = mlx->t_h / (float)var->line_h;
 	var->ty_off = 0;
-	if (var->lineH > mlx->win_y)
+	if (var->line_h > mlx->win_y)
 	{
-		var->ty_off = (var->lineH - mlx->win_y) / 2;
-		var->lineH = mlx->win_y;
+		var->ty_off = (var->line_h - mlx->win_y) / 2;
+		var->line_h = mlx->win_y;
 	}
-	var->lineOff = (mlx->line_height) - (var->lineH / 2);
+	var->line_offset = (mlx->line_height) - (var->line_h / 2);
 	var->y = 0;
 	var->ty = var->ty_off * var->ty_step;
 	if (var->shade == 1)
@@ -73,16 +73,16 @@ void	north_calculs(t_vars *var, t_data *mlx)
 void	south_calculs(t_vars *var, t_data *mlx)
 {
 	var->ca = fix_ang(mlx->pa - var->ra);
-	var->disH = var->disH * cos(deg_to_rad(var->ca));
-	var->lineH = (mlx->mapS * mlx->win_y) / (var->disH);
-	var->ty_step = mlx->ts_h / (float)var->lineH;
+	var->dis_h = var->dis_h * cos(deg_to_rad(var->ca));
+	var->line_h = (mlx->map_s * mlx->win_y) / (var->dis_h);
+	var->ty_step = mlx->ts_h / (float)var->line_h;
 	var->ty_off = 0;
-	if (var->lineH > mlx->win_y)
+	if (var->line_h > mlx->win_y)
 	{
-		var->ty_off = (var->lineH - mlx->win_y) / 2;
-		var->lineH = mlx->win_y;
+		var->ty_off = (var->line_h - mlx->win_y) / 2;
+		var->line_h = mlx->win_y;
 	}
-	var->lineOff = (mlx->line_height) - (var->lineH / 2);
+	var->line_offset = (mlx->line_height) - (var->line_h / 2);
 	var->y = 0;
 	var->ty = var->ty_off * var->ty_step;
 	if (var->shade == 1)
@@ -102,16 +102,16 @@ void	south_calculs(t_vars *var, t_data *mlx)
 void	west_calculs(t_vars *var, t_data *mlx)
 {
 	var->ca = fix_ang(mlx->pa - var->ra);
-	var->disH = var->disH * cos(deg_to_rad(var->ca));
-	var->lineH = (mlx->mapS * mlx->win_y) / (var->disH);
-	var->ty_step = mlx->tw_h / (float)var->lineH;
+	var->dis_h = var->dis_h * cos(deg_to_rad(var->ca));
+	var->line_h = (mlx->map_s * mlx->win_y) / (var->dis_h);
+	var->ty_step = mlx->tw_h / (float)var->line_h;
 	var->ty_off = 0;
-	if (var->lineH > mlx->win_y)
+	if (var->line_h > mlx->win_y)
 	{
-		var->ty_off = (var->lineH - mlx->win_y) / 2;
-		var->lineH = mlx->win_y;
+		var->ty_off = (var->line_h - mlx->win_y) / 2;
+		var->line_h = mlx->win_y;
 	}
-	var->lineOff = (mlx->line_height) - (var->lineH / 2);
+	var->line_offset = (mlx->line_height) - (var->line_h / 2);
 	var->y = 0;
 	var->ty = var->ty_off * var->ty_step;
 	if (var->shade == 1)
@@ -131,16 +131,16 @@ void	west_calculs(t_vars *var, t_data *mlx)
 void	east_calculs(t_vars *var, t_data *mlx)
 {
 	var->ca = fix_ang(mlx->pa - var->ra);
-	var->disH = var->disH * cos(deg_to_rad(var->ca));
-	var->lineH = (mlx->mapS * mlx->win_y) / (var->disH);
-	var->ty_step = mlx->te_h / (float)var->lineH;
+	var->dis_h = var->dis_h * cos(deg_to_rad(var->ca));
+	var->line_h = (mlx->map_s * mlx->win_y) / (var->dis_h);
+	var->ty_step = mlx->te_h / (float)var->line_h;
 	var->ty_off = 0;
-	if (var->lineH > mlx->win_y)
+	if (var->line_h > mlx->win_y)
 	{
-		var->ty_off = (var->lineH - mlx->win_y) / 2;
-		var->lineH = mlx->win_y;
+		var->ty_off = (var->line_h - mlx->win_y) / 2;
+		var->line_h = mlx->win_y;
 	}
-	var->lineOff = (mlx->line_height) - (var->lineH / 2);
+	var->line_offset = (mlx->line_height) - (var->line_h / 2);
 	var->y = 0;
 	var->ty = var->ty_off * var->ty_step;
 	if (var->shade == 1)

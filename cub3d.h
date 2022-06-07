@@ -6,65 +6,63 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:49:09 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:59:26 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-#define CUB3D_H
+# define CUB3D_H
 
-#define left_arrow 123
-#define top_arrow 126
-#define right_arrow 124
-#define bottom_arrow 125
-#define ENTER_KEY 36
-#define DR 0.0174533 // one degree in radian
-#define PI 3.141
-#define P2 PI/2
-#define P3  3*PI/2
-#define DOOR 126
-#define DOOR_CLOSED 621
-#define NORTH 100
-#define	EAST 101
-#define	SOUTH 102
-#define	WEST 103
-#define W 13
-#define S 1
-#define D 2
-#define A 0
-#define HOME_SCREEN 0
-#define GAME	1
-#define WIN	2
-#define LOSE 3
-#define EXIT 53
-#define SPRT 4321
+# define LEFT_ARROW 123
+# define TOP_ARROW 126
+# define right_arrow 124
+# define bottom_arrow 125
+# define ENTER_KEY 36
+# define DR 0.0174533 // one degree in radian
+# define PI 3.141
+# define P2 PI/2
+# define P3  3*PI/2
+# define DOOR 126
+# define DOOR_CloseD 621
+# define NORTH 100
+# define	EAST 101
+# define	SOUTH 102
+# define	WEST 103
+# define W 13
+# define S 1
+# define D 2
+# define A 0
+# define home_SCREEN 0
+# define GAME	1
+# define WIN	2
+# define lose 3
+# define EXIT 53
+# define SPRT 4321
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <mlx.h>
-#include <math.h>
-#include <string.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <mlx.h>
+# include <math.h>
+# include <string.h>
 
-typedef struct	s_data t_data;
+typedef struct s_data	t_data;
 
-
-typedef struct	s_player {
+typedef struct s_player {
 	void	*img;
-    void    *mlx;
-    void    *win;
+	void	*mlx;
+	void	*win;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-    int     x;
-    int     y;
-}				t_player;
+	int		x;
+	int		y;
+}	t_player;
 
-
-typedef struct	s_data {
+typedef struct s_data {
 	void	*img;
-    void	*mlx;
+	void	*mlx;
 	void	*win;
 	char	*addr;
 	int		bits_per_pixel;
@@ -80,51 +78,51 @@ typedef struct	s_data {
 	float	pdy;
 	float	pa;
 	int		square_size;
-	int		mapS;
-	int		mapY;
-	int		mapX;
+	int		map_s;
+	int		map_y;
+	int		map_x;
 	float	line_height;
 	float	next_ra;
 	int		start;
-	int		gameState;
-	void	*LOSE_img;
-	void	*LOSE_addr;
-	int		LOSE_bits_per_pixel;
-	int		LOSE_line_length;
-	int		LOSE_endian;
+	int		game_state;
+	void	*lose_img;
+	void	*lose_addr;
+	int		lose_bits_per_pixel;
+	int		lose_line_length;
+	int		lose_endian;
 	int		move_left;
 	int		move_right;
 	int		move_up;
 	int		move_down;
 	int		a_pressed;
 	int		d_pressed;
-	void	*HOME_img;
-	void	*HOME_addr;
-	int		HOME_bits_per_pixel;
-	int		HOME_line_length;
-	int		HOME_endian;
-	int		HOME_w;
-	int		HOME_h;
+	void	*home_img;
+	void	*home_addr;
+	int		home_bits_per_pixel;
+	int		home_line_length;
+	int		home_endian;
+	int		home_w;
+	int		home_h;
 	int		value;
 	int		color;
-	void	*PRESS_img;
-	void	*PRESS_addr;
-	int		PRESS_bits_per_pixel;
-	int		PRESS_line_length;
-	int		PRESS_endian;
-	int		PRESS_w;
-	int		PRESS_h;
-	void	*LOADING_img;
-	void	*LOADING_addr;
-	int		LOADING_bits_per_pixel;
-	int		LOADING_line_length;
-	int		LOADING_endian;
-	int 	LOADING_i;
-	int 	LOADING_j;
-	int 	LOADING_counter;
-	int		isLoadingDone;
-	int		LOADING_w;
-	int		LOADING_h;
+	void	*press_img;
+	void	*press_addr;
+	int		press_bits_per_pixel;
+	int		press_line_length;
+	int		press_endian;
+	int		press_w;
+	int		press_h;
+	void	*loading_img;
+	void	*loading_addr;
+	int		loading_bits_per_pixel;
+	int		loading_line_length;
+	int		loading_endian;
+	int		loading_i;
+	int		loading_j;
+	int		loading_counter;
+	int		isloadingdone;
+	int		loading_w;
+	int		loading_h;
 	char	*t_path;
 	void	*t_img;
 	void	*t_addr;
@@ -180,10 +178,12 @@ typedef struct	s_data {
 	int		player_bits_per_pixel;
 	int		player_line_length;
 	int		player_endian;
-	int type;
-	int state;
-	int map;
-	float spx, spy, spz;
+	int		type;
+	int		state;
+	int		map;
+	float	spx;
+	float	spy;
+	float	spz;
 	void	*sprt_img;
 	char	*sprt_addr;
 	int		sprt_bits_per_pixel;
@@ -205,28 +205,28 @@ typedef struct s_vars
 	int		my;
 	int		mp;
 	int		dof;
-	int		disT;
+	int		dis_t;
 	float	rx;
 	float	ry;
 	float	ra;
 	float	xo;
 	float	yo;
-	float	disV;
-	float	disH;
+	float	dis_v;
+	float	dis_h;
 	float	vx;
 	float	vy;
 	int		i;
 	float	hx;
 	float	hy;
-	float	Tan;
+	float	tan;
 	int		ca;
-	int		lineH;
+	int		line_h;
 	float	ty_step;
 	float	ty_off;
 	float	tx;
 	float	ty;
 	int		y;
-	int		lineOff;
+	int		line_offset;
 	int		value;
 	float	shade;
 	float	next_ra;
@@ -294,7 +294,7 @@ void			draw_floors(float x, float y, t_data *mlx);
 void			draw_ceiling(float x, float y, t_data *mlx);
 void			my_mlx_pixel_put_cast(t_data *data, int x, int y, int color);
 void			my_mlx_pixel_put_player(t_data *data, int x, int y, int color);
-float			ray_dist(float ax, float ay, float bx, float by);
+float			ray_dis_t(float ax, float ay, float bx, float by);
 unsigned int	get_color_2(t_data *t, int x, int y);
 int				render(t_data *mlx);
 void			read_north_texture(t_data *mlx);

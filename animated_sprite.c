@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:55:22 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:33:14 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:51:59 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void    draw_sprt(t_data *mlx, t_vars *var)
     
     while (var->y < 200)
     {
-        my_mlx_pixel_put_cast(mlx, var->r + 20, var->y + var->lineOff, color);
+        my_mlx_pixel_put_cast(mlx, var->r + 20, var->y + var->line_offset, color);
         var->y++;
     }
 }

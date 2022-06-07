@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:30:40 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 19:30:35 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:54:40 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	draw_map2d_closed_doors(t_map_vars *var, t_data *mlx)
 		var->loopj = 0;
 		while (var->loopj < mlx->square_size)
 		{
-			if (map[var->i][var->j] == DOOR_CLOSED && var->loopi % 2 == 0)
+			if (map[var->i][var->j] == DOOR_CloseD && var->loopi % 2 == 0)
 				my_mlx_pixel_put(mlx, var->savei + var->loopi,
 					var->savej + var->loopj, 0x00808080);
 			else
@@ -72,14 +72,14 @@ void	draw_map_2d(t_data *mlx)
 	t_map_vars	var;
 
 	draw_map_2d_init(&var);
-	while (++var.i < mlx->mapY)
+	while (++var.i < mlx->map_y)
 	{
 		var.j = -1;
 		var.savei = 0;
 		var.savej += var.loopj;
 		var.loopi = 0;
 		var.loopj = 0;
-		while (++var.j < mlx->mapX)
+		while (++var.j < mlx->map_x)
 		{
 			var.savei += var.loopi;
 			var.loopi = 0;
@@ -87,7 +87,7 @@ void	draw_map_2d(t_data *mlx)
 			|| map[var.i][var.j] == EAST || map[var.i][var.j] == SOUTH
 			|| map[var.i][var.j] == WEST)
 				draw_map_2d_floor(&var, mlx);
-			else if (map[var.i][var.j] == DOOR_CLOSED)
+			else if (map[var.i][var.j] == DOOR_CloseD)
 				draw_map2d_closed_doors(&var, mlx);
 			else if (map[var.i][var.j] == 1 || map[var.i][var.j] == DOOR)
 				draw_map_2d_walls(&var, mlx);

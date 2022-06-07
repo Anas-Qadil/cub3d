@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:07:22 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:55:54 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	init_player(t_data *mlx)
 
 void	init_home_screen_vars(t_data *mlx)
 {
-	mlx->LOADING_i = 0;
-	mlx->LOADING_j = 0;
-	mlx->LOADING_counter = 0;
-	mlx->isLoadingDone = 0;
-	mlx->LOADING_w = 300;
-	mlx->LOADING_h = 50;
+	mlx->loading_i = 0;
+	mlx->loading_j = 0;
+	mlx->loading_counter = 0;
+	mlx->isloadingdone = 0;
+	mlx->loading_w = 300;
+	mlx->loading_h = 50;
 }
 
 void	init_window(t_data *mlx)
@@ -50,7 +50,7 @@ void	init_window(t_data *mlx)
 
 void	init_everything(t_data *mlx)
 {
-	mlx->gameState = HOME_SCREEN;
+	mlx->game_state = home_SCREEN;
 	open_textures(mlx);
 	init_window(mlx);
 	init_map(mlx);

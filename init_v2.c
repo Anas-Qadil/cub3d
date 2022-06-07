@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:47:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 19:30:35 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:54:40 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	init_vars(t_data *mlx)
 void	init_map(t_data *mlx)
 {
 	mlx->square_size = 16;
-	mlx->mapS = 64;
-	mlx->mapY = 11;
-	mlx->mapX = 15;
+	mlx->map_s = 64;
+	mlx->map_y = 11;
+	mlx->map_x = 15;
 	mlx->line_height = mlx->win_y / 2;
 }

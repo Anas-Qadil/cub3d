@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:11:36 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:59:13 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	stop_update( int keycode, t_data *mlx)
 		mlx->move_up = 0;
 	if (keycode == S)
 		mlx->move_down = 0;
-	if (keycode == left_arrow)
+	if (keycode == LEFT_ARROW)
 		mlx->move_left = 0;
 	if (keycode == right_arrow)
 		mlx->move_right = 0;
@@ -33,7 +33,7 @@ int	stop_update( int keycode, t_data *mlx)
 
 void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode)
 {
-	if (keycode == left_arrow)
+	if (keycode == LEFT_ARROW)
 	{
 		mlx->move_left = 1;
 		mlx->move_right = 0;
@@ -95,20 +95,20 @@ int	close_it(int keycode, t_data *mlx)
 
 	keycode_init(&var, mlx);
 	keyhook_1(mlx, &var, keycode);
-	if (keycode == D && mlx->gameState == GAME)
+	if (keycode == D && mlx->game_state == GAME)
 		mlx->d_pressed = 1;
-	if (keycode == A && mlx->gameState == GAME)
+	if (keycode == A && mlx->game_state == GAME)
 		mlx->a_pressed = 1;
-	if (keycode == 49 && mlx->gameState == GAME)
+	if (keycode == 49 && mlx->game_state == GAME)
 		open_door(&var, mlx);
-	if (mlx->gameState == HOME_SCREEN
-		&& keycode == ENTER_KEY && mlx->isLoadingDone == 1)
+	if (mlx->game_state == home_SCREEN
+		&& keycode == ENTER_KEY && mlx->isloadingdone == 1)
 	{
 		init_player(mlx);
-		mlx->gameState = GAME;
+		mlx->game_state = GAME;
 	}
-	if (mlx->gameState == LOSE && keycode == ENTER_KEY)
-		mlx->gameState = HOME_SCREEN;
+	if (mlx->game_state == lose && keycode == ENTER_KEY)
+		mlx->game_state = home_SCREEN;
 	if (keycode == EXIT)
 		free_and_exit(mlx);
 	return (0);

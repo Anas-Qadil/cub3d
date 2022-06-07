@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:05:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 15:35:19 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:54:40 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	get_player_y_pos(t_data *mlx)
 
 	i = 0;
 	found = 0;
-	while (i < mlx->mapY)
+	while (i < mlx->map_y)
 	{
 		j = 0;
-		while (j < mlx->mapX)
+		while (j < mlx->map_x)
 		{
 			if (map[i][j] == NORTH || map[i][j] == SOUTH
 				|| map[i][j] == EAST || map[i][j] == WEST)
@@ -50,10 +50,10 @@ int	get_player_x_pos(t_data *mlx)
 
 	i = 0;
 	found = 0;
-	while (i < mlx->mapY)
+	while (i < mlx->map_y)
 	{
 		j = 0;
-		while (j < mlx->mapX)
+		while (j < mlx->map_x)
 		{
 			if (map[i][j] == NORTH || map[i][j] == SOUTH
 				|| map[i][j] == EAST || map[i][j] == WEST)

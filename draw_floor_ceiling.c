@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:49:27 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 15:06:25 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:52:12 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	draw_floor_and_ceiling(t_vars *var, t_data *mlx)
 	int	y123;
 	int	counter;
 
-	y123 = var->lineOff + var->lineH;
+	y123 = var->line_offset + var->line_h;
 	counter = 0;
 	while (y123 < mlx->win_y)
 	{

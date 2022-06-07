@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:15:05 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:55:04 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	vertical_checks(t_vars *var, t_data *mlx)
 	{
 		var->mx = (int)(var->rx) / 64;
 		var->my = (int)(var->ry) / 64;
-		var->mp = var->my * mlx->mapX + var->mx;
-		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY
+		var->mp = var->my * mlx->map_x + var->mx;
+		if (var->mp > 0 && var->mp < mlx->map_x * mlx->map_y
 			&& (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
-			var->disV = ray_dist(mlx->px, mlx->py, var->rx, var->ry);
+			var->dis_v = ray_dis_t(mlx->px, mlx->py, var->rx, var->ry);
 			var->dof = var->max_ray_checks;
 		}
 		else
@@ -42,8 +42,8 @@ void	switch_var(t_vars *var)
 	var->vx = var->rx;
 	var->vy = var->ry;
 	var->dof = 0;
-	var->disH = 100000;
-	var->Tan = 1.0 / var->Tan;
+	var->dis_h = 100000;
+	var->tan = 1.0 / var->tan;
 }
 
 void	horiz_checks(t_vars *var, t_data *mlx)
@@ -53,12 +53,12 @@ void	horiz_checks(t_vars *var, t_data *mlx)
 	{
 		var->mx = (int)(var->rx) / 64;
 		var->my = (int)(var->ry) / 64;
-		var->mp = var->my * mlx->mapX + var->mx;
-		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY
+		var->mp = var->my * mlx->map_x + var->mx;
+		if (var->mp > 0 && var->mp < mlx->map_x * mlx->map_y
 			&& (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
 			var->dof = var->max_ray_checks;
-			var->disH = ray_dist(mlx->px, mlx->py, var->rx, var->ry);
+			var->dis_h = ray_dis_t(mlx->px, mlx->py, var->rx, var->ry);
 		}
 		else
 		{

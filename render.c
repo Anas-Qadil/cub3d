@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:12:14 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:55:54 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern int map[11][15];
 int	check_valid_move(t_keyvars *var, int pos)
 {
 	if (pos == NORTH || pos == WEST || pos == SOUTH
-		|| pos == EAST || pos == 0 || pos == DOOR_CLOSED)
+		|| pos == EAST || pos == 0 || pos == DOOR_CloseD)
 		return (1);
 	return (0);
 }
@@ -66,12 +66,12 @@ void	check_doors(t_data *mlx)
 
 	i = 0;
 	j = 0;
-	while (i < mlx->mapY)
+	while (i < mlx->map_y)
 	{
 		j = 0;
-		while (j < mlx->mapX)
+		while (j < mlx->map_x)
 		{
-			if (map[i][j] == DOOR_CLOSED)
+			if (map[i][j] == DOOR_CloseD)
 				map[i][j] = DOOR;
 			j++;
 		}
@@ -82,7 +82,7 @@ void	check_doors(t_data *mlx)
 int	render(t_data *mlx)
 {
 	mlx_clear_window(mlx->mlx, mlx->win);
-	if (mlx->gameState == GAME)
+	if (mlx->game_state == GAME)
 	{
 		update_everything(mlx);
 		draw_everything(mlx);
@@ -91,9 +91,9 @@ int	render(t_data *mlx)
 			check_doors(mlx);
 		check_if_player_is_dead(mlx);
 	}
-	if (mlx->gameState == HOME_SCREEN)
+	if (mlx->game_state == home_SCREEN)
 		render_home_screen(mlx);
-	if (mlx->gameState == LOSE)
+	if (mlx->game_state == lose)
 		render_lose_screen(mlx);
 	return (1);
 }

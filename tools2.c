@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:05:08 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:14:16 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:52:42 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ float	fix_ang(float a)
 	return (a);
 }
 
-float	ray_dist(float ax, float ay, float bx, float by)
+float	ray_dis_t(float ax, float ay, float bx, float by)
 {
 	return (sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
 }

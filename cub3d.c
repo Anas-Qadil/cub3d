@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:12:14 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:54:03 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	open_door(t_keyvars *var, t_data *mlx)
 	var->ipy_add_yo = (mlx->py + var->yo) / 64.0;
 	if (map[var->ipy_add_yo][var->ipx_add_xo] == DOOR)
 	{
-		map[var->ipy_add_yo][var->ipx_add_xo] = DOOR_CLOSED;
+		map[var->ipy_add_yo][var->ipx_add_xo] = DOOR_CloseD;
 		mlx->start = 1;
 	}
 }
@@ -60,12 +60,12 @@ void	cast(t_data *mlx, float rayAngle)
 		switch_var(&var);
 		horiz_checks(&var, mlx);
 		var.shade = 1;
-		if (var.disV < var.disH)
+		if (var.dis_v < var.dis_h)
 		{
 			var.shade = 0.5;
 			var.rx = var.vx;
 			var.ry = var.vy;
-			var.disH = var.disV;
+			var.dis_h = var.dis_v;
 		}
 		line_calculation(&var, mlx);
 		painting_the_line(&var, mlx);

@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 09:39:17 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 15:56:26 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:55:54 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	render_lose_screen(t_data *mlx)
 	int	h;
 	int	w;
 
-	mlx->LOSE_img = mlx_xpm_file_to_image(mlx->mlx,
+	mlx->lose_img = mlx_xpm_file_to_image(mlx->mlx,
 			"./textures/you-lose.xpm", &w, &h);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->LOSE_img, 0, 0);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->lose_img, 0, 0);
 }
 
 void	check_if_player_is_dead(t_data *mlx)
 {
 	if (map[(int)(mlx->py / 64)][(int)(mlx->px / 64)] == DOOR)
-		mlx->gameState = LOSE;
+		mlx->game_state = lose;
 }
 
 void	render_home_screen(t_data *mlx)
@@ -36,20 +36,20 @@ void	render_home_screen(t_data *mlx)
 	int	load_x;
 	int	load_y;
 
-	home_x = (mlx->win_x / 2) - (mlx->HOME_w / 2);
-	load_x = (mlx->win_x / 2) - (mlx->LOADING_w / 2);
+	home_x = (mlx->win_x / 2) - (mlx->home_w / 2);
+	load_x = (mlx->win_x / 2) - (mlx->loading_w / 2);
 	load_y = (mlx->win_y / 2) + (mlx->win_y / 2.8);
 	mlx_put_image_to_window(mlx->mlx, mlx->win,
-		mlx->HOME_img, home_x, 0);
-	if (mlx->isLoadingDone == 0)
+		mlx->home_img, home_x, 0);
+	if (mlx->isloadingdone == 0)
 	{
-		if (mlx->LOADING_counter % 2 == 0)
+		if (mlx->loading_counter % 2 == 0)
 			draw_loading(mlx);
-		mlx->LOADING_counter++;
+		mlx->loading_counter++;
 		mlx_put_image_to_window(mlx->mlx, mlx->win,
-			mlx->LOADING_img, load_x, load_y);
+			mlx->loading_img, load_x, load_y);
 	}
 	else
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->PRESS_img,
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->press_img,
 			load_x - 100, load_y - 50);
 }
