@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 12:45:58 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 14:27:05 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,8 @@ int map[11][15] = {
 void    cast(t_data *mlx, float rayAngle)
 {
 	t_vars var;
+
 	init_cast_vars(&var, mlx);
-
-	//remove this
-	int rayXpos[var.rays_num];
-	int rayYpos[var.rays_num];
-	int playerXpos[var.rays_num];
-	int playerYpos[var.rays_num];
-
 	while (var.r < var.rays_num)
 	{
 		vertical_checks(&var, mlx);
@@ -50,23 +44,11 @@ void    cast(t_data *mlx, float rayAngle)
 			var.ry = var.vy;
 			var.disH = var.disV;
 		}
-		// remove this
-		rayXpos[var.i] = var.rx / 4;
-		rayYpos[var.i] = var.ry / 4;
-		playerXpos[var.i] = mlx->px / 4;
-		playerYpos[var.i] = mlx->py / 4;
-		
 		line_calculation(&var, mlx);
   		painting_the_line(&var, mlx);
 		draw_floor_and_ceiling(&var, mlx);
 		var.ra = FixAng(var.ra - var.next_ra);
 		var.r++;
-		var.i++;
-	}
-	var.i = 0;
-	while (var.i < var.rays_num)
-	{
-		draw_line_cast(playerXpos[var.i], playerYpos[var.i], rayXpos[var.i], rayYpos[var.i], mlx, var.color);
 		var.i++;
 	}
 }
@@ -77,7 +59,6 @@ int main(void)
 	t_player	player;
 
 	init_everything(&mlx);
-	
 	mlx_hook(mlx.win, 2, (1L<<0), close_it, &mlx);
 	mlx_hook(mlx.win, 3, (1L<<1), stop_update, &mlx);
 	mlx_loop_hook(mlx.mlx, render, &mlx);

@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 08:50:50 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 14:18:47 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,10 +246,6 @@ typedef struct	s_data {
 	int		sprt_w;
 	int		sprt_h;
 	int		depth[1500];
-	int eat;
-
-	int foundsprt;
-	
 }				t_data;
 
 typedef struct s_vars
