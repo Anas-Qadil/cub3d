@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:14:37 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:33:54 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ typedef struct	s_data {
 
 
 	// textures N
+	char	*t_path;
 	void	*t_img;
 	void	*t_addr;
 	int		t_bits_per_pixel;
@@ -183,6 +184,7 @@ typedef struct	s_data {
 	int		*buff;
 
 	// textures S
+	char	*ts_path;
 	void	*ts_img;
 	void	*ts_addr;
 	int		ts_bits_per_pixel;
@@ -193,6 +195,7 @@ typedef struct	s_data {
 	int		*ts_buff;
 	
 	// textures W
+	char	*tw_path;
 	void	*tw_img;
 	void	*tw_addr;
 	int		tw_bits_per_pixel;
@@ -203,6 +206,7 @@ typedef struct	s_data {
 	int		*tw_buff;
 	
 	// textures E
+	char	*te_path;
 	void	*te_img;
 	void	*te_addr;
 	int		te_bits_per_pixel;
@@ -213,6 +217,7 @@ typedef struct	s_data {
 	int		*te_buff;
 
 	// DOOR
+	char	*door_path;
 	void	*door_img;
 	void	*door_addr;
 	int		door_bits_per_pixel;
@@ -440,7 +445,7 @@ void	switch_var(t_vars *var);
 void	horiz_checks(t_vars *var, t_data *mlx);
 void	line_calculation(t_vars *var, t_data *mlx);
 void	my_mlx_pixel_put_loading(t_data *data, int x, int y, int color);
-
+void	open_textures(t_data *mlx);
 //loading
 void	draw_loading(t_data *mlx);
 

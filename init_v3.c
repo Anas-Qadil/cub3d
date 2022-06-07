@@ -6,13 +6,22 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:49:36 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:07:34 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:45:01 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 extern int map[11][15];
+
+void	open_textures(t_data *mlx)
+{
+	mlx->t_path = "./textures/redbrick.xpm";
+	mlx->ts_path = "./textures/banner.xpm";
+	mlx->te_path = "./textures/bluestone.xpm";
+	mlx->tw_path = "./textures/skull.xpm";
+	mlx->door_path = "./textures/door.xpm";
+}
 
 void	read_home_image(t_data *mlx)
 {

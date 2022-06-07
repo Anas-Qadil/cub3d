@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 13:45:54 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 16:35:57 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:37:49 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	read_north_texture(t_data *mlx)
 
 	i = 0;
 	k = 0;
-	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/redbrick.xpm",
+	mlx->t_img = mlx_xpm_file_to_image(mlx->mlx, mlx->t_path,
 			&mlx->t_w, &mlx->t_h);
 	mlx->t_addr = mlx_get_data_addr(mlx->t_img, &mlx->t_bits_per_pixel,
 			&mlx->t_line_length, &mlx->t_endian);
@@ -47,7 +47,7 @@ void	read_west_texture(t_data *mlx)
 
 	i = 0;
 	k = 0;
-	mlx->tw_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/skull.xpm",
+	mlx->tw_img = mlx_xpm_file_to_image(mlx->mlx, mlx->tw_path,
 			&mlx->tw_w, &mlx->tw_h);
 	mlx->tw_addr = mlx_get_data_addr(mlx->tw_img, &mlx->tw_bits_per_pixel,
 			&mlx->tw_line_length, &mlx->tw_endian);
@@ -73,7 +73,7 @@ void	read_east_texture(t_data *mlx)
 
 	i = 0;
 	k = 0;
-	mlx->te_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/bluestone.xpm",
+	mlx->te_img = mlx_xpm_file_to_image(mlx->mlx, mlx->te_path,
 			&mlx->te_w, &mlx->te_h);
 	mlx->te_addr = mlx_get_data_addr(mlx->te_img, &mlx->te_bits_per_pixel,
 			&mlx->te_line_length, &mlx->te_endian);
@@ -99,7 +99,7 @@ void	read_south_texture(t_data *mlx)
 
 	i = 0;
 	k = 0;
-	mlx->ts_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/pumking.xpm",
+	mlx->ts_img = mlx_xpm_file_to_image(mlx->mlx, mlx->ts_path,
 			&mlx->ts_w, &mlx->ts_h);
 	mlx->ts_addr = mlx_get_data_addr(mlx->ts_img, &mlx->ts_bits_per_pixel,
 			&mlx->ts_line_length, &mlx->ts_endian);
@@ -125,7 +125,7 @@ void	read_door_texture(t_data *mlx)
 
 	i = 0;
 	k = 0;
-	mlx->door_img = mlx_xpm_file_to_image(mlx->mlx, "./textures/door.xpm",
+	mlx->door_img = mlx_xpm_file_to_image(mlx->mlx, mlx->door_path,
 			&mlx->door_w, &mlx->door_h);
 	mlx->door_addr = mlx_get_data_addr(mlx->door_img, &mlx->door_bits_per_pixel,
 			&mlx->door_line_length, &mlx->door_endian);
