@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 19:29:53 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 08:50:50 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@
 #define P3  3*PI/2
 #define DOOR 126
 #define DOOR_CLOSED 621
-#define NORTH 13
+#define NORTH 100
+#define	EAST 101
+#define	SOUTH 102
+#define	WEST 103
 #define W 13
 #define S 1
 #define D 2
@@ -34,6 +37,7 @@
 #define WIN	2
 #define LOSE 3
 #define EXIT 53
+#define SPRT 4321
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -129,6 +133,8 @@ typedef struct	s_data {
 	int move_right;
 	int move_up;
 	int move_down;
+	int a_pressed;
+	int d_pressed;
 
 	//home image
 	void	*HOME_img;
@@ -240,6 +246,9 @@ typedef struct	s_data {
 	int		sprt_w;
 	int		sprt_h;
 	int		depth[1500];
+	int eat;
+
+	int foundsprt;
 	
 }				t_data;
 
@@ -278,6 +287,7 @@ typedef struct s_vars
 	int value;
 	float	shade;
 	float	next_ra;
+	
 }	t_vars;
 
 typedef struct s_keyvars{
@@ -289,6 +299,18 @@ typedef struct s_keyvars{
 	int ipy_add_yo;
 	int ipx_sub_xo;
 	int ipy_sub_yo;
+
+	float	turn_pdx;
+	float	turn_pdy;
+	int turn_xo;
+	int turn_yo;
+	int turn_ipx;
+	int turn_ipy;
+	int turn_ipx_add_xo;
+	int turn_ipy_add_yo;
+	int turn_ipx_sub_xo;
+	int turn_ipy_sub_yo;
+	
 } t_keyvars;
 
 typedef struct  s_sprite
@@ -437,6 +459,8 @@ void	my_mlx_pixel_put_sprt(t_data *data, int x, int y, int color);
 void    init_sprite(t_data *mlx);
 unsigned int	get_color_sprt(t_data *mlx, int x, int y);
 void	drawSprite(t_data *mlx);
+
+void    draw_sprt(t_data *mlx, t_vars *var);
 
 #endif
 

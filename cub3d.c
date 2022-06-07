@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 19:30:15 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 12:45:58 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void    cast(t_data *mlx, float rayAngle)
 			var.ry = var.vy;
 			var.disH = var.disV;
 		}
-		// mlx->depth[var.r] = var.disH;
 		// remove this
 		rayXpos[var.i] = var.rx / 4;
 		rayYpos[var.i] = var.ry / 4;

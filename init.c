@@ -6,11 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 21:28:08 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 10:12:30 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+extern int map[11][15];
 
 void	init(t_data *mlx)
 {
@@ -25,7 +27,7 @@ void	init_vars(t_data *mlx)
 	mlx->map = 0;
 	mlx->spx = 8 * 64;
 	mlx->spy = 4 * 64;
-	mlx->spz = 50;
+	mlx->spz = 20;
 }
 
 void	drawMap2D_init(t_map_vars *var)
@@ -61,14 +63,6 @@ void	init_cast_vars(t_vars *var, t_data *mlx)
 	var->hy = mlx->py;
 }
 
-void	init_window(t_data *mlx)
-{
-	mlx->win_x = 1500;
-	mlx->win_y = 1000;
-	
-	mlx->mlx = mlx_init();
-	mlx->win = mlx_new_window(mlx->mlx, mlx->win_x, mlx->win_y, "Cub3d");
-}
 
 void	init_map(t_data *mlx)
 {
@@ -79,9 +73,34 @@ void	init_map(t_data *mlx)
 	mlx->line_height = mlx->win_y / 2;
 }
 
+int	get_player_direction(t_data *mlx)
+{
+	int i = 0;
+	int j = 0;
+
+	while (i < mlx->mapY)
+	{
+		j = 0;
+		while (j < mlx->mapX)
+		{
+			if (map[i][j] == NORTH)
+				mlx->pa = 90;
+			if (map[i][j] == EAST)
+				mlx->pa = 0;
+			if (map[i][j] == SOUTH)
+				mlx->pa = 270;
+			if (map[i][j] == WEST)
+				mlx->pa = 180;
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	init_player(t_data *mlx)
 {
-	mlx->pa = 90;
+	get_player_direction(mlx);
 	mlx->px = get_player_x_pos(mlx);
 	mlx->py = get_player_y_pos(mlx);
 	mlx->pdx = cos(degToRad(mlx->pa));
@@ -128,7 +147,6 @@ void	read_HOME_image(t_data *mlx)
 	mlx->PRESS_h = h;
 	mlx->LOADING_img = mlx_new_image(mlx->mlx, mlx->LOADING_w, mlx->LOADING_h);
 	mlx->LOADING_addr = mlx_get_data_addr(mlx->LOADING_img, &mlx->LOADING_bits_per_pixel, &mlx->LOADING_line_length, &mlx->LOADING_endian);
-	
 }
 
 void	init_home_screen_vars(t_data *mlx)
@@ -141,9 +159,18 @@ void	init_home_screen_vars(t_data *mlx)
 	mlx->LOADING_h = 50;
 }
 
+void	init_window(t_data *mlx)
+{
+	mlx->win_x = 1500; // 1500
+	mlx->win_y = 1000; // 1000 
+	
+	mlx->mlx = mlx_init();
+	mlx->win = mlx_new_window(mlx->mlx, mlx->win_x, mlx->win_y, "Cub3d");
+}
+
 void	init_everything(t_data *mlx)
 {
-	mlx->gameState = HOME_SCREEN;
+	mlx->gameState = GAME;
 	init_window(mlx);
 	init_map(mlx);
 	init_player(mlx);
@@ -152,5 +179,4 @@ void	init_everything(t_data *mlx)
 	init_home_screen_vars(mlx);
 	read_HOME_image(mlx);
 	init_vars(mlx);
-	init_sprite(mlx);
 }

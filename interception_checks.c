@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/03 15:11:30 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 10:33:47 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	vertical_checks(t_vars *var, t_data *mlx)
 	else if(cos(degToRad(var->ra)) < 0) //looking left
 	{
 		var->rx = (((int)mlx->px / 64) * 64) - 0.0001;
-		var->ry =(mlx->px - var->rx) * var->Tan + mlx->py; 
+		var->ry =(mlx->px - var->rx) * var->Tan + mlx->py;
 		var->xo = -64;
 		var->yo = -var->xo * var->Tan;
 	}
@@ -43,14 +43,14 @@ void	vertical_checks(t_vars *var, t_data *mlx)
 	{
 		var->mx = (int)(var->rx) / 64;
 		var->my = (int)(var->ry) / 64;
-			
+
 		var->mp = var->my * mlx->mapX + var->mx;
-		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
+		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR ))
 		{
 			var->disV = ray_dist(mlx->px, mlx->py, var->rx, var->ry, var->ra);
 			var->dof = var->max_ray_checks;
 		}
-		else 
+		else
 		{
 			var->rx += var->xo;
 			var->ry += var->yo;
@@ -95,7 +95,7 @@ void	horiz_checks(t_vars *var, t_data *mlx)
 		var->mx = (int)(var->rx) / 64; 
 		var->my = (int)(var->ry) / 64;
 		var->mp = var->my * mlx->mapX + var->mx;
-		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
+		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY && (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR ))
 		{
 			var->dof = var->max_ray_checks;
 			var->disH = ray_dist(mlx->px, mlx->py, var->rx, var->ry, var->ra);
@@ -122,14 +122,15 @@ void	line_calculation(t_vars *var, t_data *mlx)
 				if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 					door_calculs(var, mlx);
 				else
-					north_calculs(var, mlx);
+					south_calculs(var, mlx);
 		}
 		else
 		{
 			if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 				door_calculs(var, mlx);
 			else
-				south_calculs(var, mlx);
+				north_calculs(var, mlx);
+				
 		}
 	}
 	else
@@ -139,14 +140,14 @@ void	line_calculation(t_vars *var, t_data *mlx)
 			if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 				door_calculs(var, mlx);
 			else
-				west_calculs(var, mlx);
+				east_calculs(var, mlx);
 		}
 		else
 		{
 			if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 				door_calculs(var, mlx);
 			else
-				east_calculs(var, mlx);
+				west_calculs(var, mlx);
 		}
 	}
 }
