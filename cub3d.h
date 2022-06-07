@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 19:30:35 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 20:49:09 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,40 +64,40 @@ typedef struct	s_player {
 
 typedef struct	s_data {
 	void	*img;
-    void    *mlx;
-    void    *win;
+    void	*mlx;
+	void	*win;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-    int     x;
-    int     y;
+	int		x;
+	int		y;
 	int		win_y;
-	int 	win_x;
+	int		win_x;
 	float	px;
 	float	py;
 	float	pdx;
 	float	pdy;
 	float	pa;
-	int	square_size;
-	int	mapS;
-	int	mapY;
-	int	mapX;
+	int		square_size;
+	int		mapS;
+	int		mapY;
+	int		mapX;
 	float	line_height;
-	float		next_ra;
-	int start;
-	int gameState;
+	float	next_ra;
+	int		start;
+	int		gameState;
 	void	*LOSE_img;
 	void	*LOSE_addr;
 	int		LOSE_bits_per_pixel;
 	int		LOSE_line_length;
 	int		LOSE_endian;
-	int move_left;
-	int move_right;
-	int move_up;
-	int move_down;
-	int a_pressed;
-	int d_pressed;
+	int		move_left;
+	int		move_right;
+	int		move_up;
+	int		move_down;
+	int		a_pressed;
+	int		d_pressed;
 	void	*HOME_img;
 	void	*HOME_addr;
 	int		HOME_bits_per_pixel;
@@ -197,62 +197,60 @@ typedef struct	s_data {
 
 typedef struct s_vars
 {
-	int rays_num;
-	int color;
-	int max_ray_checks;
-	int r;
-	int mx;
-	int my;
-	int mp;
-	int dof;
-	int disT;
-	float rx;
-	float ry;
-	float ra;
-	float xo;
-	float yo;
-	float disV;
-	float disH;
-	float vx;
-	float vy;
-	int i;
-	float hx;
-	float hy;
-	float Tan;
-	int	ca;
-	int	lineH;
+	int		rays_num;
+	int		color;
+	int		max_ray_checks;
+	int		r;
+	int		mx;
+	int		my;
+	int		mp;
+	int		dof;
+	int		disT;
+	float	rx;
+	float	ry;
+	float	ra;
+	float	xo;
+	float	yo;
+	float	disV;
+	float	disH;
+	float	vx;
+	float	vy;
+	int		i;
+	float	hx;
+	float	hy;
+	float	Tan;
+	int		ca;
+	int		lineH;
 	float	ty_step;
 	float	ty_off;
-	float tx;
-	float ty;
-	int y;
-	int	lineOff;
-	int value;
+	float	tx;
+	float	ty;
+	int		y;
+	int		lineOff;
+	int		value;
 	float	shade;
 	float	next_ra;
-	
 }	t_vars;
 
 typedef struct s_keyvars{
-	int xo;
-	int yo;
-	int ipx;
-	int ipy;
-	int ipx_add_xo;
-	int ipy_add_yo;
-	int ipx_sub_xo;
-	int ipy_sub_yo;
-
+	int		xo;
+	int		yo;
+	int		ipx;
+	int		ipy;
+	int		ipx_add_xo;
+	int		ipy_add_yo;
+	int		ipx_sub_xo;
+	int		ipy_sub_yo;
 	float	turn_pdx;
 	float	turn_pdy;
-	int turn_xo;
-	int turn_yo;
-	int turn_ipx;
-	int turn_ipy;
-	int turn_ipx_add_xo;
-	int turn_ipy_add_yo;
-	int turn_ipx_sub_xo;
-	int turn_ipy_sub_yo;
+	int		turn_xo;
+	int		turn_yo;
+	int		turn_ipx;
+	int		turn_ipy;
+	int		turn_ipx_add_xo;
+	int		turn_ipy_add_yo;
+	int		turn_ipx_sub_xo;
+	int		turn_ipy_sub_yo;
 }	t_keyvars;
 
 typedef struct s_sprite
