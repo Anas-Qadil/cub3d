@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:05:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 10:05:38 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 15:35:19 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@ extern int map[11][15];
 
 int	get_player_y_pos(t_data *mlx)
 {
-	int i = 0;
-	int found = 0;
-	
+	int	i;
+	int	found;
+	int	j;
+
+	i = 0;
+	found = 0;
 	while (i < mlx->mapY)
 	{
-		int j = 0;
+		j = 0;
 		while (j < mlx->mapX)
 		{
-			if (map[i][j] == NORTH || map[i][j] == SOUTH  || map[i][j] == EAST  || map[i][j] == WEST)
+			if (map[i][j] == NORTH || map[i][j] == SOUTH
+				|| map[i][j] == EAST || map[i][j] == WEST)
 			{
 				found = i;
 				break ;
@@ -32,23 +36,27 @@ int	get_player_y_pos(t_data *mlx)
 			j++;
 		}
 		if (found != 0)
-			break;
+			break ;
 		i++;
 	}
-	return ((found * 64) + 20);	
+	return ((found * 64) + 20);
 }
 
 int	get_player_x_pos(t_data *mlx)
 {
-	int i = 0;
-	int found = 0;
-	
+	int	i;
+	int	found;
+	int	j;
+
+	i = 0;
+	found = 0;
 	while (i < mlx->mapY)
 	{
-		int j = 0;
+		j = 0;
 		while (j < mlx->mapX)
 		{
-			if (map[i][j] == NORTH || map[i][j] == SOUTH  || map[i][j] == EAST  || map[i][j] == WEST)
+			if (map[i][j] == NORTH || map[i][j] == SOUTH
+				|| map[i][j] == EAST || map[i][j] == WEST)
 			{
 				found = j;
 				break ;
@@ -56,8 +64,8 @@ int	get_player_x_pos(t_data *mlx)
 			j++;
 		}
 		if (found != 0)
-			break;
+			break ;
 		i++;
 	}
-	return ((found * 64) + 20);	
+	return ((found * 64) + 20);
 }

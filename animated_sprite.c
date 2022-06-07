@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:55:22 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/05 19:18:13 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 15:25:34 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,15 @@ void    draw_sprt(t_data *mlx, t_vars *var)
         my_mlx_pixel_put_cast(mlx, var->r + 20, var->y + var->lineOff, color);
         var->y++;
     }
+}
+
+unsigned int	get_color_sprt(t_data *mlx, int x, int y)
+{
+	char	*ptr;
+	int		pixel;
+
+	pixel = y * mlx->sprt_line_length + x * 4;
+	ptr = mlx->sprt_addr + pixel;
+	return ((((unsigned char)ptr[2]) << 16)
+		+ (((unsigned char)ptr[1]) << 8) + ((unsigned char)ptr[0]));
 }

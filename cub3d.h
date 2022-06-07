@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 15:02:36 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 15:57:03 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,7 +377,7 @@ void    read_east_texture(t_data *mlx);
 void    read_south_texture(t_data *mlx);
 
 // colors;
-unsigned int	get_color(t_data *t, int x, int y);
+unsigned int	get_color(t_data *mlx, int x, int y);
 unsigned int	get_color_2(t_data *mlx, int x, int y);
 unsigned int	get_color_3(t_data *mlx, int x, int y);
 unsigned int	get_color_4(t_data *mlx, int x, int y);
@@ -390,7 +390,7 @@ void    create_images(t_data *mlx);
 //init
 void	init_everything(t_data *mlx);
 void	init_vars(t_data *mlx);
-void	drawMap2D_init(t_map_vars *var);
+void	draw_map_2d_init(t_map_vars *var);
 void	init(t_data *mlx);
 void	init_cast_vars(t_vars *var, t_data *mlx);
 void	init_player(t_data *mlx);
@@ -418,9 +418,9 @@ int	close_it(int keycode, t_data *mlx);
 void	open_door(t_keyvars *var, t_data *mlx);
 
 //draw_2dmap
-void	drawMap2D_floor(t_map_vars *var, t_data *mlx);
+void	draw_map_2d_floor(t_map_vars *var, t_data *mlx);
 void	drawMap2D_walls(t_map_vars *var, t_data *mlx);
-void    drawMap2D(t_data *mlx);
+void    draw_map_2d(t_data *mlx);
 
 //draw floor ceiling
 void	draw_floor_and_ceiling(t_vars *var, t_data *mlx);
@@ -442,7 +442,7 @@ void	line_calculation(t_vars *var, t_data *mlx);
 void	my_mlx_pixel_put_Loading(t_data *data, int x, int y, int color);
 
 //loading
-void	draw_Loading(t_data *mlx);
+void	draw_loading(t_data *mlx);
 
 //lose screen
 void    render_lose_screen(t_data *mlx);
@@ -459,6 +459,8 @@ void	my_mlx_pixel_put_sprt(t_data *data, int x, int y, int color);
 void    init_sprite(t_data *mlx);
 unsigned int	get_color_sprt(t_data *mlx, int x, int y);
 void	drawSprite(t_data *mlx);
+int	get_player_direction(t_data *mlx);
+void	read_home_image(t_data *mlx);
 
 void    draw_sprt(t_data *mlx, t_vars *var);
 
