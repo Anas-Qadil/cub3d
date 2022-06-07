@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 16:13:03 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:15:05 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	vertical_checks(t_vars *var, t_data *mlx)
 		if (var->mp > 0 && var->mp < mlx->mapX * mlx->mapY
 			&& (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
-			var->disV = ray_dist(mlx->px, mlx->py, var->rx, var->ry, var->ra);
+			var->disV = ray_dist(mlx->px, mlx->py, var->rx, var->ry);
 			var->dof = var->max_ray_checks;
 		}
 		else
@@ -58,7 +58,7 @@ void	horiz_checks(t_vars *var, t_data *mlx)
 			&& (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
 		{
 			var->dof = var->max_ray_checks;
-			var->disH = ray_dist(mlx->px, mlx->py, var->rx, var->ry, var->ra);
+			var->disH = ray_dist(mlx->px, mlx->py, var->rx, var->ry);
 		}
 		else
 		{

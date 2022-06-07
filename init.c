@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 15:50:37 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:11:36 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	init_player(t_data *mlx)
 	get_player_direction(mlx);
 	mlx->px = get_player_x_pos(mlx);
 	mlx->py = get_player_y_pos(mlx);
-	mlx->pdx = cos(degToRad(mlx->pa));
-	mlx->pdy = -sin(degToRad(mlx->pa));
+	mlx->pdx = cos(deg_to_rad(mlx->pa));
+	mlx->pdy = -sin(deg_to_rad(mlx->pa));
 }
 
 void	init_home_screen_vars(t_data *mlx)

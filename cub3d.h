@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 16:27:04 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:14:37 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,8 +357,8 @@ void    draw_everything(t_data *mlx);
 
 
 
-float degToRad(float a);
-float FixAng(float a);
+float deg_to_rad(float a);
+float fix_ang(float a);
 float distance(float ax, float ay, float bx, float by, float ang);
 void    cast(t_data *mlx, float rayAngle);
 void	draw_floors(float x, float y, t_data *mlx);
@@ -367,7 +367,7 @@ void	my_mlx_pixel_put_cast(t_data *data, int x, int y, int color);
 
 void	my_mlx_pixel_put_player(t_data *data, int x, int y, int color);
 void draw_line_cast(float ax, float ay, float bx, float by, t_data *param, int color);
-float ray_dist(float ax, float ay, float bx, float by, float ang);
+float ray_dist(float ax, float ay, float bx, float by);
 unsigned int	get_color_2(t_data *t, int x, int y);
 int	render(t_data *mlx);
 
@@ -439,7 +439,7 @@ void	vertical_checks(t_vars *var, t_data *mlx);
 void	switch_var(t_vars *var);
 void	horiz_checks(t_vars *var, t_data *mlx);
 void	line_calculation(t_vars *var, t_data *mlx);
-void	my_mlx_pixel_put_Loading(t_data *data, int x, int y, int color);
+void	my_mlx_pixel_put_loading(t_data *data, int x, int y, int color);
 
 //loading
 void	draw_loading(t_data *mlx);
@@ -472,7 +472,11 @@ void	handle_north_south(t_vars *var, t_data *mlx);
 void    calcule_vertical_interception(t_vars *var, t_data *mlx);
 void    calcule_horz_interception(t_vars *var, t_data *mlx);
 void	handle_a_d_moves(t_keyvars *var, t_data *mlx);
-
+void    update_move_up(t_data *mlx, t_keyvars *var);
+int	check_valid_move(t_keyvars *var, int pos);
+void    update_move_down(t_data *mlx, t_keyvars *var);
+void    update_a_pressed(t_data *mlx, t_keyvars *var);
+void    update_d_pressed(t_data *mlx, t_keyvars *var);
 
 #endif
 

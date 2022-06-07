@@ -6,7 +6,7 @@
 #    By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:38:01 by aqadil            #+#    #+#              #
-#    Updated: 2022/06/07 16:03:59 by aqadil           ###   ########.fr        #
+#    Updated: 2022/06/07 18:04:59 by aqadil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ SRC		= cub3d.c itoa.c draw.c tools.c read_textures.c handle_images.c init.c rend
 			draw_3d_v2.c \
 			init_v2.c \
 			init_v3.c \
-			interception_v2.c
+			interception_v2.c \
+			render_v2.c \
+			tools2.c
 
 OBJ		= cub3d.o itoa.o draw.o tools.o read_textures.o handle_images.o init.o render.o handle_colors.o keyhooks.o \
 			draw_Map2d.o \
@@ -40,7 +42,9 @@ OBJ		= cub3d.o itoa.o draw.o tools.o read_textures.o handle_images.o init.o rend
 			draw_3d_v2.o \
 			init_v2.o \
 			init_v3.o \
-			interception_v2.o
+			interception_v2.o \
+			render_v2.o \
+			tools2.o
 
 CC 		= cc
 

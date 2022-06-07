@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:49:36 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 16:00:21 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:07:34 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	draw_loading(t_data *mlx)
 	{
 		while (mlx->LOADING_j < mlx->LOADING_w)
 		{
-			my_mlx_pixel_put_Loading(mlx, mlx->LOADING_j,
+			my_mlx_pixel_put_loading(mlx, mlx->LOADING_j,
 				mlx->LOADING_i, 0x00FFFFFF);
 			mlx->LOADING_j++;
 			if (mlx->LOADING_j % 2 == 0)

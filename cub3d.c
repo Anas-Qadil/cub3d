@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 16:28:46 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:12:14 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int map[11][15] = {
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1},
 	{1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, NORTH, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1},
+	{1, 0, 0, 0, EAST, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
@@ -70,7 +70,7 @@ void	cast(t_data *mlx, float rayAngle)
 		line_calculation(&var, mlx);
 		painting_the_line(&var, mlx);
 		draw_floor_and_ceiling(&var, mlx);
-		var.ra = FixAng(var.ra - var.next_ra);
+		var.ra = fix_ang(var.ra - var.next_ra);
 		var.r++;
 		var.i++;
 	}

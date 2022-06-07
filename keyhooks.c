@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 16:29:05 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:11:36 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode)
 
 void	handle_a_d_moves(t_keyvars *var, t_data *mlx)
 {
-	var->turn_pdx = cos(degToRad(mlx->pa + 90));
-	var->turn_pdy = -sin(degToRad(mlx->pa + 90));
+	var->turn_pdx = cos(deg_to_rad(mlx->pa + 90));
+	var->turn_pdy = -sin(deg_to_rad(mlx->pa + 90));
 	if (var->turn_pdx < 0)
 		var->turn_xo = -20;
 	else

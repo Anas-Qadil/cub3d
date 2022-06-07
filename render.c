@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 10:14:25 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 18:12:14 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,17 @@
 
 extern int map[11][15];
 
+int	check_valid_move(t_keyvars *var, int pos)
+{
+	if (pos == NORTH || pos == WEST || pos == SOUTH
+		|| pos == EAST || pos == 0 || pos == DOOR_CLOSED)
+		return (1);
+	return (0);
+}
+
 void	update_everything(t_data *mlx)
 {
-	t_keyvars var;
+	t_keyvars	var;
 
 	keycode_init(&var, mlx);
 	if (mlx->move_left == 1)
@@ -27,52 +35,19 @@ void	update_everything(t_data *mlx)
 	else if (mlx->move_right == 1)
 	{
 		mlx->pa -= 0.2 * 10 * mlx->move_right;
-		mlx->move_left = 0;	
+		mlx->move_left = 0;
 	}
-	
-	mlx->pa = FixAng(mlx->pa);
-	mlx->pdx = cos(degToRad(mlx->pa));
-	mlx->pdy = -sin(degToRad(mlx->pa));
+	mlx->pa = fix_ang(mlx->pa);
+	mlx->pdx = cos(deg_to_rad(mlx->pa));
+	mlx->pdy = -sin(deg_to_rad(mlx->pa));
 	if (mlx->move_up == 1)
-	{
-		if (map[var.ipy_add_yo][var.ipx_add_xo] == 1 && map[var.ipy][var.ipx_add_xo] == 0 && map[var.ipy_add_yo][var.ipx] == 0)
-			;
-		else
-		{
-			if (map[var.ipy][var.ipx_add_xo] == 0 || (map[var.ipy][var.ipx_add_xo] == NORTH || map[var.ipy][var.ipx_add_xo] == WEST  || map[var.ipy][var.ipx_add_xo] == SOUTH  || map[var.ipy][var.ipx_add_xo] == EAST)|| map[var.ipy][var.ipx_add_xo] == DOOR_CLOSED)
-				mlx->px += mlx->pdx * 6 * mlx->move_up;
-			if (map[var.ipy_add_yo][var.ipx] == 0 || (map[var.ipy_add_yo][var.ipx] == NORTH || map[var.ipy_add_yo][var.ipx] == WEST || map[var.ipy_add_yo][var.ipx] == SOUTH || map[var.ipy_add_yo][var.ipx] == EAST) || map[var.ipy_add_yo][var.ipx] == DOOR_CLOSED)
-				mlx->py += mlx->pdy * 6 * mlx->move_up;
-		}
-		mlx->move_down = 0;
-	}
+		update_move_up(mlx, &var);
 	if (mlx->move_down == 1)
-	{
-		if (map[var.ipy][var.ipx_sub_xo] == 0 || (map[var.ipy][var.ipx_sub_xo] == NORTH || map[var.ipy][var.ipx_sub_xo] == WEST || map[var.ipy][var.ipx_sub_xo] == SOUTH || map[var.ipy][var.ipx_sub_xo] == EAST) || map[var.ipy][var.ipx_sub_xo] == DOOR_CLOSED)
-			mlx->px -= mlx->pdx * 6 * mlx->move_down;
-		if (map[var.ipy_sub_yo][var.ipx] == 0 || (map[var.ipy_sub_yo][var.ipx] == NORTH || map[var.ipy_sub_yo][var.ipx] == WEST || map[var.ipy_sub_yo][var.ipx] == SOUTH || map[var.ipy_sub_yo][var.ipx] == EAST) || map[var.ipy_sub_yo][var.ipx] == DOOR_CLOSED)
-			mlx->py -= mlx->pdy * 6 * mlx->move_down;
-		mlx->move_up = 0;
-	}
+		update_move_down(mlx, &var);
 	if (mlx->a_pressed)
-	{
-		if (map[var.turn_ipy][var.turn_ipx_add_xo] == 0 || (map[var.turn_ipy][var.turn_ipx_add_xo] == NORTH || map[var.turn_ipy][var.turn_ipx_add_xo] == WEST  || map[var.turn_ipy][var.turn_ipx_add_xo] == SOUTH  || map[var.turn_ipy][var.turn_ipx_add_xo] == EAST )|| map[var.turn_ipy][var.turn_ipx_add_xo] == DOOR_CLOSED)
-			mlx->px += var.turn_pdx * 4 * mlx->a_pressed;
-		if (map[var.turn_ipy_add_yo][var.turn_ipx] == 0 || (map[var.turn_ipy_add_yo][var.turn_ipx] == NORTH || map[var.turn_ipy_add_yo][var.turn_ipx] == WEST || map[var.turn_ipy_add_yo][var.turn_ipx] == SOUTH || map[var.turn_ipy_add_yo][var.turn_ipx] == EAST) || map[var.turn_ipy_add_yo][var.turn_ipx] == DOOR_CLOSED)
-			mlx->py += var.turn_pdy * 4 * mlx->a_pressed;
-	}
+		update_a_pressed(mlx, &var);
 	if (mlx->d_pressed)
-	{
-		if (map[var.turn_ipy][var.turn_ipx_sub_xo] == 0 || (map[var.turn_ipy][var.turn_ipx_sub_xo] == NORTH || map[var.turn_ipy][var.turn_ipx_sub_xo] == WEST  || map[var.turn_ipy][var.turn_ipx_sub_xo] == SOUTH  || map[var.turn_ipy][var.turn_ipx_sub_xo] == EAST)|| map[var.turn_ipy][var.turn_ipx_sub_xo] == DOOR_CLOSED)
-		{
-			mlx->px -= var.turn_pdx * 4 * mlx->d_pressed;
-		}
-		if (map[var.turn_ipy_sub_yo][var.turn_ipx] == 0 || (map[var.turn_ipy_sub_yo][var.turn_ipx] == NORTH || map[var.turn_ipy_sub_yo][var.turn_ipx] == WEST || map[var.turn_ipy_sub_yo][var.turn_ipx] == SOUTH || map[var.turn_ipy_sub_yo][var.turn_ipx] == EAST) || map[var.turn_ipy_sub_yo][var.turn_ipx] == DOOR_CLOSED)
-		{
-			mlx->py -= var.turn_pdy * 4 * mlx->d_pressed;
-		}
-		mlx->a_pressed = 0;
-	}
+		update_d_pressed(mlx, &var);
 }
 
 void	read_textures(t_data *mlx)
@@ -86,9 +61,11 @@ void	read_textures(t_data *mlx)
 
 void	check_doors(t_data *mlx)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
 	while (i < mlx->mapY)
 	{
 		j = 0;
@@ -115,9 +92,7 @@ int	render(t_data *mlx)
 		check_if_player_is_dead(mlx);
 	}
 	if (mlx->gameState == HOME_SCREEN)
-	{
 		render_home_screen(mlx);
-	}
 	if (mlx->gameState == LOSE)
 		render_lose_screen(mlx);
 	return (1);
