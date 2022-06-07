@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 14:27:05 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 14:29:40 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int map[11][15] = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
-void    cast(t_data *mlx, float rayAngle)
+void	cast(t_data *mlx, float rayAngle)
 {
-	t_vars var;
+	t_vars	var;
 
 	init_cast_vars(&var, mlx);
 	while (var.r < var.rays_num)
@@ -45,7 +45,7 @@ void    cast(t_data *mlx, float rayAngle)
 			var.disH = var.disV;
 		}
 		line_calculation(&var, mlx);
-  		painting_the_line(&var, mlx);
+		painting_the_line(&var, mlx);
 		draw_floor_and_ceiling(&var, mlx);
 		var.ra = FixAng(var.ra - var.next_ra);
 		var.r++;
@@ -53,14 +53,14 @@ void    cast(t_data *mlx, float rayAngle)
 	}
 }
 
-int main(void)
+int	main(void)
 {
 	t_data		mlx;
 	t_player	player;
 
 	init_everything(&mlx);
-	mlx_hook(mlx.win, 2, (1L<<0), close_it, &mlx);
-	mlx_hook(mlx.win, 3, (1L<<1), stop_update, &mlx);
+	mlx_hook(mlx.win, 2, (1L << 0), close_it, &mlx);
+	mlx_hook(mlx.win, 3, (1L << 1), stop_update, &mlx);
 	mlx_loop_hook(mlx.mlx, render, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);

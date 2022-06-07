@@ -6,7 +6,7 @@
 #    By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:38:01 by aqadil            #+#    #+#              #
-#    Updated: 2022/06/03 19:29:32 by aqadil           ###   ########.fr        #
+#    Updated: 2022/06/07 15:03:33 by aqadil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRC		= cub3d.c itoa.c draw.c tools.c read_textures.c handle_images.c init.c rend
 			game_states.c \
 			free_exit.c \
 			textures_calculs.c \
-			animated_sprite.c
+			animated_sprite.c \
+			draw_3d_v2.c 
 OBJ		= cub3d.o itoa.o draw.o tools.o read_textures.o handle_images.o init.o render.o handle_colors.o keyhooks.o \
 			draw_Map2d.o \
 			draw_floor_ceiling.o \
@@ -31,7 +32,8 @@ OBJ		= cub3d.o itoa.o draw.o tools.o read_textures.o handle_images.o init.o rend
 			game_states.o \
 			free_exit.o \
 			textures_calculs.o \
-			animated_sprite.o
+			animated_sprite.o \
+			draw_3d_v2.o
 
 CC 		= cc
 
