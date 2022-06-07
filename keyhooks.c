@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 14:25:40 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 16:29:05 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode)
 		mlx->move_down = 1;
 }
 
-void	keycode_init(t_keyvars *var, t_data *mlx)
+void	handle_a_d_moves(t_keyvars *var, t_data *mlx)
 {
-	// A and Z moves
 	var->turn_pdx = cos(degToRad(mlx->pa + 90));
 	var->turn_pdy = -sin(degToRad(mlx->pa + 90));
 	if (var->turn_pdx < 0)
@@ -68,14 +67,17 @@ void	keycode_init(t_keyvars *var, t_data *mlx)
 	var->turn_ipy = mlx->py / 64.0;
 	var->turn_ipy_add_yo = (mlx->py + var->turn_yo) / 64.0;
 	var->turn_ipy_sub_yo = (mlx->py - var->turn_yo) / 64.0;
-	// normal movement
-	var->xo = 0;
+}
+
+void	keycode_init(t_keyvars *var, t_data *mlx)
+{
+	handle_a_d_moves(var, mlx);
 	if (mlx->pdx < 0)
 		var->xo = -20;
 	else
 		var->xo = 20;
 	var->yo = 0;
-	if(mlx->pdy < 0)
+	if (mlx->pdy < 0)
 		var->yo = -20;
 	else
 		var->yo = 20;
@@ -87,30 +89,9 @@ void	keycode_init(t_keyvars *var, t_data *mlx)
 	var->ipy_sub_yo = (mlx->py - var->yo) / 64.0;
 }
 
-void	open_door(t_keyvars *var, t_data *mlx)
-{
-	var->xo = 0;
-	if (mlx->pdx < 0)
-		var->xo = -25;
-	else
-		var->xo = 25;
-	var->yo = 0;
-	if (mlx->pdy < 0)
-		var->yo  = -25;
-	else
-		var->yo = 25;
-	var->ipx = mlx->px / 64.0, var->ipx_add_xo = (mlx->px + var->xo) / 64.0;
-	var->ipy = mlx->py / 64.0, var->ipy_add_yo = (mlx->py + var->yo) / 64.0;
-	if (map[var->ipy_add_yo][var->ipx_add_xo] == DOOR)
-	{
-		map[var->ipy_add_yo][var->ipx_add_xo] = DOOR_CLOSED;
-		mlx->start = 1;
-	}
-}
-
 int	close_it(int keycode, t_data *mlx)
 {
-	t_keyvars var;
+	t_keyvars	var;
 
 	keycode_init(&var, mlx);
 	keyhook_1(mlx, &var, keycode);
@@ -120,7 +101,8 @@ int	close_it(int keycode, t_data *mlx)
 		mlx->a_pressed = 1;
 	if (keycode == 49 && mlx->gameState == GAME)
 		open_door(&var, mlx);
-	if (mlx->gameState == HOME_SCREEN && keycode == ENTER_KEY && mlx->isLoadingDone == 1)
+	if (mlx->gameState == HOME_SCREEN
+		&& keycode == ENTER_KEY && mlx->isLoadingDone == 1)
 	{
 		init_player(mlx);
 		mlx->gameState = GAME;

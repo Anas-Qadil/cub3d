@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 14:29:40 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/07 16:28:46 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,29 @@ int map[11][15] = {
 	{1, 0, 0, 0, NORTH, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
+
+void	open_door(t_keyvars *var, t_data *mlx)
+{
+	var->xo = 0;
+	if (mlx->pdx < 0)
+		var->xo = -25;
+	else
+		var->xo = 25;
+	var->yo = 0;
+	if (mlx->pdy < 0)
+		var->yo = -25;
+	else
+		var->yo = 25;
+	var->ipx = mlx->px / 64.0;
+	var->ipx_add_xo = (mlx->px + var->xo) / 64.0;
+	var->ipy = mlx->py / 64.0;
+	var->ipy_add_yo = (mlx->py + var->yo) / 64.0;
+	if (map[var->ipy_add_yo][var->ipx_add_xo] == DOOR)
+	{
+		map[var->ipy_add_yo][var->ipx_add_xo] = DOOR_CLOSED;
+		mlx->start = 1;
+	}
+}
 
 void	cast(t_data *mlx, float rayAngle)
 {
