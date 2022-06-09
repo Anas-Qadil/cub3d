@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 21:03:25 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/09 14:18:22 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,7 @@ int	close_it(int keycode, t_data *mlx)
 		mlx->game_state = HOME_SCREEN;
 	if (keycode == EXIT)
 		free_and_exit(mlx);
+	if (keycode == 82)
+		mlx->gun_state = 1;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 21:50:14 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/09 14:26:57 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,14 @@ void	check_doors(t_data *mlx)
 
 int	render(t_data *mlx)
 {
-	mlx_clear_window(mlx->mlx, mlx->win);
+
 	if (mlx->game_state == GAME)
 	{
 		update_everything(mlx);
 		draw_everything(mlx);
 		mlx->start++;
+		mlx->gun_start++;
+		mlx->animation_dur++;
 		if (mlx->start == 100)
 			check_doors(mlx);
 		check_if_player_is_dead(mlx);

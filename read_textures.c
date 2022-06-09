@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 13:45:54 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 18:37:49 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/09 12:06:58 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	read_north_texture(t_data *mlx)
 		while (j < mlx->t_w)
 		{
 			mlx->buff[k] = get_color(mlx, j, i);
-			mlx_pixel_put(mlx->mlx, mlx->win, i, j, mlx->buff[k]);
 			j++;
 			k++;
 		}

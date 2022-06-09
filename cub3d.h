@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 21:45:03 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/09 14:26:30 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <mlx.h>
+# include "./mlx/mlx.h"
 # include <math.h>
 # include <string.h>
 
@@ -58,7 +58,28 @@ typedef struct s_player {
 	int		y;
 }	t_player;
 
+void    init_sprite_images(t_data *mlx);
+void    render_animation(t_data *mlx);
+
+typedef struct s_sprt {
+	int		count;
+	void	*img[10];
+	char	*addr[10];
+	int		bits_per_pixel[10];
+	int		line_length[10];
+	int		endian[10];
+	int		buff[10][5000];
+	int		h[10];
+	int		w[10];
+	int		x_pos;
+	int		y_pos;
+}	t_sprt;
+
 typedef struct s_data {
+	t_sprt	sprt;
+	int		gun_state;
+	int		gun_start;
+	int		animation_dur;
 	void	*img;
 	void	*mlx;
 	void	*win;
@@ -186,15 +207,7 @@ typedef struct s_data {
 	float	spx;
 	float	spy;
 	float	spz;
-	void	*sprt_img;
-	char	*sprt_addr;
-	int		sprt_bits_per_pixel;
-	int		sprt_line_length;
-	int		sprt_endian;
-	int		sprt_buff[100000];
-	int		sprt_w;
-	int		sprt_h;
-	int		depth[1500];
+	int		sprt_buff2[100000];
 }				t_data;
 
 typedef struct s_vars
@@ -352,14 +365,11 @@ void			render_lose_screen(t_data *mlx);
 void			check_if_player_is_dead(t_data *mlx);
 void			render_HOME_SCREEN(t_data *mlx);
 void			free_and_exit(t_data *mlx);
-void			my_mlx_pixel_put_sprt(t_data *data, int x, int y, int color);
 void			init_sprite(t_data *mlx);
-unsigned int	get_color_sprt(t_data *mlx, int x, int y);
 void			drawSprite(t_data *mlx);
 int				get_player_direction(t_data *mlx);
 void			read_home_image(t_data *mlx);
 
-void			draw_sprt(t_data *mlx, t_vars *var);
 
 void			handle_north_tx(t_vars *var, t_data *mlx);
 void			handle_east_west(t_vars *var, t_data *mlx);
