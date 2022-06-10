@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:30:40 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 11:28:30 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 11:32:24 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,23 +87,11 @@ void	draw_map_2d(t_data *mlx)
 			if (map[var.i][var.j] == 0 || map[var.i][var.j] == NORTH
 			|| map[var.i][var.j] == EAST || map[var.i][var.j] == SOUTH
 			|| map[var.i][var.j] == WEST)
-			{
-				
 				draw_map_2d_floor(&var, mlx);
-			}
 			else if (map[var.i][var.j] == DOOR_CLOSED)
 				draw_map2d_closed_doors(&var, mlx);
 			else if (map[var.i][var.j] == 1 || map[var.i][var.j] == DOOR)
-			{
-				if (var.i == 9 && var.j > 10)
-				{
-					printf("main was here %d\n", map[var.i][var.j]);
-					fflush(stdout);
-				}
 				draw_map_2d_walls(&var, mlx);
-			}
-			
 		}
-		
 	}
 }
