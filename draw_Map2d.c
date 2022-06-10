@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:30:40 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 11:32:24 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 13:19:11 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	draw_map_2d_floor(t_map_vars *var, t_data *mlx)
 		var->loopj = 0;
 		while (var->loopj < mlx->square_size)
 		{
-			my_mlx_pixel_put(mlx, var->savei + var->loopi,
-				var->savej + var->loopj, 0x00FFFFFF);
+			my_mlx_pixel_put_cast(mlx, var->savei + var->loopi,
+				var->savej + var->loopj, 0x000072B5);
 			var->loopj++;
 		}
 		var->loopi++;
@@ -37,11 +37,8 @@ void	draw_map_2d_walls(t_map_vars *var, t_data *mlx)
 		while (var->loopj < mlx->square_size)
 		{
 			if (map[var->i][var->j] == DOOR && var->loopi % 2 == 0)
-				my_mlx_pixel_put(mlx, var->savei + var->loopi,
+				my_mlx_pixel_put_cast(mlx, var->savei + var->loopi,
 					var->savej + var->loopj, 0x00000);
-			// else
-			// 	my_mlx_pixel_put(mlx, var->savei + var->loopi,
-			// 		var->savej + var->loopj, 0x00a9a9a9);
 			var->loopj++;
 		}
 		var->loopi++;
