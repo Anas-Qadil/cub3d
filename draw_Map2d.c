@@ -6,13 +6,12 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:30:40 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 13:19:11 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 21:13:16 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[15][33];
 
 void	draw_map_2d_floor(t_map_vars *var, t_data *mlx)
 {
@@ -36,7 +35,7 @@ void	draw_map_2d_walls(t_map_vars *var, t_data *mlx)
 		var->loopj = 0;
 		while (var->loopj < mlx->square_size)
 		{
-			if (map[var->i][var->j] == DOOR && var->loopi % 2 == 0)
+			if (mlx->world->map[var->i][var->j] == DOOR && var->loopi % 2 == 0)
 				my_mlx_pixel_put_cast(mlx, var->savei + var->loopi,
 					var->savej + var->loopj, 0x00000);
 			var->loopj++;
@@ -52,7 +51,7 @@ void	draw_map2d_closed_doors(t_map_vars *var, t_data *mlx)
 		var->loopj = 0;
 		while (var->loopj < mlx->square_size)
 		{
-			if (map[var->i][var->j] == DOOR_CLOSED && var->loopi % 2 == 0)
+			if (mlx->world->map[var->i][var->j] == DOOR_CLOSED && var->loopi % 2 == 0)
 				my_mlx_pixel_put(mlx, var->savei + var->loopi,
 					var->savej + var->loopj, 0x00808080);
 			else
@@ -81,13 +80,13 @@ void	draw_map_2d(t_data *mlx)
 		{
 			var.savei += var.loopi;
 			var.loopi = 0;
-			if (map[var.i][var.j] == 0 || map[var.i][var.j] == NORTH
-			|| map[var.i][var.j] == EAST || map[var.i][var.j] == SOUTH
-			|| map[var.i][var.j] == WEST)
+			if (mlx->world->map[var.i][var.j] == 0 || mlx->world->map[var.i][var.j] == NORTH
+			|| mlx->world->map[var.i][var.j] == EAST || mlx->world->map[var.i][var.j] == SOUTH
+			|| mlx->world->map[var.i][var.j] == WEST)
 				draw_map_2d_floor(&var, mlx);
-			else if (map[var.i][var.j] == DOOR_CLOSED)
+			else if (mlx->world->map[var.i][var.j] == DOOR_CLOSED)
 				draw_map2d_closed_doors(&var, mlx);
-			else if (map[var.i][var.j] == 1 || map[var.i][var.j] == DOOR)
+			else if (mlx->world->map[var.i][var.j] == 1 || mlx->world->map[var.i][var.j] == DOOR)
 				draw_map_2d_walls(&var, mlx);
 		}
 	}

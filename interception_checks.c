@@ -6,13 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 11:25:42 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 21:46:33 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[15][33];
+// extern int map[15][33];
 
 void	vertical_checks(t_vars *var, t_data *mlx)
 {
@@ -23,7 +23,7 @@ void	vertical_checks(t_vars *var, t_data *mlx)
 		var->my = (int)(var->ry) / 64;
 		var->mp = var->my * mlx->map_x + var->mx;
 		if (var->mp > 0 && var->mp < mlx->map_x * mlx->map_y
-			&& (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
+			&& (mlx->world->map[var->my][var->mx] == 1 || mlx->world->map[var->my][var->mx] == DOOR))
 		{
 			var->dis_v = ray_dis_t(mlx->px, mlx->py, var->rx, var->ry);
 			var->dof = var->max_ray_checks;
@@ -54,8 +54,9 @@ void	horiz_checks(t_vars *var, t_data *mlx)
 		var->mx = (int)(var->rx) / 64;
 		var->my = (int)(var->ry) / 64;
 		var->mp = var->my * mlx->map_x + var->mx;
-		if (var->mp > 0 && var->mp < mlx->map_x * mlx->map_y
-			&& (map[var->my][var->mx] == 1 || map[var->my][var->mx] == DOOR))
+		
+		if (var->mp > 0 && var->mx >= 0 && var->my >= 0 && var->mp < mlx->map_x * mlx->map_y
+			&& (mlx->world->map[var->my][var->mx] == 1 || mlx->world->map[var->my][var->mx] == DOOR))
 		{
 			var->dof = var->max_ray_checks;
 			var->dis_h = ray_dis_t(mlx->px, mlx->py, var->rx, var->ry);
@@ -73,14 +74,14 @@ void	line_c_door_north(t_vars *var, t_data *mlx)
 {
 	if (var->ra > 0 && var->ra < 180)
 	{
-		if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+		if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 			door_calculs(var, mlx);
 		else
 			south_calculs(var, mlx);
 	}
 	else
 	{
-		if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+		if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 			door_calculs(var, mlx);
 		else
 			north_calculs(var, mlx);
@@ -99,14 +100,14 @@ void	line_calculation(t_vars *var, t_data *mlx)
 	{
 		if (var->ra > 90 && var->ra < 270)
 		{
-			if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+			if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 				door_calculs(var, mlx);
 			else
 				east_calculs(var, mlx);
 		}
 		else
 		{
-			if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+			if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 				door_calculs(var, mlx);
 			else
 				west_calculs(var, mlx);

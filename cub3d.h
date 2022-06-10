@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 08:58:08 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 18:20:29 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,99 @@
 # define LOSE 3
 # define EXIT 53
 # define SPRT 4321
+
+
+//parsing
+
+# include <sys/types.h>
+# include <sys/uio.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include "./parsing/get_next_line/get_next_line.h"
+# define END 1000
+# define FLOOR 0
+# define WALL 1
+// # define WEST 2
+// # define SOUTH 3
+// # define EAST 4
+// # define NORTH 5
+// # define DOOR 6
+# define SPACES 7
+# define NLINE 8
+# define ERROR 404
+
+typedef struct s_rgbcolor
+{
+	char	r[4];
+	char	g[4];
+	char	b[4];
+}	t_rgbcolor;
+typedef struct s_mapelements
+{
+	char		*north_texure;
+	char		*south_texure;
+	char		*west_texure;
+	char		*east_texure;
+	t_rgbcolor	*floor_color;
+	int			floor_color_;
+	t_rgbcolor	ceilling_color;
+	int			ceilling_color_;
+	int			**map;
+	int			*mapone;
+	int			sizey;
+	int			sizex;
+}	t_mapelm;
+
+t_mapelm	*parsing(char *argv);
+int			accessingallowed(char *name);
+void		checkfilename(char *name);
+t_mapelm	*parsingmap(char *name);
+int			elementscondictions(char *line);
+void		setmapfirsttime(t_mapelm *map);
+int			get_elementsvals(char *line, t_mapelm *map, int *x);
+char		*ft_strdup(const char *s);
+void		north_texure(char *line, t_mapelm *map, int *i);
+void		south_texure(char *line, t_mapelm *map, int *i);
+void		west_texure(char *line, t_mapelm *map, int *i);
+void		east_texure(char *line, t_mapelm *map, int *i);
+void		ceilling_color(char *line, t_mapelm *map, int *i);
+void		floor_color(char *line, t_mapelm *map, int *i);
+int			error(char *line, int ret);
+int			ft_isspace(char x);
+int			mapandcheck(t_mapelm *map, int fd);
+int			ft_isdigit(int c);
+void		getrvals_(char *line, t_mapelm *map, int *x);
+void		getgvals_(char *line, t_mapelm *map, int *x);
+void		getbvals_(char *line, t_mapelm *map, int *x);
+void		ceilling_color__(char *line, t_mapelm *map, int *i, int x);
+int			ft_atoi(const char *nptr);
+void		getrvals(char *line, t_mapelm *map, int *x);
+void		getgvals(char *line, t_mapelm *map, int *x);
+void		getbvals(char *line, t_mapelm *map, int *x);
+void		floor_color__(char *line, t_mapelm *map, int *i, int x);
+int			**mapfinal(t_mapelm *map);
+int			ft_lenghdoubleint(int **x, int max);
+void		demchanging(t_mapelm *map);
+int			sizeofit(t_mapelm *map);
+int			**freetosavelines(int i, int ***maping, t_mapelm *map);
+int			**freetosavelines(int i, int ***maping, t_mapelm *map);
+int			nextandperv(t_mapelm *map, int i, int j);
+int			wallsurrounding(t_mapelm *map);
+int			multipositions(t_mapelm *map);
+int			openfile(char *name, t_mapelm *map);
+int			mapreadingelements(t_mapelm *map, int fd);
+void		freemap(t_mapelm *map);
+int			castchartoint(char alpha);
+char		*sqpempty(int fd);
+int			nomaperror(void);
+int			**ft_realocmap(t_mapelm *map, char *line, int i);
+int			right_isntwall(t_mapelm *map);
+int			leftisntwall(t_mapelm *map);
+
+
+
+//end
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -78,6 +171,7 @@ typedef struct s_sprt {
 
 typedef struct s_data {
 	t_sprt	sprt;
+	t_mapelm *world;
 	int		gun_state;
 	int		gun_start;
 	int		animation_dur;

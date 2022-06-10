@@ -6,13 +6,12 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 09:39:17 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 11:25:29 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 16:41:03 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[15][33];
 void	render_lose_screen(t_data *mlx)
 {
 	int	h;
@@ -25,7 +24,7 @@ void	render_lose_screen(t_data *mlx)
 
 void	check_if_player_is_dead(t_data *mlx)
 {
-	if (map[(int)(mlx->py / 64)][(int)(mlx->px / 64)] == DOOR)
+	if (mlx->world->map[(int)(mlx->py / 64)][(int)(mlx->px / 64)] == DOOR)
 		mlx->game_state = LOSE;
 }
 

@@ -6,17 +6,17 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:01:44 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 11:25:21 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 16:40:06 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[15][33];
+// extern int map[15][33];
 
 void	handle_north_tx(t_vars *var, t_data *mlx)
 {
-	if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+	if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 	{
 		mlx->value = ((int)(var->ty) * mlx->door_w)
 			+ (int)(var->tx * (mlx->door_w / 64));
@@ -36,7 +36,7 @@ void	handle_east_west(t_vars *var, t_data *mlx)
 		handle_north_tx(var, mlx);
 	else
 	{
-		if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+		if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 		{
 			mlx->value = ((int)(var->ty) * mlx->door_w)
 				+ (int)(var->tx * (mlx->door_w / 64));
@@ -53,7 +53,7 @@ void	handle_east_west(t_vars *var, t_data *mlx)
 
 void	handle_east_tx(t_vars *var, t_data *mlx)
 {
-	if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+	if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 	{
 		mlx->value = ((int)(var->ty) * mlx->door_w)
 			+ (int)(var->tx * (mlx->door_w / 64));
@@ -73,7 +73,7 @@ void	handle_north_south(t_vars *var, t_data *mlx)
 		handle_east_tx(var, mlx);
 	else
 	{
-		if (map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+		if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
 		{
 			mlx->value = ((int)(var->ty) * mlx->door_w)
 				+ (int)(var->tx * (mlx->door_w / 64));

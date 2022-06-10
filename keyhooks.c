@@ -6,13 +6,12 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 11:25:47 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 16:42:20 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[15][33];
 
 int	stop_update( int keycode, t_data *mlx)
 {

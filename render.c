@@ -6,13 +6,11 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 11:25:55 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 21:38:50 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-extern int map[15][33];
 
 int	check_valid_move(t_keyvars *var, int pos)
 {
@@ -71,8 +69,8 @@ void	check_doors(t_data *mlx)
 		j = 0;
 		while (j < mlx->map_x)
 		{
-			if (map[i][j] == DOOR_CLOSED)
-				map[i][j] = DOOR;
+			if (mlx->world->map[i][j] == DOOR_CLOSED)
+				mlx->world->map[i][j] = DOOR;
 			j++;
 		}
 		i++;

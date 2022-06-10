@@ -6,13 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:49:36 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 11:25:37 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 16:46:53 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[15][33];
+// extern int map[15][33];
 
 void	open_textures(t_data *mlx)
 {
@@ -58,13 +58,13 @@ int	get_player_direction(t_data *mlx)
 		j = 0;
 		while (j < mlx->map_x)
 		{
-			if (map[i][j] == NORTH)
+			if (mlx->world->map[i][j] == NORTH)
 				mlx->pa = 90;
-			if (map[i][j] == EAST)
+			if (mlx->world->map[i][j] == EAST)
 				mlx->pa = 0;
-			if (map[i][j] == SOUTH)
+			if (mlx->world->map[i][j] == SOUTH)
 				mlx->pa = 270;
-			if (map[i][j] == WEST)
+			if (mlx->world->map[i][j] == WEST)
 				mlx->pa = 180;
 			j++;
 		}
