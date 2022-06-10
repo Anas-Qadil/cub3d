@@ -6,14 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 09:39:17 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 21:03:59 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 11:25:29 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[11][15];
-
+extern int map[15][33];
 void	render_lose_screen(t_data *mlx)
 {
 	int	h;

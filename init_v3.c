@@ -6,13 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:49:36 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:54:40 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 11:25:37 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[11][15];
+extern int map[15][33];
 
 void	open_textures(t_data *mlx)
 {

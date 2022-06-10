@@ -6,13 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:55:04 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 11:25:42 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[11][15];
+extern int map[15][33];
 
 void	vertical_checks(t_vars *var, t_data *mlx)
 {

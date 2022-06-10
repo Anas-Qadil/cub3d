@@ -6,13 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/09 14:18:22 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 11:25:47 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[11][15];
+extern int map[15][33];
 
 int	stop_update( int keycode, t_data *mlx)
 {
@@ -76,7 +76,6 @@ void	keycode_init(t_keyvars *var, t_data *mlx)
 		var->xo = -20;
 	else
 		var->xo = 20;
-	var->yo = 0;
 	if (mlx->pdy < 0)
 		var->yo = -20;
 	else

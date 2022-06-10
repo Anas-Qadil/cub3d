@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:55:22 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/09 14:21:48 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 09:23:39 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ void    init_sprite_images(t_data *mlx)
     mlx->sprt.img[5] = mlx_xpm_file_to_image(mlx->mlx, "./textures//fire/fire-5.xpm", &mlx->sprt.w[5], &mlx->sprt.h[5]);
     mlx->sprt.img[7] = mlx_xpm_file_to_image(mlx->mlx, "./textures/biggun.xpm", &mlx->sprt.w[7], &mlx->sprt.h[7]);
     mlx->sprt.img[8] = mlx_xpm_file_to_image(mlx->mlx, "./textures/gunend.xpm", &mlx->sprt.w[7], &mlx->sprt.h[8]);
-    // mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt.img[0], 0, 0);
     mlx->sprt.x_pos = mlx->win_x / 10;
     mlx->sprt.y_pos = mlx->win_y - 400;
-    // mlx->sprt.count = 10;
 }
 
 void	drawSprite(t_data *mlx)

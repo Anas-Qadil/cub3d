@@ -6,13 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:05:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 20:54:40 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 11:25:33 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[11][15];
+extern int map[15][33];
 
 int	get_player_y_pos(t_data *mlx)
 {

@@ -6,7 +6,7 @@
 #    By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:38:01 by aqadil            #+#    #+#              #
-#    Updated: 2022/06/09 10:06:09 by aqadil           ###   ########.fr        #
+#    Updated: 2022/06/10 09:02:56 by aqadil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,8 @@ OBJ		= cub3d.o itoa.o draw.o tools.o read_textures.o handle_images.o init.o rend
 
 CC 		= cc
 
-MLX		= libmlx.dylib
+# MLX		= libmlx.dylib
+MLX		= -lmlx -framework OpenGL -framework AppKit
 HEADER = cub3d.h
 
 $(NAME)	: $(OBJ) $(HEADER)

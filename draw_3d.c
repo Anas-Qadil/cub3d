@@ -6,13 +6,13 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:12:37 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/09 14:29:18 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 11:25:08 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-extern int map[11][15];
+extern int map[15][33];
 
 void	painting_the_line(t_vars *var, t_data *mlx)
 {
@@ -30,6 +30,7 @@ void	painting_the_line(t_vars *var, t_data *mlx)
 
 void	draw_everything(t_data *mlx)
 {
+	mlx_clear_window(mlx->mlx, mlx->win);
 	draw_map_2d(mlx);
 	draw_player(mlx);
 	cast(mlx, 0);
@@ -53,18 +54,18 @@ void	draw_everything(t_data *mlx)
 	int sprtx = 0;
 	int sprty = 520;
 
-    if (mlx->animation_dur == 2)
+    if (mlx->animation_dur < 2)
         mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt.img[0], sprtx, sprty);
-    if (mlx->animation_dur == 4)
+    else if (mlx->animation_dur < 4)
         mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt.img[1], sprtx, sprty);
-    if (mlx->animation_dur == 6)
+    else if (mlx->animation_dur < 6)
         mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt.img[2], sprtx, sprty);
-    if (mlx->animation_dur == 8)
+    else if (mlx->animation_dur < 8)
         mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt.img[3], sprtx, sprty);
-    if (mlx->animation_dur == 10)
+    else if (mlx->animation_dur < 10)
         mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt.img[4], sprtx, sprty);
-    if (mlx->animation_dur == 12)
+    else if (mlx->animation_dur < 12)
         mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->sprt.img[5], sprtx, sprty);
-    if(mlx->animation_dur > 12)
+    else if(mlx->animation_dur > 12)
         mlx->animation_dur = 0;
 }

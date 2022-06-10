@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/09 14:26:30 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/10 08:58:08 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "./mlx/mlx.h"
+// # include "./mlx/mlx.h"
+#include <mlx.h>
 # include <math.h>
 # include <string.h>
 
