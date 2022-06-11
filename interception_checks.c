@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 19:18:38 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:36:20 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	line_c_door_north(t_vars *var, t_data *mlx)
 void	line_calculation(t_vars *var, t_data *mlx)
 {
 	int	value;
-	int	color;
 
 	value = ((int)(var->ty) * mlx->t_w) + (int)(var->tx * (mlx->t_w / 64));
 	if (var->shade == 1)

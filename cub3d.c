@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 19:21:44 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:31:56 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	cast(t_data *mlx, float rayAngle)
 {
 	t_vars	var;
 
+	rayAngle = 1;
 	init_cast_vars(&var, mlx);
 	while (var.r < var.rays_num)
 	{

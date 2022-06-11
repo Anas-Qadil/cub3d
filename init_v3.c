@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:49:36 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 19:08:42 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:36:25 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ void	read_loading(t_data *mlx)
 
 void	read_home_image(t_data *mlx)
 {
-	int	w;
-	int	h;
-
 	mlx->home_img = mlx_xpm_file_to_image(mlx->mlx,
 			"./textures/CUB3d.xpm", &mlx->home_w, &mlx->home_h);
 	if (mlx->home_img == NULL)

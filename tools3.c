@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:47:19 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 18:47:40 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:50:31 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	close_win(void)
 
 void	mouse_helper(int x, int y, t_data *mlx)
 {
+	y = 0;
 	if (x > mlx->mouse_x + 20)
 	{
 		mlx->move_right = 1;

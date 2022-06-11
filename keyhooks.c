@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:33:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 16:06:04 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:36:01 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	stop_update( int keycode, t_data *mlx)
 
 void	keyhook_1(t_data *mlx, t_keyvars *var, int keycode)
 {
+	(void)var;
 	if (keycode == LEFT_ARROW)
 	{
 		mlx->move_left = 1;

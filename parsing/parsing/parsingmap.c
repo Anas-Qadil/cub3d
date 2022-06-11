@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 23:51:57 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/11 18:08:10 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:36:32 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	mapreading(t_mapelm *map, char *name)
 t_mapelm	*parsingmap(char *name)
 {
 	t_mapelm	*map;
-	int			i;
 
 	map = malloc(sizeof(t_mapelm));
 	map->map = NULL;

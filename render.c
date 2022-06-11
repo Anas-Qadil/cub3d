@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 19:05:11 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:34:27 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	check_valid_move(t_keyvars *var, int pos)
 {
+	(void)var;
 	if (pos == NORTH || pos == WEST || pos == SOUTH
 		|| pos == EAST || pos == 0 || pos == DOOR_CLOSED)
 		return (1);

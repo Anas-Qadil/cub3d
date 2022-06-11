@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing__.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:46:17 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/11 12:24:51 by sakllam          ###   ########.fr       */
+/*   Updated: 2022/06/11 19:37:06 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ int	sizeofit(t_mapelm *map)
 
 int	**freetosavelines(int i, int ***maping, t_mapelm *map)
 {
+	i = 0;
+	(void)map;
+	(void)maping;
 	printf("Error\n");
 	printf("Malloc error\n");
 	exit (1);
