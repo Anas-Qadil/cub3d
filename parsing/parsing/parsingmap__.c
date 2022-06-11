@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:22:57 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/10 15:15:25 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 18:06:36 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ int	mapreadingelements(t_mapelm *map, int fd)
 	{
 		line = get_next_line(fd);
 		if (!elementscondictions(line) || get_elementsvals(line, map, &i))
-		{
-			free (line);
 			return (1);
-		}
 		free(line);
 		if (i == 6)
 			break ;
 	}
+	if (!map->wf || !map->cf || !map->nf
+		|| !map->ef || !map->sf || !map->ff)
+		exit (printf("Error\nelements error\n"));
 	return (0);
 }
 

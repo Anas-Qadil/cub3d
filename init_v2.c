@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:47:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 10:07:18 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 10:57:51 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,6 @@ void	init_cast_vars(t_vars *var, t_data *mlx)
 	var->i = 0;
 	var->hx = mlx->px;
 	var->hy = mlx->py;
-}
-
-void	init_vars(t_data *mlx)
-{
-	mlx->type = 1;
-	mlx->state = 1;
-	mlx->map = 0;
-	mlx->spx = 8 * 64;
-	mlx->spy = 4 * 64;
-	mlx->spz = 20;
 }
 
 void	init_map(t_data *mlx)

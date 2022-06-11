@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 10:34:42 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:10:22 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,19 @@
 # define EXIT 53
 # define SPRT 4321
 
-
-//parsing
-
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include "./parsing/get_next_line/get_next_line.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <mlx.h>
+# include <math.h>
+# include <string.h>
+
 # define END 1000
 # define FLOOR 0
 # define WALL 1
@@ -62,6 +66,12 @@ typedef struct s_rgbcolor
 typedef struct s_mapelements
 {
 	char		*north_texure;
+	int			nf;
+	int			cf;
+	int			wf;
+	int			ef;
+	int			sf;
+	int			ff;
 	char		*south_texure;
 	char		*west_texure;
 	char		*east_texure;
@@ -74,65 +84,6 @@ typedef struct s_mapelements
 	int			sizey;
 	int			sizex;
 }	t_mapelm;
-
-t_mapelm	*parsing(char *argv);
-char		*ft_strdup_(const char *s);
-int			accessingallowed(char *name);
-void		checkfilename(char *name);
-t_mapelm	*parsingmap(char *name);
-int			elementscondictions(char *line);
-void		setmapfirsttime(t_mapelm *map);
-int			get_elementsvals(char *line, t_mapelm *map, int *x);
-char		*ft_strdup(const char *s);
-void		north_texure(char *line, t_mapelm *map, int *i);
-void		south_texure(char *line, t_mapelm *map, int *i);
-void		west_texure(char *line, t_mapelm *map, int *i);
-void		east_texure(char *line, t_mapelm *map, int *i);
-void		ceilling_color(char *line, t_mapelm *map, int *i);
-void		floor_color(char *line, t_mapelm *map, int *i);
-int			error(char *line, int ret);
-int			ft_isspace(char x);
-int			mapandcheck(t_mapelm *map, int fd);
-int			ft_isdigit(int c);
-void		getrvals_(char *line, t_mapelm *map, int *x);
-void		getgvals_(char *line, t_mapelm *map, int *x);
-void		getbvals_(char *line, t_mapelm *map, int *x);
-void		ceilling_color__(char *line, t_mapelm *map, int *i, int x);
-int			ft_atoi(const char *nptr);
-void		getrvals(char *line, t_mapelm *map, int *x);
-void		getgvals(char *line, t_mapelm *map, int *x);
-void		getbvals(char *line, t_mapelm *map, int *x);
-void		floor_color__(char *line, t_mapelm *map, int *i, int x);
-int			**mapfinal(t_mapelm *map);
-int			ft_lenghdoubleint(int **x, int max);
-void		demchanging(t_mapelm *map);
-int			sizeofit(t_mapelm *map);
-int			**freetosavelines(int i, int ***maping, t_mapelm *map);
-int			**freetosavelines(int i, int ***maping, t_mapelm *map);
-int			nextandperv(t_mapelm *map, int i, int j);
-int			wallsurrounding(t_mapelm *map);
-int			multipositions(t_mapelm *map);
-int			openfile(char *name, t_mapelm *map);
-int			mapreadingelements(t_mapelm *map, int fd);
-void		freemap(t_mapelm *map);
-int			castchartoint(char alpha);
-char		*sqpempty(int fd);
-int			nomaperror(void);
-int			**ft_realocmap(t_mapelm *map, char *line, int i);
-int			right_isntwall(t_mapelm *map);
-int			leftisntwall(t_mapelm *map);
-
-
-
-//end
-
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-// # include "./mlx/mlx.h"
-#include <mlx.h>
-# include <math.h>
-# include <string.h>
 
 typedef struct s_data	t_data;
 
@@ -147,9 +98,6 @@ typedef struct s_player {
 	int		x;
 	int		y;
 }	t_player;
-
-void    init_sprite_images(t_data *mlx);
-void    render_animation(t_data *mlx);
 
 typedef struct s_sprt {
 	int		count;
@@ -166,141 +114,134 @@ typedef struct s_sprt {
 }	t_sprt;
 
 typedef struct s_data {
-	t_sprt	sprt;
-	t_mapelm *world;
-	int		floor_color;
-	int		cieling_color;
-	int		gun_state;
-	int		gun_start;
-	int		animation_dur;
-	void	*img;
-	void	*mlx;
-	void	*win;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int		mouse_x;
-	int		mouse_y;
-	int		old_mouse_x;
-	int		old_mouse_y;
-	int		x;
-	int		y;
-	int		win_y;
-	int		win_x;
-	float	px;
-	float	py;
-	float	pdx;
-	float	pdy;
-	float	pa;
-	int		square_size;
-	int		map_s;
-	int		map_y;
-	int		map_x;
-	float	line_height;
-	float	next_ra;
-	int		start;
-	int		game_state;
-	void	*lose_img;
-	void	*lose_addr;
-	int		lose_bits_per_pixel;
-	int		lose_line_length;
-	int		lose_endian;
-	int		move_left;
-	int		move_right;
-	int		move_up;
-	int		move_down;
-	int		a_pressed;
-	int		d_pressed;
-	void	*home_img;
-	void	*home_addr;
-	int		home_bits_per_pixel;
-	int		home_line_length;
-	int		home_endian;
-	int		home_w;
-	int		home_h;
-	int		value;
-	int		color;
-	void	*press_img;
-	void	*press_addr;
-	int		press_bits_per_pixel;
-	int		press_line_length;
-	int		press_endian;
-	int		press_w;
-	int		press_h;
-	void	*loading_img;
-	void	*loading_addr;
-	int		loading_bits_per_pixel;
-	int		loading_line_length;
-	int		loading_endian;
-	int		loading_i;
-	int		loading_j;
-	int		loading_counter;
-	int		isloadingdone;
-	int		loading_w;
-	int		loading_h;
-	char	*t_path;
-	void	*t_img;
-	void	*t_addr;
-	int		t_bits_per_pixel;
-	int		t_line_length;
-	int		t_endian;
-	int		t_w;
-	int		t_h;
-	int		*buff;
-	char	*ts_path;
-	void	*ts_img;
-	void	*ts_addr;
-	int		ts_bits_per_pixel;
-	int		ts_line_length;
-	int		ts_endian;
-	int		ts_w;
-	int		ts_h;
-	int		*ts_buff;
-	char	*tw_path;
-	void	*tw_img;
-	void	*tw_addr;
-	int		tw_bits_per_pixel;
-	int		tw_line_length;
-	int		tw_endian;
-	int		tw_w;
-	int		tw_h;
-	int		*tw_buff;
-	char	*te_path;
-	void	*te_img;
-	void	*te_addr;
-	int		te_bits_per_pixel;
-	int		te_line_length;
-	int		te_endian;
-	int		te_w;
-	int		te_h;
-	int		*te_buff;
-	char	*door_path;
-	void	*door_img;
-	void	*door_addr;
-	int		door_bits_per_pixel;
-	int		door_line_length;
-	int		door_endian;
-	int		door_w;
-	int		door_h;
-	int		*door_buff;
-	void	*cast_img;
-	char	*cast_addr;
-	int		cast_bits_per_pixel;
-	int		cast_line_length;
-	int		cast_endian;
-	void	*player_img;
-	char	*player_addr;
-	int		player_bits_per_pixel;
-	int		player_line_length;
-	int		player_endian;
-	int		type;
-	int		state;
-	int		map;
-	float	spx;
-	float	spy;
-	float	spz;
-	int		sprt_buff2[100000];
+	t_sprt		sprt;
+	t_mapelm	*world;
+	int			floor_color;
+	int			cieling_color;
+	int			gun_state;
+	int			gun_start;
+	int			animation_dur;
+	void		*img;
+	void		*mlx;
+	void		*win;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	int			mouse_x;
+	int			mouse_y;
+	int			old_mouse_x;
+	int			old_mouse_y;
+	int			x;
+	int			y;
+	int			win_y;
+	int			win_x;
+	float		px;
+	float		py;
+	float		pdx;
+	float		pdy;
+	float		pa;
+	int			square_size;
+	int			map_s;
+	int			map_y;
+	int			map_x;
+	float		line_height;
+	float		next_ra;
+	int			start;
+	int			game_state;
+	void		*lose_img;
+	void		*lose_addr;
+	int			lose_bits_per_pixel;
+	int			lose_line_length;
+	int			lose_endian;
+	int			move_left;
+	int			move_right;
+	int			move_up;
+	int			move_down;
+	int			a_pressed;
+	int			d_pressed;
+	void		*home_img;
+	void		*home_addr;
+	int			home_bits_per_pixel;
+	int			home_line_length;
+	int			home_endian;
+	int			home_w;
+	int			home_h;
+	int			value;
+	int			color;
+	void		*press_img;
+	void		*press_addr;
+	int			press_bits_per_pixel;
+	int			press_line_length;
+	int			press_endian;
+	int			press_w;
+	int			press_h;
+	void		*loading_img;
+	void		*loading_addr;
+	int			loading_bits_per_pixel;
+	int			loading_line_length;
+	int			loading_endian;
+	int			loading_i;
+	int			loading_j;
+	int			loading_counter;
+	int			isloadingdone;
+	int			loading_w;
+	int			loading_h;
+	char		*t_path;
+	void		*t_img;
+	void		*t_addr;
+	int			t_bits_per_pixel;
+	int			t_line_length;
+	int			t_endian;
+	int			t_w;
+	int			t_h;
+	int			*buff;
+	char		*ts_path;
+	void		*ts_img;
+	void		*ts_addr;
+	int			ts_bits_per_pixel;
+	int			ts_line_length;
+	int			ts_endian;
+	int			ts_w;
+	int			ts_h;
+	int			*ts_buff;
+	char		*tw_path;
+	void		*tw_img;
+	void		*tw_addr;
+	int			tw_bits_per_pixel;
+	int			tw_line_length;
+	int			tw_endian;
+	int			tw_w;
+	int			tw_h;
+	int			*tw_buff;
+	char		*te_path;
+	void		*te_img;
+	void		*te_addr;
+	int			te_bits_per_pixel;
+	int			te_line_length;
+	int			te_endian;
+	int			te_w;
+	int			te_h;
+	int			*te_buff;
+	char		*door_path;
+	void		*door_img;
+	void		*door_addr;
+	int			door_bits_per_pixel;
+	int			door_line_length;
+	int			door_endian;
+	int			door_w;
+	int			door_h;
+	int			*door_buff;
+	void		*cast_img;
+	char		*cast_addr;
+	int			cast_bits_per_pixel;
+	int			cast_line_length;
+	int			cast_endian;
+	void		*player_img;
+	char		*player_addr;
+	int			player_bits_per_pixel;
+	int			player_line_length;
+	int			player_endian;
 }				t_data;
 
 typedef struct s_vars
@@ -419,12 +360,16 @@ void			create_images(t_data *mlx);
 void			init_everything(t_data *mlx);
 void			init_vars(t_data *mlx);
 void			draw_map_2d_init(t_map_vars *var);
+int				close_win(void);
+void			mouse_helper(int x, int y, t_data *mlx);
+void			init_sprite_images(t_data *mlx);
+void			render_animation(t_data *mlx);
 void			init(t_data *mlx);
 void			init_cast_vars(t_vars *var, t_data *mlx);
 void			init_player(t_data *mlx);
 void			init_map(t_data *mlx);
 void			init_window(t_data *mlx);
-void			init_HOME_SCREEN_vars(t_data *mlxmlx);
+void			init_home_screen_vars(t_data *mlxmlx);
 void			read_textures(t_data *mlx);
 void			door_calculs(t_vars *var, t_data *mlx);
 void			north_calculs(t_vars *var, t_data *mlx);
@@ -456,19 +401,16 @@ void			open_textures(t_data *mlx);
 void			draw_loading(t_data *mlx);
 void			render_lose_screen(t_data *mlx);
 void			check_if_player_is_dead(t_data *mlx);
-void			render_HOME_SCREEN(t_data *mlx);
+void			render_home_screen(t_data *mlx);
 void			free_and_exit(t_data *mlx);
 void			init_sprite(t_data *mlx);
 void			drawSprite(t_data *mlx);
 int				get_player_direction(t_data *mlx);
 void			read_home_image(t_data *mlx);
-
-
 void			handle_north_tx(t_vars *var, t_data *mlx);
 void			handle_east_west(t_vars *var, t_data *mlx);
 void			handle_east_tx(t_vars *var, t_data *mlx);
 void			handle_north_south(t_vars *var, t_data *mlx);
-
 void			calcule_vertical_interception(t_vars *var, t_data *mlx);
 void			calcule_horz_interception(t_vars *var, t_data *mlx);
 void			handle_a_d_moves(t_keyvars *var, t_data *mlx);
@@ -477,5 +419,50 @@ int				check_valid_move(t_keyvars *var, int pos);
 void			update_move_down(t_data *mlx, t_keyvars *var);
 void			update_a_pressed(t_data *mlx, t_keyvars *var);
 void			update_d_pressed(t_data *mlx, t_keyvars *var);
-
+t_mapelm		*parsing(char *argv);
+char			*ft_strdup_(const char *s);
+int				accessingallowed(char *name);
+void			checkfilename(char *name);
+t_mapelm		*parsingmap(char *name);
+int				elementscondictions(char *line);
+void			setmapfirsttime(t_mapelm *map);
+int				get_elementsvals(char *line, t_mapelm *map, int *x);
+char			*ft_strdup(const char *s);
+void			north_texure(char *line, t_mapelm *map, int *i);
+void			south_texure(char *line, t_mapelm *map, int *i);
+void			west_texure(char *line, t_mapelm *map, int *i);
+void			east_texure(char *line, t_mapelm *map, int *i);
+void			ceilling_color(char *line, t_mapelm *map, int *i);
+void			floor_color(char *line, t_mapelm *map, int *i);
+int				error(char *line, int ret);
+int				ft_isspace(char x);
+int				mapandcheck(t_mapelm *map, int fd);
+int				ft_isdigit(int c);
+void			getrvals_(char *line, t_mapelm *map, int *x);
+void			getgvals_(char *line, t_mapelm *map, int *x);
+void			getbvals_(char *line, t_mapelm *map, int *x);
+void			ceilling_color__(char *line, t_mapelm *map, int *i, int x);
+int				ft_atoi(const char *nptr);
+void			getrvals(char *line, t_mapelm *map, int *x);
+void			getgvals(char *line, t_mapelm *map, int *x);
+void			getbvals(char *line, t_mapelm *map, int *x);
+void			floor_color__(char *line, t_mapelm *map, int *i, int x);
+int				**mapfinal(t_mapelm *map);
+int				ft_lenghdoubleint(int **x, int max);
+void			demchanging(t_mapelm *map);
+int				sizeofit(t_mapelm *map);
+int				**freetosavelines(int i, int ***maping, t_mapelm *map);
+int				**freetosavelines(int i, int ***maping, t_mapelm *map);
+int				nextandperv(t_mapelm *map, int i, int j);
+int				wallsurrounding(t_mapelm *map);
+int				multipositions(t_mapelm *map);
+int				openfile(char *name, t_mapelm *map);
+int				mapreadingelements(t_mapelm *map, int fd);
+void			freemap(t_mapelm *map);
+int				castchartoint(char alpha);
+char			*sqpempty(int fd);
+int				nomaperror(void);
+int				**ft_realocmap(t_mapelm *map, char *line, int i);
+int				right_isntwall(t_mapelm *map);
+int				leftisntwall(t_mapelm *map);
 #endif

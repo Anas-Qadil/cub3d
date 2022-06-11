@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 09:39:17 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 16:41:03 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:05:11 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	check_if_player_is_dead(t_data *mlx)
 		mlx->game_state = LOSE;
 }
 
-void	render_HOME_SCREEN(t_data *mlx)
+void	render_home_screen(t_data *mlx)
 {
 	int	home_x;
 	int	load_x;

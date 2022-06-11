@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsingmap___.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:23:55 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/10 15:15:22 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 16:02:48 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
-
-int	**ft_freeforfree(t_mapelm *map)
-{
-	int	i;
-
-	i = 0;
-	while (i < map->sizey - 1)
-	{
-		free (map->map[i]);
-		i++;
-	}
-	free(map->map);
-	map->map = NULL;
-	(map->sizey)--;
-	return (NULL);
-}
 
 int	**oldinfos(t_mapelm *map, char *line, int *i)
 {
@@ -35,7 +19,7 @@ int	**oldinfos(t_mapelm *map, char *line, int *i)
 	(map->sizey)++;
 	maping = malloc(sizeof(int *) * map->sizey);
 	if (!maping)
-		return (ft_freeforfree(map));
+		return (NULL);
 	while (map->sizey - *i)
 	{
 		maping[*i - 1] = map->map[*i - 1];
@@ -43,16 +27,8 @@ int	**oldinfos(t_mapelm *map, char *line, int *i)
 	}
 	maping[*i - 1] = malloc(sizeof(int) * (ft_strlen(line) + 1));
 	if (!maping[*i - 1])
-		return (ft_freeforfree(map));
+		return (NULL);
 	return (maping);
-}
-
-int	**optimizeelse(t_mapelm *map, char *line, int *x, int **y)
-{
-	free (line);
-	free(y);
-	free (x);
-	return (ft_freeforfree(map));
 }
 
 int	**ft_realocmap(t_mapelm *map, char *line, int i)
@@ -75,11 +51,12 @@ int	**ft_realocmap(t_mapelm *map, char *line, int i)
 				maping[i - 1][y++] = castchartoint(line[j]);
 		}
 		else
-			return (optimizeelse(map, line, maping[i - 1], maping));
+			return (NULL);
 		j++;
 	}
 	maping[i - 1][y] = END;
-	free(map->map);
+	if (map->map)
+		free(map->map);
 	return (maping);
 }
 
@@ -87,5 +64,6 @@ int	nomaperror(void)
 {
 	printf("Error\n");
 	printf("No MAP!\n");
+	exit (1);
 	return (1);
 }

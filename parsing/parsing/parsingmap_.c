@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 18:36:35 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/10 15:15:28 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 18:02:13 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	get_elementsvals__(char *line, t_mapelm *map, int *x, int i)
 	{
 		(*x)++;
 		north_texure(line, map, &i);
+		map->nf = 1;
 		if (i)
 			return (error("north texure error", i));
 	}
@@ -53,6 +54,7 @@ int	get_elementsvals__(char *line, t_mapelm *map, int *x, int i)
 	{
 		(*x)++;
 		south_texure(line, map, &i);
+		map->sf = 1;
 		if (i)
 			return (error("south texure error", i));
 	}
@@ -72,6 +74,7 @@ int	get_elementsvals_(char *line, t_mapelm *map, int *x, int i)
 	{
 		(*x)++;
 		east_texure(line, map, &i);
+		map->ef = 1;
 		if (i)
 			return (error("north texure error", i));
 	}
@@ -79,6 +82,7 @@ int	get_elementsvals_(char *line, t_mapelm *map, int *x, int i)
 	{
 		(*x)++;
 		floor_color(line, map, &i);
+		map->ff = 1;
 		if (i)
 			return (error("floor color error", i));
 	}
@@ -86,6 +90,7 @@ int	get_elementsvals_(char *line, t_mapelm *map, int *x, int i)
 	{
 		(*x)++;
 		ceilling_color(line, map, &i);
+		map->cf = 1;
 		if (i)
 			return (error("ceilling color error", i));
 	}

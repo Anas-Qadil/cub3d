@@ -6,13 +6,11 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:01:44 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 16:40:06 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 16:05:37 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// extern int map[15][33];
 
 void	handle_north_tx(t_vars *var, t_data *mlx)
 {

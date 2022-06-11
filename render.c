@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:10:50 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 21:38:50 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:05:11 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	render(t_data *mlx)
 		check_if_player_is_dead(mlx);
 	}
 	if (mlx->game_state == HOME_SCREEN)
-		render_HOME_SCREEN(mlx);
+		render_home_screen(mlx);
 	if (mlx->game_state == LOSE)
 		render_lose_screen(mlx);
 	return (1);

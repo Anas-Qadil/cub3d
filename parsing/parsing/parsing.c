@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 23:37:11 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/10 15:15:12 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 17:49:18 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	maponedem(t_mapelm *map)
 
 	map->map = mapfinal(map);
 	if (!(map->map))
-		return (1);
+	{
+		printf("Error\nMALLOC error\n");
+		exit (1);
+	}
 	size = ft_lenghdoubleint(map->map, map->sizey);
 	map->mapone = malloc(sizeof(int) * (size + 1));
 	if (!map->mapone)

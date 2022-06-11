@@ -6,13 +6,11 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:53:06 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 16:42:40 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 16:06:10 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// extern int map[15][33];
 
 void	update_move_up(t_data *mlx, t_keyvars *var)
 {

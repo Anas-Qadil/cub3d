@@ -6,7 +6,7 @@
 #    By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:38:01 by aqadil            #+#    #+#              #
-#    Updated: 2022/06/11 10:06:52 by aqadil           ###   ########.fr        #
+#    Updated: 2022/06/11 19:12:41 by aqadil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,9 @@ SRC		= cub3d.c itoa.c draw.c tools.c read_textures.c handle_images.c init.c rend
 			./parsing/parsing/parsingmap__.c \
 			./parsing/parsing/parsingmap_____.c \
 			./parsing/get_next_line/get_next_line.c \
-			./parsing/get_next_line/get_next_line_utils.c
+			./parsing/get_next_line/get_next_line_utils.c \
+			tools3.c \
+			free.c
 
 OBJ		= cub3d.o itoa.o draw.o tools.o read_textures.o handle_images.o init.o render.o handle_colors.o keyhooks.o \
 			draw_Map2d.o \
@@ -78,11 +80,12 @@ OBJ		= cub3d.o itoa.o draw.o tools.o read_textures.o handle_images.o init.o rend
 			./parsing/parsing/parsingmap__.o \
 			./parsing/parsing/parsingmap_____.o \
 			./parsing/get_next_line/get_next_line.o \
-			./parsing/get_next_line/get_next_line_utils.o
+			./parsing/get_next_line/get_next_line_utils.o \
+			tools3.o \
+			free.o
 
 CC 		= cc
 
-# MLX		= libmlx.dylib
 MLX		= -lmlx -framework OpenGL -framework AppKit -g
 HEADER = cub3d.h
 

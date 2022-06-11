@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   elements____.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:30:00 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/11 10:34:23 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 11:01:58 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,18 @@ char	*ft_strdup_(const char *s)
 	}
 	p[i] = '\0';
 	return (p);
+}
+
+void	checkfilenamexpm(char *name)
+{
+	int	i;
+
+	i = 0;
+	while (name[i])
+		i++;
+	if (i > 4 && name[i - 1] == 'm' && name[i - 2] == 'p'
+		&& name[i - 3] == 'x' && name[i - 4] == '.')
+		return ;
+	printf ("check extantion in element name\n");
+	exit (0);
 }

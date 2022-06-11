@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 23:51:57 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/10 15:15:30 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 18:08:10 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	doorschecking(t_mapelm *map)
 				{
 					printf("Error\n");
 					printf("Doors are not in them place\n");
-					return (1);
+					exit (1);
 				}
 			}
 			j++;
@@ -58,14 +58,14 @@ int	checkvalmap(t_mapelm *map)
 	{
 		printf("Error\n");
 		printf("Error walls are not surrounding | lines number too small\n");
-		return (1);
+		exit (1);
 	}
 	if (wallsurrounding(map))
-		return (1);
+		exit (1);
 	if (multipositions(map))
-		return (1);
+		exit (1);
 	if (doorschecking(map))
-		return (1);
+		exit (1);
 	return (0);
 }
 
@@ -75,17 +75,14 @@ int	mapreading(t_mapelm *map, char *name)
 
 	fd = openfile(name, map);
 	if (mapreadingelements(map, fd))
-		return (1);
+		exit (1);
 	if (mapandcheck(map, fd))
-		return (1);
+		exit (1);
 	close (fd);
 	if (checkvalmap(map))
-		return (1);
+		exit (1);
 	return (0);
 }
-
-
-
 
 t_mapelm	*parsingmap(char *name)
 {
@@ -93,30 +90,14 @@ t_mapelm	*parsingmap(char *name)
 	int			i;
 
 	map = malloc(sizeof(t_mapelm));
-	map->floor_color = NULL;
 	map->map = NULL;
-	map->north_texure = NULL;
-	map->south_texure = NULL;
-	map->east_texure = NULL;
-	map->west_texure = NULL;
+	map->wf = 0;
+	map->cf = 0;
+	map->nf = 0;
+	map->ef = 0;
+	map->sf = 0;
+	map->ff = 0;
 	if (mapreading(map, name))
-	{
-		i = 0;
-		free(map->floor_color);
-		while (map->map && i < map->sizey)
-		{
-			free(map->map[i]);
-			i++;
-		}
-		free(map->map);
-		map->map = NULL; 
-		free(map->north_texure);
-		free(map->south_texure);
-		free(map->east_texure);
-		free(map->west_texure);
-		free(map);
-		while (1);
 		exit(1);
-	}
 	return (map);
 }

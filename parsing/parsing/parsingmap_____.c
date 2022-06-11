@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsingmap_____.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:25:39 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/10 15:15:15 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 12:20:27 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,24 @@ int	wallsurrounding(t_mapelm *map)
 	{
 		printf("Error\n");
 		printf("top line is not a wall\n");
-		return (1);
+		exit (1);
 	}
 	if (buttom_isntawall(map))
 	{
 		printf("Error\n");
 		printf("line at the end is not a wall\n");
-		return (1);
+		exit (1);
 	}
 	if (right_isntwall(map))
 	{
 		printf("Error\n");
 		printf("right line is not a wall\n");
-		return (1);
+		exit (1);
 	}
 	if (leftisntwall(map))
 	{
 		printf("Error\n");
-		return (printf("left line is not a wall\n"));
+		exit (printf("left line is not a wall\n"));
 	}
 	return (0);
 }
@@ -92,7 +92,7 @@ int	multipositions(t_mapelm *map)
 	{
 		printf ("Error\n");
 		printf ("check start position\n");
-		return (1);
+		exit (1);
 	}
 	return (0);
 }

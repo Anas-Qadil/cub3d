@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsingmap____.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:24:40 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/10 15:15:19 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 16:13:25 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ int	mapandcheck(t_mapelm *map, int fd)
 		if (!line)
 			break ;
 		map->map = ft_realocmap(map, line, i);
+		free(line);
 		if (!map->map)
 		{
 			printf("Error\n");
-			printf("unexpected map line\n");
+			printf("unexpected map line or just malloc error\n");
 			return (1);
 		}
 		line = get_next_line(fd);
@@ -68,7 +69,7 @@ int	leftisntwallextra(int j, int *lastlinesize, t_mapelm *map, int i)
 
 	if ((*lastlinesize) > j)
 	{
-		while ((*lastlinesize) >= j)
+		while ((*lastlinesize) > j)
 		{
 			if (map->map[i - 1][(*lastlinesize)] != WALL)
 				return (1);
@@ -79,7 +80,7 @@ int	leftisntwallextra(int j, int *lastlinesize, t_mapelm *map, int i)
 	else if ((*lastlinesize) < j)
 	{
 		tmpj = j;
-		while ((*lastlinesize) <= j)
+		while ((*lastlinesize) < j)
 		{
 			if (map->map[i][j] != WALL)
 				return (1);

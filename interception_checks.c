@@ -6,13 +6,11 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 21:46:33 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:12:05 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// extern int map[15][33];
 
 void	vertical_checks(t_vars *var, t_data *mlx)
 {
@@ -23,7 +21,8 @@ void	vertical_checks(t_vars *var, t_data *mlx)
 		var->my = (int)(var->ry) / 64;
 		var->mp = var->my * mlx->map_x + var->mx;
 		if (var->mp > 0 && var->mp < mlx->map_x * mlx->map_y
-			&& (mlx->world->map[var->my][var->mx] == 1 || mlx->world->map[var->my][var->mx] == DOOR))
+			&& (mlx->world->map[var->my][var->mx] == 1
+			|| mlx->world->map[var->my][var->mx] == DOOR))
 		{
 			var->dis_v = ray_dis_t(mlx->px, mlx->py, var->rx, var->ry);
 			var->dof = var->max_ray_checks;
@@ -54,9 +53,10 @@ void	horiz_checks(t_vars *var, t_data *mlx)
 		var->mx = (int)(var->rx) / 64;
 		var->my = (int)(var->ry) / 64;
 		var->mp = var->my * mlx->map_x + var->mx;
-		
-		if (var->mp > 0 && var->mx >= 0 && var->my >= 0 && var->mp < mlx->map_x * mlx->map_y
-			&& (mlx->world->map[var->my][var->mx] == 1 || mlx->world->map[var->my][var->mx] == DOOR))
+		if (var->mp > 0 && var->mx >= 0 && var->my >= 0
+			&& var->mp < mlx->map_x * mlx->map_y
+			&& (mlx->world->map[var->my][var->mx] == 1
+			|| mlx->world->map[var->my][var->mx] == DOOR))
 		{
 			var->dof = var->max_ray_checks;
 			var->dis_h = ray_dis_t(mlx->px, mlx->py, var->rx, var->ry);

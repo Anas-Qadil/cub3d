@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:32:50 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/11 10:34:15 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 18:01:45 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	west_texure(char *line, t_mapelm *map, int *i)
 	int	x;
 
 	x = 2;
+	map->wf = 1;
 	while (!ft_isspace(line[x]))
 		x++;
 	if (!line[x])

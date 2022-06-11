@@ -1,23 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   tools3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/07 14:12:34 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 19:10:41 by aqadil           ###   ########.fr       */
+/*   Created: 2022/06/11 18:47:19 by aqadil            #+#    #+#             */
+/*   Updated: 2022/06/11 18:47:40 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_home_screen_vars(t_data *mlx)
+int	close_win(void)
 {
-	mlx->loading_i = 0;
-	mlx->loading_j = 0;
-	mlx->loading_counter = 0;
-	mlx->isloadingdone = 0;
-	mlx->loading_w = 300;
-	mlx->loading_h = 50;
+	exit(0);
+}
+
+void	mouse_helper(int x, int y, t_data *mlx)
+{
+	if (x > mlx->mouse_x + 20)
+	{
+		mlx->move_right = 1;
+		mlx->move_left = 0;
+		mlx->mouse_x = x;
+	}
+	else
+		mlx->move_right = 0;
+	if (x < mlx->mouse_x - 20)
+	{
+		mlx->move_left = 1;
+		mlx->move_right = 0;
+		mlx->mouse_x = x;
+	}
+	else
+		mlx->move_left = 0;
 }
