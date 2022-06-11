@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:15:56 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 19:12:05 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:18:38 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,16 @@ void	line_calculation(t_vars *var, t_data *mlx)
 	{
 		if (var->ra > 90 && var->ra < 270)
 		{
-			if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+			if (mlx->world->map[(int)(var->ry / 64)]
+			[(int)(var->rx / 64)] == DOOR)
 				door_calculs(var, mlx);
 			else
 				east_calculs(var, mlx);
 		}
 		else
 		{
-			if (mlx->world->map[(int)(var->ry / 64)][(int)(var->rx / 64)] == DOOR)
+			if (mlx->world->map[(int)(var->ry / 64)]
+			[(int)(var->rx / 64)] == DOOR)
 				door_calculs(var, mlx);
 			else
 				west_calculs(var, mlx);

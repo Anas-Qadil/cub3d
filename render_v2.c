@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:53:06 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 16:06:10 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:17:17 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,21 @@ void	update_move_down(t_data *mlx, t_keyvars *var)
 
 void	update_a_pressed(t_data *mlx, t_keyvars *var)
 {
-	if (check_valid_move(var, mlx->world->map[var->turn_ipy][var->turn_ipx_add_xo]))
+	if (check_valid_move(var, mlx->world->map[var->turn_ipy]
+			[var->turn_ipx_add_xo]))
 		mlx->px += var->turn_pdx * 4 * mlx->a_pressed;
-	if (check_valid_move(var, mlx->world->map[var->turn_ipy_add_yo][var->turn_ipx]))
+	if (check_valid_move(var, mlx->world->map[var->turn_ipy_add_yo]
+			[var->turn_ipx]))
 		mlx->py += var->turn_pdy * 4 * mlx->a_pressed;
 }
 
 void	update_d_pressed(t_data *mlx, t_keyvars *var)
 {
-	if (check_valid_move(var, mlx->world->map[var->turn_ipy][var->turn_ipx_sub_xo]))
+	if (check_valid_move(var, mlx->world->map[var->turn_ipy]
+			[var->turn_ipx_sub_xo]))
 		mlx->px -= var->turn_pdx * 4 * mlx->d_pressed;
-	if (check_valid_move(var, mlx->world->map[var->turn_ipy_sub_yo][var->turn_ipx]))
+	if (check_valid_move(var, mlx->world->map[var->turn_ipy_sub_yo]
+			[var->turn_ipx]))
 		mlx->py -= var->turn_pdy * 4 * mlx->d_pressed;
 	mlx->a_pressed = 0;
 }

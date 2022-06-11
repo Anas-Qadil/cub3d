@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:01:52 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 09:38:18 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:13:46 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	calcule_vertical_interception(t_vars *var, t_data *mlx)
 		var->rx = (((int)mlx->px / 64) * 64) + 64;
 		var->ry = (mlx->px - var->rx) * var->tan + mlx->py;
 		var->xo = 64;
-		var->yo = -var->xo * var->tan; 
+		var->yo = -var->xo * var->tan;
 	}
 	else if (cos(deg_to_rad(var->ra)) < 0)
 	{

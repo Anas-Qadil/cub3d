@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 18:49:22 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 19:19:45 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	main(int ac, char **av)
 	mlx_hook(mlx.win, 2, (1L << 0), close_it, &mlx);
 	mlx_hook(mlx.win, 6, 0L, mouse, &mlx);
 	mlx_hook(mlx.win, 3, (1L << 1), stop_update, &mlx);
+	system("leaks cub3d");
 	mlx_loop_hook(mlx.mlx, render, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);

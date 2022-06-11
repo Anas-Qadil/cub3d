@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:27:20 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/11 16:01:33 by sakllam          ###   ########.fr       */
+/*   Updated: 2022/06/11 19:19:17 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	**mapfinal(t_mapelm *map)
 			exit (printf ("Error\n MAlloc\n"));
 		i++;
 	}
-	// freemap(map);
 	i = 0;
 	while (i < map->sizey)
 	{
