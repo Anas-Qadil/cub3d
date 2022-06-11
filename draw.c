@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:24:19 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/07 15:16:50 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 10:30:40 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	draw_player(t_data *mlx)
 		j = 0;
 		while (j < 5)
 		{
-			my_mlx_pixel_put_player(mlx, i, j, 0x00FF0000);
+			my_mlx_pixel_put_player(mlx, i, j, 0x00FFFFFF);
 			j++;
 		}
 		i++;

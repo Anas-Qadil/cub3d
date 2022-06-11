@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:16:13 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 21:47:19 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 10:23:17 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,16 @@ void	init_window(t_data *mlx)
 			mlx->win_y, "Cub3d");
 }
 
+void	init_floor_cieling_colors(t_data *mlx)
+{
+	mlx->floor_color = mlx->world->floor_color_;
+	mlx->cieling_color = mlx->world->ceilling_color_;
+}
+
 void	init_everything(t_data *mlx)
 {
-	mlx->game_state = HOME_SCREEN;
+	mlx->game_state = GAME;
+	init_floor_cieling_colors(mlx);
 	open_textures(mlx);
 	init_window(mlx);
 	init_map(mlx);

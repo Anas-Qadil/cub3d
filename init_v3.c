@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:49:36 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 16:46:53 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 10:39:25 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 void	open_textures(t_data *mlx)
 {
-	mlx->t_path = "./textures/redbrick.xpm";
-	mlx->ts_path = "./textures/banner.xpm";
-	mlx->te_path = "./textures/bluestone.xpm";
-	mlx->tw_path = "./textures/skull.xpm";
+	mlx->t_path = mlx->world->north_texure;
+	mlx->ts_path = mlx->world->south_texure;
+	mlx->te_path = mlx->world->east_texure;
+	mlx->tw_path = mlx->world->west_texure;
 	mlx->door_path = "./textures/door.xpm";
 }
 

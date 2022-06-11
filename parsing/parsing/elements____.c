@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:30:00 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/10 15:14:55 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 10:34:23 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,22 @@ void	ceilling_color__(char *line, t_mapelm *map, int *i, int x)
 		*i = 1;
 		return ;
 	}
+}
+
+char	*ft_strdup_(const char *s)
+{
+	int		i;
+	char	*p;
+
+	i = 0;
+	p = (char *) malloc(ft_strlen(s) + 1);
+	if (!p)
+		return (0);
+	while (s[i] && s[i] != '\n')
+	{
+		p[i] = s[i];
+		i++;
+	}
+	p[i] = '\0';
+	return (p);
 }

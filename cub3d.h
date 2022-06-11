@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:37:04 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 18:20:29 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 10:34:42 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,6 @@
 # define END 1000
 # define FLOOR 0
 # define WALL 1
-// # define WEST 2
-// # define SOUTH 3
-// # define EAST 4
-// # define NORTH 5
-// # define DOOR 6
 # define SPACES 7
 # define NLINE 8
 # define ERROR 404
@@ -81,6 +76,7 @@ typedef struct s_mapelements
 }	t_mapelm;
 
 t_mapelm	*parsing(char *argv);
+char		*ft_strdup_(const char *s);
 int			accessingallowed(char *name);
 void		checkfilename(char *name);
 t_mapelm	*parsingmap(char *name);
@@ -172,6 +168,8 @@ typedef struct s_sprt {
 typedef struct s_data {
 	t_sprt	sprt;
 	t_mapelm *world;
+	int		floor_color;
+	int		cieling_color;
 	int		gun_state;
 	int		gun_start;
 	int		animation_dur;

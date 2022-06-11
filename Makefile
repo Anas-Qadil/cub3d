@@ -6,7 +6,7 @@
 #    By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:38:01 by aqadil            #+#    #+#              #
-#    Updated: 2022/06/10 20:44:22 by aqadil           ###   ########.fr        #
+#    Updated: 2022/06/11 10:06:52 by aqadil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,7 @@ $(NAME)	: $(OBJ) $(HEADER)
 all	: $(NAME)
 
 clean	: 
-	rm -f $(OBJ)
+	rm *.o
 
 fclean	: clean
 	rm -f $(NAME)

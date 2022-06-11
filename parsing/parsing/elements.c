@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:32:50 by sakllam           #+#    #+#             */
-/*   Updated: 2022/06/10 15:15:05 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 10:34:15 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	north_texure(char *line, t_mapelm *map, int *i)
 		return ;
 		*i = 1;
 	}
-	map->north_texure = ft_strdup(&line[x]);
+	map->north_texure = ft_strdup_(&line[x]);
 }
 
 void	south_texure(char *line, t_mapelm *map, int *i)
@@ -57,7 +57,7 @@ void	south_texure(char *line, t_mapelm *map, int *i)
 		return ;
 		*i = 1;
 	}
-	map->south_texure = ft_strdup(&line[x]);
+	map->south_texure = ft_strdup_(&line[x]);
 }
 
 void	west_texure(char *line, t_mapelm *map, int *i)
@@ -72,7 +72,7 @@ void	west_texure(char *line, t_mapelm *map, int *i)
 		return ;
 		*i = 1;
 	}
-	map->west_texure = ft_strdup(&line[x]);
+	map->west_texure = ft_strdup_(&line[x]);
 }
 
 void	east_texure(char *line, t_mapelm *map, int *i)
@@ -87,5 +87,5 @@ void	east_texure(char *line, t_mapelm *map, int *i)
 		return ;
 		*i = 1;
 	}
-	map->east_texure = ft_strdup(&line[x]);
+	map->east_texure = ft_strdup_(&line[x]);
 }

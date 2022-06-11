@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 07:32:42 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/10 22:00:49 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/06/11 10:52:39 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,22 @@ int	close_win(void)
 	exit(0);
 }
 
+void	mouse_init(t_data *mlx)
+{
+	mlx->old_mouse_x = 0;
+	mlx->old_mouse_y = 0;
+	mlx->mouse_x = 0;
+	mlx->mouse_y = 0;
+	mlx->gun_state = 0;
+	mlx->gun_start = 0;
+	mlx->animation_dur = 0;
+	mlx->map_x = mlx->world->sizex;
+	mlx->map_y = mlx->world->sizey;
+}
+
 int	main(int ac, char **av)
 {
 	t_data		mlx;
-	int i = 0, j;
 	if (ac != 2)
 	{
 		printf("Error\n");
@@ -131,19 +143,9 @@ int	main(int ac, char **av)
 		exit(1);
 	}
 	mlx.world = parsing(av[1]);
-	mlx.map_x = mlx.world->sizex;
-	mlx.map_y = mlx.world->sizey;
-
-	mlx.old_mouse_x = 0;
-	mlx.old_mouse_y = 0;
-	mlx.mouse_x = 0;
-	mlx.mouse_y = 0;
-	mlx.gun_state = 0;
-	mlx.gun_start = 0;
-	mlx.animation_dur = 0;
+	mouse_init(&mlx);
 	init_everything(&mlx);
 	init_sprite_images(&mlx);
-	
 	mlx_hook(mlx.win, 17, 0, close_win, &mlx);
 	mlx_hook(mlx.win, 2, (1L << 0), close_it, &mlx);
 	mlx_hook(mlx.win, 6, 0L, mouse, &mlx);
