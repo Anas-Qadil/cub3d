@@ -6,7 +6,7 @@
 /*   By: aqadil <aqadil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 15:47:14 by aqadil            #+#    #+#             */
-/*   Updated: 2022/06/11 19:30:09 by aqadil           ###   ########.fr       */
+/*   Updated: 2022/07/17 08:38:09 by aqadil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	init_cast_vars(t_vars *var, t_data *mlx)
 	var->rays_num = mlx->win_x;
 	var->next_ra = (0.060 / ((calul) + ((calul * 5) / 100)));
 	var->color = 0x00e83838;
-	var->max_ray_checks = 20;
+	var->max_ray_checks = 30;
 	var->r = 0;
 	var->ra = fix_ang(mlx->pa + 30);
 	var->i = 0;
