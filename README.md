@@ -29,4 +29,7 @@ Key comands to move around the maze
 ### ScreenShots
 
 ![](screenshots/1.png)</br>
-<!-- ![](Screenshots/home_dark.png)</br> -->
+![](screenshots/2.png)</br>
+![](screenshots/3.png)</br>
+![](screenshots/5.png)</br>
+![](screenshots/6.png)</br>
