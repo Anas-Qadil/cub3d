@@ -29,12 +29,11 @@ Key comands to move around the maze
 ### ScreenShots
 
 ![](screenshots/1.png)</br>
-<hr />
+</br>
 ![](screenshots/2.png)</br>
-<hr />
+</br>
 ![](screenshots/3.png)</br>
-<hr />
+</br>
 ![](screenshots/5.png)</br>
-<hr />
+</br>
 ![](screenshots/6.png)</br>
-<br />
